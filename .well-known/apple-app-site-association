@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["H5RHFCTZMD.com.athletetracker.app"],
+        "components": [
+          { "/": "/u/*", "comment": "Pushing Peak profile links" }
+        ]
+      }
+    ]
+  }
+}

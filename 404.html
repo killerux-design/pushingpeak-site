@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Pushing Peak — Get the app</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    main { max-width: 420px; }
+    h1 { font-size: 1.9rem; margin: 0 0 0.3em; }
+    p { opacity: 0.75; line-height: 1.5; margin: 0; }
+    .store-link {
+      display: inline-block; margin-top: 24px; padding: 14px 28px;
+      border-radius: 14px; background: #0a84ff; color: #fff;
+      text-decoration: none; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    DELIBERATE OMISSION — do not "improve" this page (D-17 / T-47-30, Phase 47 plan 47-06).
+    This page is served for every /u/<id> profile link and MUST stay identical for
+    all ids. Do NOT resolve the id to any account details, and do NOT add a profile
+    preview of any kind — publishing an athlete's personal stats to the open web
+    (and to search indexes) was explicitly rejected for v1. A mechanised launch-gate
+    probe asserts this page carries zero profile data; adding any will fail the gate.
+
+    HTTP status note: GitHub Pages serves this page with status 404 for unmatched
+    paths like /u/<id>. That is the ratified contract (S06-4) — iOS opens the app
+    directly via the AASA when installed, and Safari renders this body regardless
+    of status when it is not.
+  -->
+  <main>
+    <h1>Pushing Peak</h1>
+    <p>Fueling and training for competitive athletes. Open this link on an iPhone with the app installed — or get the app below.</p>
+    <a class="store-link" href="https://apps.apple.com/app/id6753684222">Download on the App Store</a>
+  </main>
+</body>
+</html>
