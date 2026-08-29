@@ -3,21 +3,467 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pushing Peak</title>
+<title>Pushing Peak — Fueling that knows your day</title>
+<meta name="description" content="Most nutrition apps give you one number for every day. Pushing Peak plans your meals around the training you actually do, with a time window and targets for each one.">
+<meta property="og:title" content="Pushing Peak — Fueling that knows your day">
+<meta property="og:description" content="Most nutrition apps give you one number for every day. Pushing Peak plans your meals around the training you actually do.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pushingpeak.app/">
+<link rel="canonical" href="https://pushingpeak.app/">
+<meta property="og:image" content="https://pushingpeak.app/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pushing Peak — the day view, showing training and each meal with its own time window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pushing Peak — Fueling that knows your day">
+<meta name="twitter:description" content="A nutrition app for competitive athletes. Every meal gets its own time window and targets, built around the training you actually do.">
+<meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
+<link rel="icon" href="img/appicon.png" type="image/png">
 <style>
-:root{color-scheme:light dark}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;text-align:center;padding:2rem}
-main{max-width:34rem}h1{font-size:2rem;margin:0 0 .5rem}p{color:#555}a{color:#0a6cff}
-@media(prefers-color-scheme:dark){body{color:#e8e8e8;background:#121212}p{color:#aaa}a{color:#4c9dff}}
+/* ---------------------------------------------------------------------------
+   pushingpeak.app homepage.
+
+   Implemented from Figma: "Pushing Peak App" / node 1506-45 ("1440w light").
+   Layout, spacing, radii, colours and the type scale are taken from that frame.
+   The COPY and the FEATURE IMAGES are not — see the two notes below.
+
+   Self-contained: inline CSS, real image files under /img and /fonts, no CDN,
+   no build step. `.nojekyll` means nothing processes this site.
+
+   SCOPE: this file only. /privacy/, /terms/, /support/ and /404.html keep their
+   own older inline chrome. The app was approved 2026-08-28, so unifying that
+   chrome is now unblocked — but it is deliberately not in this change.
+
+   FONT LICENCE — UNRESOLVED, flagged by Kevin 2026-08-28 ("keep it and flag it,
+   might change the font later"). Sailec is a COMMERCIAL font. The iOS app
+   bundles it under an app licence; serving it as a webfont is a separate grant
+   that has not been confirmed. If it turns out not to be covered, delete the
+   two @font-face rules below and the type falls back to the system stack with
+   no other change required.
+
+   The Figma frame sets the wordmark in Mabry Pro Black, which this repo does
+   not have and which is also commercial. It falls back to Sailec Bold at the
+   same -1px tracking.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  /* ---- Pushing Peak design tokens -------------------------------------
+     Values and names are lifted from the app's own token file,
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
+     Only the tokens this page actually uses are listed. The greys the Figma
+     frame used for the hero (#c4c4c4) and footer (#ededf1) were not on the
+     system at all, and are mapped onto real tokens below. Each panel takes a
+     -05/-20 tint and steps one shade deeper on hover. */
+  --gray-05:   #f1f2f3;
+  --gray-50:   #7c8485;
+  --gray-60:   #646b6c;
+  --gray-100:  #080909;
+
+  --purple-10: #f2e8ff;
+  --purple-20: #e4cfff;
+  --purple-30: #d3aeff;
+  --purple-50: #9833e6;
+
+  --aqua-05:   #d5eff6;
+  --aqua-10:   #aee0ec;
+
+  /* trinidad-orange — the family the app's calorie and meal rings use */
+  --orange-05: #ffe4cb;
+  --orange-10: #ffcea0;
+
+  /* Semantic roles */
+  --text-primary:   var(--gray-100);
+  --text-secondary: var(--gray-60);
+  --body-muted:     var(--gray-50);
+  --hero-bg:        var(--purple-10);
+  --foot-bg:        var(--gray-05);
+
+  --radius-card: 70px;
+  --radius-pill: 41px;
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Type scale. heading-07 (42px) / body-04 (20px) / heading-02 (16px) are
+     named Figma styles; they are applied at their use sites below. */
+  --display: clamp(2.25rem, 6.4vw, 4rem);   /* hero h1, 64px at 1440 */
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--body-muted);
+  font-family: var(--font);
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+p { margin: 0; }
+img { display: block; max-width: 100%; }
+
+.page {
+  max-width: 1280px;          /* 1200 content + 40 gutters */
+  margin: 0 auto;
+  padding: 13px clamp(1rem, 3vw, 40px) 24px;
+}
+
+/* --- header pill ---------------------------------------------------------- */
+
+.topbar {
+  max-width: 1172px;          /* inset 14px inside the 1200 column, per Figma */
+  margin: 0 auto 12px;
+  min-height: 88px;
+  background: #fff;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 16px 16px 16px 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.brand img { width: 32px; height: 32px; }
+.brand span {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #000;
+}
+
+/* height:auto only — the real Apple SVG is 119.66x40 (2.9916), so the
+   frame's 146x47 box stretched it 3.8%. Apple's guidelines forbid that. */
+.topbar .badge img { width: 146px; height: auto; }
+
+/* Keep the wordmark on one line once the pill gets tight. */
+@media (max-width: 520px) {
+  .topbar { min-height: 72px; padding: 12px 12px 12px 16px; }
+  .brand span { font-size: 17px; letter-spacing: -.5px; }
+  .topbar .badge img { width: 120px; height: auto; }
+}
+
+/* iPhone SE and similar — keeps the wordmark off a second line. */
+@media (max-width: 360px) {
+  .brand span { font-size: 15px; }
+  .topbar .badge img { width: 104px; }
+}
+
+/* --- shared column -------------------------------------------------------- */
+
+.stack {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* --- hero ----------------------------------------------------------------- */
+
+.hero {
+  background: var(--hero-bg);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  height: 625px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px clamp(1rem, 4vw, 3rem) 0;
+}
+
+.hero h1 {
+  font-size: var(--display);
+  line-height: 1.1;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hero .sub {
+  margin-top: 20px;
+  max-width: 42ch;
+  text-align: center;
+  text-wrap: pretty;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);   /* body-04 */
+  line-height: 1.4;
+  color: var(--body-muted);
+}
+
+/* Shared device frame — purple ring over a black bezel, from the Figma phone.
+   Used by the hero and by every feature panel so the page reads as one object. */
+.device {
+  position: relative;
+  background: #000;                              /* the bezel */
+  border: 3.58px solid var(--purple-50);         /* the ring  */
+  border-radius: 53.5px;
+  padding: 4.3px;
+}
+.device img { display: block; width: 100%; height: auto; border-radius: 47.7px; }
+
+/* Figma had the phone at 54px below the h1; the subheadline now takes part of
+   that gap, so the phone tucks up to keep the same amount of it above the fold. */
+.hero .device {
+  margin-top: 30px;
+  width: 331px;
+  max-width: 100%;   /* not vw — that ignores the page and hero padding */
+  flex: none;
+}
+
+.island {
+  position: absolute;
+  top: 2.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 27%;
+  height: 3.7%;
+  background: #000;
+  border-radius: 36px;
+}
+
+@media (max-width: 780px) {
+  .hero { height: auto; padding-bottom: 0; }
+  .hero .device { margin-top: 40px; margin-bottom: -14%; }
+}
+
+/* --- feature rows --------------------------------------------------------- */
+
+.features { display: flex; flex-direction: column; gap: 64px; }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+}
+
+.row .copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.row h2 {
+  font-size: clamp(1.75rem, 3.4vw, 42px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.row p {
+  font-size: clamp(1.0625rem, 1.5vw, 20px);
+  line-height: 1.35;
+  color: var(--body-muted);
+}
+
+.row.flip .copy  { order: 2; }
+.row.flip .panel { order: 1; }
+
+/* Flat tinted slab, no border and no lip. The Figma frame's "Chunky Effect"
+   (a 6px hard offset) was only ever on the first of the three cards; dropped
+   here by Kevin's call 2026-08-28, which also makes rows 2 and 3 faithful. */
+.panel {
+  position: relative;
+  min-height: 420px;
+  border-radius: var(--radius-card);
+  background: var(--tint);
+  overflow: hidden;
+  transition: background .45s ease;
+}
+
+/* The screenshot is absolutely placed so it can bleed off the bottom of the
+   panel without stretching it. transform-origin keeps the top edge pinned, so
+   the hover scale grows the shot downward into the crop instead of drifting. */
+.panel .device,
+.panel .shot {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  width: 50%;
+  height: auto;      /* REQUIRED — without it the width/height attributes win
+                        and the shot renders at its natural pixel height */
+  min-width: 180px;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  transition: transform .5s cubic-bezier(.2, .7, .3, 1);
+}
+
+@media (hover: hover) {
+  .panel:hover { background: var(--tint-hover); }
+  .panel:hover .device,
+  .panel:hover .shot { transform: translateX(-50%) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panel .device, .panel .shot { transition: none; }
+  .panel:hover .device, .panel:hover .shot { transform: translateX(-50%); }
+}
+
+.p1 { --tint: var(--purple-20); --tint-hover: var(--purple-30); }
+.p2 { --tint: var(--aqua-05);   --tint-hover: var(--aqua-10);   }
+.p3 { --tint: var(--orange-05); --tint-hover: var(--orange-10); }
+
+@media (max-width: 900px) {
+  .row { grid-template-columns: 1fr; gap: 24px; }
+  .row.flip .copy, .row.flip .panel { order: 0; }
+  .panel { min-height: 400px; }
+  .panel .device, .panel .shot { top: 34px; width: 58%; }
+}
+
+/* --- footer --------------------------------------------------------------- */
+
+.sitefoot {
+  background: var(--foot-bg);
+  border-radius: var(--radius-card);
+  padding: 29px;
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 29px;
+  text-align: center;
+}
+.sitefoot > img { width: 60px; height: 60px; }
+
+.sitefoot .links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.sitefoot a,
+.sitefoot .legal {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.sitefoot a:hover { color: var(--text-primary); }
+.sitefoot .legal { display: grid; gap: .4rem; }
+
+:focus-visible { outline: 2px solid var(--purple-50); outline-offset: 3px; border-radius: 4px; }
 </style>
 </head>
-<body><main>
-<h1>Pushing Peak</h1>
-<p>Day-aware fueling for competitive athletes. Know what to eat today &mdash; and when.</p>
-<!-- LAUNCH-DAY FLIP: replace the next line with the App Store link/badge (adam ID
-     6753684222) once the app is Ready for Sale. The product page 404s until then, so
-     linking it early would strand anyone who clicks. See 47-LAUNCH-RUNBOOK.md §1. -->
-<p>Coming to the App Store.</p>
-<p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
-<p style="margin-top:2rem;font-size:.85rem;color:#888">A product of KILLERUX LLC</p>
-</main></body>
+<body>
+
+<div class="page">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="img/pp-logo.svg" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+<!-- ⛔ PUBLISH GATE — LAUNCH-DAY FLIP, 47-LAUNCH-RUNBOOK.md §1 step 4.
+     These badges link to adam ID 6753684222. As of 2026-08-28 the app is
+     APPROVED but sitting at Pending Developer Release, so the product page does
+     NOT resolve yet — confirmed via the lookup API, which is the reliable probe
+     (apps.apple.com rate-limits to 429 and tells you nothing):
+         curl -sSL 'https://itunes.apple.com/lookup?id=6753684222&country=us'
+     resultCount:0 means not live. A non-zero result means it is.
+     Kevin ruled 2026-08-28 that the live link stays in regardless. The site is
+     held from publishing on the SCREENSHOT gate below, not on this one. -->
+    <a class="badge" href="https://apps.apple.com/app/id6753684222">
+      <img src="img/app-store-badge.svg" width="146" height="49" alt="Download on the App Store">
+    </a>
+  </header>
+
+  <div class="stack">
+
+    <section class="hero">
+      <h1>Fueling that<br>knows your day</h1>
+      <p class="sub">A nutrition app for competitive athletes. Every meal gets its own time window and targets, built around the training you actually do.</p>
+      <div class="device">
+        <img src="img/shot-day.png" width="645" height="1398" alt="The Pushing Peak day view: calories eaten, the day's training session, and each meal with its own time window and targets" decoding="async">
+        <span class="island" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <div class="features">
+
+<!-- ⛔ SCREENSHOT GATE. Each panel below holds a device-framed slot. They are
+     currently filled with the HERO screenshot as a STAND-IN so the layout and
+     the hover behaviour can be reviewed — this page does NOT publish until the
+     three real exports replace them.
+     To fill one: drop the export in /img and change that panel's <img src>.
+     Nothing else needs to change; the tint, the frame, the crop and the hover
+     are all CSS.
+     The Figma frame used another product's marketing images here (Cal AI's —
+     its mascot is visible in feature_2), which cannot ship: they are someone
+     else's assets and they show features Pushing Peak does not have. -->
+
+      <section class="row">
+        <div class="copy">
+          <h2>The plan is there before you are</h2>
+          <p>Breakfast, lunch, dinner, and the snacks between — each with its own time window and its own targets.</p>
+        </div>
+        <div class="panel p1">
+          <img class="shot" src="img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
+        </div>
+      </section>
+
+      <section class="row flip">
+        <div class="copy">
+          <h2>Training changes the plan</h2>
+          <p>Add a session and the day rebuilds around it. Rest tomorrow and tomorrow looks different, because it is.</p>
+        </div>
+        <div class="panel p2">
+          <!-- STAND-IN — replace src with the real export -->
+          <div class="device"><img src="img/shot-day.png" width="645" height="1398" alt="A training session added to the day, with the plan rebuilding around it" loading="lazy" decoding="async"></div>
+        </div>
+      </section>
+
+      <section class="row">
+        <div class="copy">
+          <h2>Food data you can check</h2>
+          <p>Describe a meal in your own words. Every number traces back to a source you can open and correct yourself.</p>
+        </div>
+        <div class="panel p3">
+          <img class="shot" src="img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can correct" loading="lazy" decoding="async">
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="sitefoot">
+      <img src="img/pp-logo.svg" width="60" height="60" alt="" decoding="async">
+      <nav class="links">
+        <a href="/support">Support</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="mailto:kevin@killerux.design">Contact</a>
+      </nav>
+      <div class="legal">
+        <span>A product of KILLERUX LLC</span>
+        <span>© Pushing Peak 2026</span>
+      </div>
+    </footer>
+
+  </div>
+
+</div>
+
+</body>
 </html>

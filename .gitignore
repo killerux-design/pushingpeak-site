@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.claude/
+sand-design-backup.html
