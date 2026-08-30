@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can ChatGPT plan your fueling? Compared with Pushing Peak</title>
+<meta name="description" content="A chat window answers the question. It does not hold the plan. Where ChatGPT genuinely helps you fuel around training, and where it quietly falls over.">
+<meta property="og:title" content="Can ChatGPT plan your fueling?">
+<meta property="og:description" content="A chat window answers the question. It does not hold the plan.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/blog/pushing-peak-vs-chatgpt/">
+<link rel="canonical" href="https://pushingpeak.app/blog/pushing-peak-vs-chatgpt/">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained article page. Same tokens as the homepage; kept inline because
+   the site has no build step and .nojekyll means nothing is processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --brand-edge: #5c0593;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --radius-sm: 10px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+.byline {
+  font-size: .875rem;
+  color: var(--muted);
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--sand-line);
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--aqua); }
+
+ul { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+li { margin: .45rem 0; }
+
+.pull {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .9375rem; }
+th, td { text-align: left; padding: .8rem .9rem; border-bottom: 1px solid var(--sand-line); vertical-align: top; }
+th { color: var(--ink); font-weight: 700; }
+td:first-child { color: var(--ink); font-weight: 700; width: 34%; }
+.scroller { overflow-x: auto; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 42ch; margin-left: auto; margin-right: auto; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <article>
+    <h1>Can ChatGPT plan your fueling?</h1>
+    <p class="deck">It answers the question well. It does not hold the plan. Here is where a chat window genuinely helps you, and where it quietly falls over.</p>
+    <p class="byline">Pushing Peak</p>
+
+    <p>Ask ChatGPT what to eat before a four o'clock practice and you will get a sensible answer. Ask what to do about the second session on Thursday and it will handle that too. It is a genuinely useful thing to have in your pocket.</p>
+
+    <p>Then Tuesday happens. You ask again, and you are the one carrying every piece of context into the conversation: how old you are, what you weigh, that you swim, that you already had a bar at three, that yesterday was a double and today is not. Miss a detail and the answer quietly changes.</p>
+
+    <p class="pull">A chat window answers a question. A fueling app keeps a plan.</p>
+
+    <h2>What ChatGPT is genuinely good at</h2>
+
+    <p>We are not going to pretend otherwise, because we use one. A language model is very good at:</p>
+
+    <ul>
+      <li>Reading plain language. You can describe a meal the way you would say it out loud.</li>
+      <li>Explaining why something matters, then answering the follow up question.</li>
+      <li>Being there at eleven at night when you are thinking about tomorrow.</li>
+    </ul>
+
+    <p>We agree with that so completely that Pushing Peak uses a language model for exactly that job. Describe your lunch in your own words and the app reads it, then breaks it into separate items.</p>
+
+    <p>The interesting question is what happens next.</p>
+
+    <h2>Where the numbers come from</h2>
+
+    <p>A language model produces text that reads correctly. That is a different job from looking something up.</p>
+
+    <p>When a chat window tells you a chicken burrito has forty two grams of protein, that number was generated, not retrieved. It might be close. It might not. There is no source to open, and no way to know which one you got today.</p>
+
+    <p>Pushing Peak takes the items the model found and matches each one to verified nutrition data you can open and correct yourself. Scan a barcode and it reads on your device. Every number in your totals traces back to a source.</p>
+
+    <p class="pull">A model is good at understanding what you said. It is a poor choice as the source of truth for what you ate.</p>
+
+    <p>That split is the entire design. We let the model do the reading. We do not let it do the arithmetic.</p>
+
+    <h2>A conversation is not a schedule</h2>
+
+    <p>ChatGPT can remember things about you now, and that helps. What it still does not do is hold a structure: seven eating windows with their own clock times and their own targets, sitting in an order that changed this morning because you moved your session.</p>
+
+    <p>Ask it for a plan and you get prose. Prose is fine to read once. It is a bad way to answer the question you actually ask at 3:15pm, which is not "what is good pre workout nutrition" but "is it too late to eat, and how much."</p>
+
+    <p>Pushing Peak opens with the day already built. Breakfast, lunch, dinner, and the snacks between, each with a time window and its own macro targets, worked out from your age, height, weight, sex, and sport. Add this afternoon's session and the day rebuilds around it. A pre-session snack and a post-session snack appear, timed to when you actually train rather than to generic clock hours.</p>
+
+    <h2>It does not know what you already ate</h2>
+
+    <p>This is the one that matters most and gets noticed least.</p>
+
+    <p>A chat window has no running total. It cannot tell you that you are four hundred short with one meal left, because it never saw the other three unless you typed them in again. Every honest answer to "am I on track" requires you to re-enter your whole day.</p>
+
+    <p>That is not a flaw in the model. It is just not what a conversation is for.</p>
+
+    <h2>Where ChatGPT is the better tool</h2>
+
+    <p>Use it to understand things. Why carbohydrate timing matters around a session. What a gram of protein per pound actually means. Whether the thing your teammate said is true. It is patient, it will go as deep as you want, and it will not make you feel silly for asking.</p>
+
+    <p>Use Pushing Peak for the part that repeats every single day, where the answer depends on your body, your session, and what you have already eaten.</p>
+
+    <h2>The short version</h2>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>&nbsp;</th><th>ChatGPT</th><th>Pushing Peak</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Answers a nutrition question</td><td>Yes, and well</td><td>Yes</td></tr>
+          <tr><td>Where the numbers come from</td><td>Generated by the model</td><td>Verified data you can open</td></tr>
+          <tr><td>Knows what you ate today</td><td>Only what you retype</td><td>Yes</td></tr>
+          <tr><td>Meal times and per-meal targets</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Rebuilds when training changes</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Barcode scanning</td><td>No</td><td>Yes, on your device</td></tr>
+          <tr><td>Explains the reasoning behind it</td><td>Excellent</td><td>Limited</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Keep the chat window. Ask it good questions. Just do not ask it to be the record of what you ate.</p>
+
+    <div class="end">
+      <h2>Fueling that knows your day</h2>
+      <p>Pushing Peak builds the plan around the training you actually do, and every number traces back to a source.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+      </a>
+    </div>
+  </article>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>

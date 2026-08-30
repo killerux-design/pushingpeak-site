@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pushing Peak blog</title>
+<meta name="description" content="Honest comparisons with the apps you have probably already tried, and notes on eating around your training.">
+<meta property="og:title" content="Pushing Peak blog">
+<meta property="og:description" content="Honest comparisons with the apps you have probably already tried, and notes on eating around your training.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pushingpeak.app/blog/">
+<link rel="canonical" href="https://pushingpeak.app/blog/">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained index page. Same tokens and chrome as the article pages; kept
+   inline because the site has no build step and .nojekyll means nothing is
+   processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-hover: #e3d9c7;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+main { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--sand-line);
+  text-wrap: pretty;
+}
+
+.posts { display: grid; gap: 1.25rem; }
+
+.post {
+  display: block;
+  padding: clamp(1.5rem, 4vw, 1.9rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--body);
+}
+.post:hover { background: var(--sand-hover); }
+.post h2 {
+  color: var(--ink);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 0 0 .5rem;
+  text-wrap: balance;
+}
+.post p { margin: 0; text-wrap: pretty; }
+.post .more { display: block; margin-top: .9rem; color: var(--aqua); font-weight: 700; font-size: .9375rem; }
+
+.aside { margin: 1.75rem 0 0; font-size: .9375rem; }
+.aside a { color: var(--aqua); }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 0 0 .9rem;
+  text-wrap: balance;
+}
+.end p { max-width: 42ch; margin: 0 auto 1.15rem; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/" aria-current="page">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Blog</h1>
+    <p class="deck">Honest comparisons with the apps you have probably already tried, and notes on eating around your training.</p>
+
+    <div class="posts">
+
+      <a class="post" href="/blog/pushing-peak-vs-myfitnesspal/">
+        <h2>Pushing Peak and MyFitnessPal, honestly compared</h2>
+        <p>MyFitnessPal has a food database we cannot match. It was also built for a different job than fueling you around your training. Here is where each one is actually better.</p>
+        <span class="more">Read the comparison</span>
+      </a>
+
+      <a class="post" href="/blog/pushing-peak-vs-chatgpt/">
+        <h2>Can ChatGPT plan your fueling?</h2>
+        <p>It answers the question well. It does not hold the plan. Here is where a chat window genuinely helps you, and where it quietly falls over.</p>
+        <span class="more">Read the comparison</span>
+      </a>
+
+    </div>
+
+    <p class="aside">New here? Read <a href="/why/">why we built Pushing Peak</a>.</p>
+
+    <div class="end">
+      <h2>Fueling that knows your day</h2>
+      <p>Pushing Peak builds the plan around the training you actually do, and every number traces back to a source.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>

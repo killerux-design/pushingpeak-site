@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pushing Peak and MyFitnessPal, honestly compared</title>
+<meta name="description" content="MyFitnessPal is a very good tracker. It was built for a different job than fueling you around your training. Here is the actual difference.">
+<meta property="og:title" content="Pushing Peak and MyFitnessPal, honestly compared">
+<meta property="og:description" content="One is a ledger you fill in. One is a plan you open. Here is the actual difference.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/blog/pushing-peak-vs-myfitnesspal/">
+<link rel="canonical" href="https://pushingpeak.app/blog/pushing-peak-vs-myfitnesspal/">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained article page. Same tokens as the homepage; kept inline because
+   the site has no build step and .nojekyll means nothing is processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --brand-edge: #5c0593;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --radius-sm: 10px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+.byline {
+  font-size: .875rem;
+  color: var(--muted);
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--sand-line);
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--aqua); }
+
+ul { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+li { margin: .45rem 0; }
+
+.pull {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .9375rem; }
+th, td { text-align: left; padding: .8rem .9rem; border-bottom: 1px solid var(--sand-line); vertical-align: top; }
+th { color: var(--ink); font-weight: 700; }
+td:first-child { color: var(--ink); font-weight: 700; width: 34%; }
+.scroller { overflow-x: auto; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 42ch; margin-left: auto; margin-right: auto; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <article>
+    <h1>Pushing Peak and MyFitnessPal, honestly compared</h1>
+    <p class="deck">MyFitnessPal is a very good tracker with a food database we cannot match. It was also built for a different job than fueling you around your training. Here is the real difference.</p>
+    <p class="byline">Pushing Peak</p>
+
+    <p>Let us start where most comparison posts will not. MyFitnessPal is better than Pushing Peak at several things, and they are not small things.</p>
+
+    <p>It has more than twenty million foods in its database. It connects to forty something apps and devices. It tracks water, micronutrients, and fasting windows. Hundreds of millions of people have used it, which means the restaurant meal you are about to eat is probably already in there. If what you want is the broadest food logger available, that is the honest answer, and it is not us.</p>
+
+    <p>So the question is not which app has more. It is which app was built for the day you are actually having.</p>
+
+    <h2>One is a ledger. One is a plan.</h2>
+
+    <p>MyFitnessPal gives you a number for the day and a diary to fill in. You eat, you log, the number comes down, and at some point in the evening you find out how you did. The work happens after the food.</p>
+
+    <p>Pushing Peak does it in the other order. You open the app and the day is already built: breakfast, lunch, dinner, and the snacks between, each one with its own time window and its own macro targets. The work happens before the food, which is the only time it can change what you eat.</p>
+
+    <p class="pull">A diary tells you how the day went. A plan tells you what to do at 3:15.</p>
+
+    <h2>What a training session actually does</h2>
+
+    <p>Most trackers, MyFitnessPal included, treat exercise as something that happened. You log the session, some calories come back, and your allowance for the day goes up. It is a reasonable model, and for a lot of people it is enough.</p>
+
+    <p>For an athlete it misses the part that matters, which is timing.</p>
+
+    <p>A four o'clock session does not just make the day bigger. It creates two new eating windows that were not there before, one before and one after, positioned around when you actually train rather than at generic clock hours. It changes what those windows should contain. Move the session to six and all of that moves with it. Rest tomorrow and tomorrow looks different, because it is.</p>
+
+    <p>That is the thing Pushing Peak was built to do, and it is why the plan rearranges itself instead of just handing you a larger number.</p>
+
+    <h2>Who the targets are written for</h2>
+
+    <p>This is the part that matters most if you are still growing, so we will be direct.</p>
+
+    <p>MyFitnessPal serves a broad audience with a broad range of goals, and most of those goals are about body composition. The defaults reflect that, because they should. It is a general tool for general use.</p>
+
+    <p>Pushing Peak has one audience: competitive athletes, thirteen and older, who train hard and in many cases are still growing. Targets here are built to support your training and your growth. You will not find this app telling you to eat less. That is not a setting we ship, and it is a large part of why the app exists.</p>
+
+    <h2>Where the numbers come from</h2>
+
+    <p>A twenty million entry database is a genuine strength and a genuine weakness at the same time. A lot of those entries were submitted by other users, which is how any database gets that big. It also means two entries for the same sandwich can disagree, and there is not always an obvious way to tell which one is right.</p>
+
+    <p>Pushing Peak matches each item to verified nutrition data you can open and correct yourself. Scan a barcode and it reads on your device. Every number in your totals traces back to a source. Our database is smaller. What it says about a food is checkable.</p>
+
+    <h2>Logging, honestly</h2>
+
+    <p>Both apps let you scan a barcode. MyFitnessPal also does photo recognition and voice entry, and its sheer coverage means fewer dead ends when you are eating out.</p>
+
+    <p>Pushing Peak takes a different route into the same problem. Describe your lunch in your own words and it breaks the description into separate items, then matches each one. You are not hunting through a list of search results for the closest sounding thing.</p>
+
+    <h2>The short version</h2>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>&nbsp;</th><th>MyFitnessPal</th><th>Pushing Peak</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Food database size</td><td>20 million plus</td><td>Smaller, verified, correctable</td></tr>
+          <tr><td>Daily structure</td><td>One target, one diary</td><td>Per-meal windows and targets</td></tr>
+          <tr><td>How training is handled</td><td>Calories come back after</td><td>The day rebuilds around it</td></tr>
+          <tr><td>Timing of meals</td><td>Up to you</td><td>Planned around your session</td></tr>
+          <tr><td>Who targets are written for</td><td>Broad, mostly adults</td><td>Athletes who train hard and are still growing</td></tr>
+          <tr><td>Device and app integrations</td><td>Many</td><td>Few</td></tr>
+          <tr><td>Best at</td><td>Logging almost any food</td><td>Knowing what today needs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Which one should you use</h2>
+
+    <p>If you want the largest possible food database and a tracker that handles every goal under one roof, use MyFitnessPal. That is what it is good at, and it earned its position honestly.</p>
+
+    <p>If your day is shaped by training, if you have ever stood in the kitchen at three o'clock wondering whether it is too late to eat before practice, and if you want targets written on the assumption that you are trying to get stronger rather than smaller, that is the app we built.</p>
+
+    <div class="end">
+      <h2>Fueling that knows your day</h2>
+      <p>Pushing Peak builds the plan around the training you actually do, and every number traces back to a source.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+      </a>
+    </div>
+  </article>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>

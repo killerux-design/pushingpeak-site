@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why we built Pushing Peak</title>
+<meta name="description" content="We coach swimmers. Pushing Peak started on a pool deck, watching good athletes train hard and then get the eating part wrong.">
+<meta property="og:title" content="Why we built Pushing Peak">
+<meta property="og:description" content="We coach swimmers. Pushing Peak started on a pool deck, watching good athletes train hard and then get the eating part wrong.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/why/">
+<link rel="canonical" href="https://pushingpeak.app/why/">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained. Same tokens as the homepage; inline because the site has no
+   build step and .nojekyll means nothing is processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--sand-line);
+  text-wrap: pretty;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--aqua); }
+
+ul { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+li { margin: .5rem 0; }
+
+.pull {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.asks {
+  margin: 1.5rem 0 1.75rem;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--brand);
+}
+.asks p { margin: 0 0 .5rem; color: var(--ink); font-weight: 700; }
+.asks p:last-child { margin-bottom: 0; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 42ch; margin-left: auto; margin-right: auto; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/" aria-current="page">Why</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <article>
+    <h1>Why we built this</h1>
+    <p class="deck">We coach swimmers. Pushing Peak started on a pool deck, watching good athletes train hard and then get the eating part wrong.</p>
+
+    <p>Coaching gives us an odd vantage point. We see the training, and we also see the twenty minutes either side of it. We see who ate and who did not.</p>
+
+    <p>What we kept seeing:</p>
+
+    <ul>
+      <li>Breakfast skipped completely, on a morning with a hard set in it.</li>
+      <li>A pastry grabbed from a bakery on the way in, because it was there and it was quick.</li>
+      <li>Far too much food, far too close to getting in the water.</li>
+      <li>Or nothing at all for five hours, then everything at once.</li>
+    </ul>
+
+    <p>None of that is carelessness. You have school, homework, and two practices in the same day, and nobody has ever sat you down and explained that what you eat at seven in the morning decides how the last set feels at six at night. When nobody has told you, there is nothing to get right.</p>
+
+    <p>Then the good part started. The questions began.</p>
+
+    <div class="asks">
+      <p>"What should I eat before practice?"</p>
+      <p>"Is it too late to eat now?"</p>
+      <p>"I have a double on Thursday. Is that enough food?"</p>
+    </div>
+
+    <p>Good questions, every one of them. We answered them the way coaches always have, one athlete at a time, on the deck, between sets.</p>
+
+    <p>That works with one athlete. It does not work with forty, and it does not work at all at six in the morning, when no coach is standing in your kitchen.</p>
+
+    <p class="pull">The answers needed to live somewhere you could check without us.</p>
+
+    <h2>The everyday part is the whole thing</h2>
+
+    <p>Here is the decision that shaped the app.</p>
+
+    <p>Your season holds a handful of competition weekends and roughly three hundred ordinary training days. The ordinary days are the unglamorous ones. They are also where fueling is actually won or lost, and they are the days nobody makes a plan for.</p>
+
+    <p>So that is what we built for. Pushing Peak plans your training day. Breakfast, lunch, dinner, and the snacks between, each with its own time window and its own targets. Add your session and the day rebuilds around it, because a Tuesday with training in it is not the same day as a Wednesday without.</p>
+
+    <h2>What it will not do</h2>
+
+    <p>We would rather say this plainly than have you find out.</p>
+
+    <p>It will not tell you to eat less while you are still growing. Targets here are built to support your training and your growth, and eating less is not a setting we ship.</p>
+
+    <p>It does not hand you one number for the day and leave you to divide it up yourself. That was the exact thing we were trying to fix.</p>
+
+    <p>And it plans training. Competition weekends run by their own rules, and we are not going to pretend an app has solved them.</p>
+
+    <h2>What actually changed</h2>
+
+    <p>The part we did not expect was not that athletes eat better, though they do.</p>
+
+    <p>It is that the questions got sharper. Once you understand why a heavy breakfast sits badly before a hard morning, you stop asking to be told what to eat and start asking better things. You end up understanding your own fueling, which is the part that outlasts any app, and any coach.</p>
+
+    <p>That is the thing worth building. If you have ever stood in the kitchen before a morning session with no idea what to eat, you already know the problem we started with.</p>
+
+    <div class="end">
+      <h2>Fueling that knows your day</h2>
+      <p>Pushing Peak builds the plan around the training you actually do, and every number traces back to a source.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+      </a>
+    </div>
+  </article>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>
