@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pushing Peak and Cal AI, honestly compared</title>
+<meta name="description" content="Cal AI logs a meal faster than we do, and its new owner says out loud what the trade is. Here is where that trade costs you, and where it does not.">
+<meta property="og:title" content="Pushing Peak and Cal AI, honestly compared">
+<meta property="og:description" content="One app photographs what you ate. One builds the day before you eat it. Here is the actual difference.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/blog/pushing-peak-vs-cal-ai/">
+<link rel="canonical" href="https://pushingpeak.app/blog/pushing-peak-vs-cal-ai/">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained article page. Same tokens as the homepage; kept inline because
+   the site has no build step and .nojekyll means nothing is processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --brand-edge: #5c0593;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --radius-sm: 10px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+.byline {
+  font-size: .875rem;
+  color: var(--muted);
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--sand-line);
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--aqua); }
+
+ul { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+li { margin: .45rem 0; }
+
+.pull {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .9375rem; }
+th, td { text-align: left; padding: .8rem .9rem; border-bottom: 1px solid var(--sand-line); vertical-align: top; }
+th { color: var(--ink); font-weight: 700; }
+td:first-child { color: var(--ink); font-weight: 700; width: 34%; }
+.scroller { overflow-x: auto; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 42ch; margin-left: auto; margin-right: auto; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  </header>
+
+  <article>
+    <h1>Pushing Peak and Cal AI, honestly compared</h1>
+    <p class="deck">Cal AI logs a meal faster than we do, and its new owner says out loud what the trade is. Here is where that trade costs you, and where it does not.</p>
+    <p class="byline">Pushing Peak</p>
+
+    <p>You have probably got Cal AI on your phone already, or someone on your team has. Two friends built it while they were still in high school, and it passed fifteen million downloads in under two years. That is not an accident. It is a genuinely good piece of software that solved the most boring problem in food logging, which is that almost nobody keeps doing it.</p>
+
+    <p>So we are not going to tell you it is bad. We are going to tell you what it is for, and what it is not for, and let you sort out which one you are.</p>
+
+    <h2>Its new owner names the trade for us</h2>
+
+    <p>In December 2025 MyFitnessPal bought Cal AI. The deal was made public in March. Both apps still run separately, and Cal AI now reads from MyFitnessPal's food database.</p>
+
+    <p>What is useful is how MyFitnessPal's chief executive described the two apps he had ended up owning. <strong>Cal AI is for those preferring speed over accuracy. MyFitnessPal is for those wanting the reverse.</strong></p>
+
+    <p>That is not our characterization. That is the company that bought it, explaining what it bought. It is a fair description and an honest one, and it is worth holding on to the next time a number appears on your screen half a second after you photographed your plate.</p>
+
+    <h2>What a photograph can and cannot see</h2>
+
+    <p>Recognizing food in an image is close to a solved problem. A camera will know it is looking at rice and chicken and broccoli, and it will be right.</p>
+
+    <p>The hard part was never what. It is how much.</p>
+
+    <p>A photograph cannot see the oil the chicken was cooked in. It cannot tell how deep the rice goes underneath the top layer. It cannot tell whole milk from skim in a glass, or judge that this chicken breast happens to be a big one. Every one of those is a guess, and the guesses arrive in your daily total looking exactly like measurements.</p>
+
+    <p>If you are loosely keeping an eye on what you eat, close enough is genuinely fine. Cal AI is built for that and it does it well.</p>
+
+    <p class="pull">If you are trying to get a specific amount of carbohydrate in before a hard session, close enough is the entire problem.</p>
+
+    <p>Pushing Peak goes at it from the other side. Describe your lunch in your own words and a language model splits the description into separate items. Then each item is matched to verified nutrition data you can open, check, and correct. Scan a barcode and it reads on your device. Every number in your totals traces back to a source you can look at.</p>
+
+    <p>That costs you a sentence instead of a photograph. It is a real cost. We think it buys something worth having.</p>
+
+    <h2>A target set at sign-up does not know about Thursday</h2>
+
+    <p>This is the part that matters more than the logging, and it gets discussed less.</p>
+
+    <p>Cal AI works out your targets when you sign up, from your age, height, weight, sex and an activity level you pick from a list. Then those numbers sit there. If you want them to change, you change them.</p>
+
+    <p>For someone whose weeks all look roughly alike, that is a sensible design. There is nothing wrong with it.</p>
+
+    <p>Your week does not look like that. Tuesday has a session at four. Wednesday you are out of the water. Thursday is a double. Those are three genuinely different days with three genuinely different needs, and one activity level chosen once, in a sign-up form, months ago, cannot tell them apart. It was never going to.</p>
+
+    <p>Pushing Peak builds the day before you open it. Breakfast, lunch, dinner and the snacks between, each one with its own time window and its own macro targets, worked out from your age, height, weight, sex and sport. Add this afternoon's session and the day rebuilds around it. A snack before and a snack after appear, timed to when you actually train rather than to a generic clock hour.</p>
+
+    <p class="pull">One app tells you what you ate. The other tells you what to eat, while there is still time to do something about it.</p>
+
+    <h2>Who each one was built for</h2>
+
+    <p>Cal AI was built for people who want to get smaller, and it is good at that. Millions of people have used it for exactly that, and there is nothing wrong with wanting it.</p>
+
+    <p>It is not what you are doing.</p>
+
+    <p>Pushing Peak has one audience: competitive athletes, thirteen and older, who train hard and in many cases are still growing. Targets here are built to support your training and your growth. You will not find this app telling you to eat less. That is not a setting we ship, and it is a large part of why the app exists.</p>
+
+    <p>That difference is not a feature comparison. It is the whole reason the two apps give you different numbers for the same body.</p>
+
+    <h2>Where Cal AI is the better tool</h2>
+
+    <p>We would rather say this than have you work it out later and stop trusting the rest.</p>
+
+    <p>If you eat out constantly, Cal AI's coverage through MyFitnessPal's database is broader than ours and it is not close. If you know yourself well enough to know you will photograph a meal but you will never type one, use the app you will actually use. An app you open every day beats a better app you abandon in two weeks. And if you want water, steps and progress photographs sitting alongside your food, that is there too, and it is not here.</p>
+
+    <h2>The short version</h2>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>&nbsp;</th><th>Cal AI</th><th>Pushing Peak</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Logging a meal</td><td>Photograph it</td><td>Describe it in your own words</td></tr>
+          <tr><td>Where the numbers come from</td><td>Estimated from an image</td><td>Verified data you can open and correct</td></tr>
+          <tr><td>The stated trade</td><td>Speed, by its owner's description</td><td>Accuracy, at the cost of a sentence</td></tr>
+          <tr><td>Daily targets</td><td>Set at sign-up, then they stay put</td><td>Built around the day you are having</td></tr>
+          <tr><td>Meal times</td><td>Up to you</td><td>Each meal has its own window</td></tr>
+          <tr><td>When training changes</td><td>Nothing moves</td><td>The day rebuilds around it</td></tr>
+          <tr><td>Built for</td><td>People who want to get smaller</td><td>Athletes who train hard and are still growing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Which one should you use</h2>
+
+    <p>If food logging is a thing you do in the background of your life and the goal is to be aware of roughly what you eat, Cal AI is faster than us and it will annoy you less. Use it.</p>
+
+    <p>If your day is built around training, if the question you actually need answered at 3:15 is what to eat and when rather than what you already ate, and if you want the number on the screen to be something you can open and check, that is the app we built.</p>
+
+    <div class="end">
+      <h2>Fueling that knows your day</h2>
+      <p>Pushing Peak builds the plan around the training you actually do, and every number traces back to a source.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store">
+      </a>
+    </div>
+  </article>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>
