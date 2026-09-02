@@ -1,0 +1,17 @@
+# pushingpeak.app
+#
+# Everything here is public marketing copy plus the two generated legal pages.
+# There is nothing to hide from a crawler, so the only job this file has is
+# pointing at the sitemap.
+#
+# Not disallowed, on purpose:
+#   /u/*  - universal-link profile fallbacks. They return HTTP 404 with a
+#           noindex page, so they stay out of the index on their own. Adding a
+#           Disallow here would be strictly worse: a blocked URL can still be
+#           indexed as a bare link, because the crawler is never allowed to
+#           fetch it and see the noindex.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pushingpeak.app/sitemap.xml
