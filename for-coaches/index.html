@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pushing Peak for coaches and teams</title>
+<meta name="description" content="Give the fueling talk once. Pushing Peak gives every athlete on your team a plan built around the training you actually set. Get your team started with one code.">
+<meta property="og:title" content="Pushing Peak for coaches and teams">
+<meta property="og:description" content="Fuel your whole squad, not one athlete at a time.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/for-coaches/">
+<link rel="canonical" href="https://pushingpeak.app/for-coaches/">
+<meta property="og:image" content="https://pushingpeak.app/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pushing Peak, the day view showing training and each meal with its own time window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pushing Peak for coaches and teams">
+<meta name="twitter:description" content="Fuel your whole squad, not one athlete at a time.">
+<meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* Self-contained. Same tokens and chrome as /why/; inline because the site has
+   no build step and .nojekyll means nothing is processed.
+
+   SCOPE FENCE, read before editing this page.
+
+   1. VOICE. Every other page on this site addresses the ATHLETE. This one
+      addresses the coach, which is a deliberate, single-page exception and the
+      only reason the page exists. Do not let it leak: /why/, /blog/ and the
+      homepage stay athlete-facing.
+
+   2. THE COACH VIEW IS NOT DEPLOYED. The portal (coaches-portal/ in the app
+      repo) is built and merged but has never been deployed, so no coach can
+      reach it yet. Kevin's ruling 2026-09-02: describe it as a feature with a
+      "Coming soon" marker rather than narrating its absence. The marker is
+      therefore load-bearing. If you describe a coach-view capability, it stays
+      inside the section carrying that marker, and the marker does not come off
+      until the portal is actually reachable.
+
+   3. WHAT SHIPS TODAY, and is safe to state flatly: team membership. Invite
+      codes, Settings > Join a Team, and a club covering membership for its
+      athletes are all live (TeamService/redeem_invite, and /support/ already
+      documents the athlete side). The three-step section describes a real
+      process that runs manually today.
+
+   4. NO DISCOUNT MECHANIC. Whether a discount is possible at all (Stripe,
+      Offer Codes, something else) is unresolved and explicitly out of scope as
+      of 2026-09-02. Do not put a discount, a price, or a billing mechanic on
+      this page until that question is answered.
+
+   5. VOCABULARY IS GATED. scripts/check-copy.py enforces
+      SUBMISSION-BANNED-TERMS.md Category 1 (Guideline 3.1.3(c),
+      organization-purchase framing). "seats", "invoice", "per-athlete",
+      "billed", "subscription price", "license", "activate", "unlock" and
+      "redeem your code" must never appear here, and neither must any price or
+      any description of a coach paying for an athlete. The approved framing is
+      the one already shipped at /support/: membership, invite code, Join a
+      Team, "nothing to buy".
+      Run `python3 scripts/check-copy.py .` before committing.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --sand: #f3ede3;
+  --sand-deep: #eae1d2;
+  --sand-line: #ddd2be;
+  --brand: #8b26d5;
+  --aqua: #07819e;
+  --ink: #080909;
+  --body: #4c5353;
+  --muted: #959c9e;
+  --radius-lg: 30px;
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background: var(--sand);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 1.75rem;
+  text-wrap: pretty;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+h3 {
+  color: var(--ink);
+  font-size: 1.0625rem;
+  letter-spacing: -.01em;
+  margin: 1.75rem 0 .35rem;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--aqua); }
+
+/* Primary call to action. The only button on the page: one page, one action. */
+.cta {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: .95rem 1.6rem;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+.cta:hover { filter: brightness(1.08); }
+.hero-cta { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--sand-line); }
+.hero-cta .note { display: block; margin: .85rem 0 0; font-size: .9375rem; color: var(--muted); }
+
+.pull {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+/* Numbered path to value. Three steps, because a longer list reads as work. */
+ol.steps { margin: 1.5rem 0 1.5rem; padding: 0; list-style: none; counter-reset: step; }
+ol.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 3rem;
+  margin: 0 0 1.25rem;
+}
+ol.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: .1rem;
+  width: 2rem; height: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-weight: 700; font-size: .9375rem;
+}
+ol.steps strong { display: block; }
+
+.benefit { margin: 0 0 1.5rem; padding-left: 1.25rem; border-left: 3px solid var(--sand-line); }
+.benefit h3 { margin-top: 0; }
+.benefit p { margin-bottom: 0; }
+
+.soon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: .6rem;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.next {
+  margin: 1.5rem 0 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+}
+.next p:last-child { margin-bottom: 0; }
+
+.faq h3 { margin-bottom: .25rem; }
+.faq p { margin-bottom: 1.1rem; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--sand-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 46ch; margin-left: auto; margin-right: auto; }
+.end .cta { margin-top: .5rem; }
+.end .also { margin: 1.5rem 0 0; font-size: .9375rem; color: var(--muted); }
+
+footer {
+  padding: 2rem 0 3rem;
+  text-align: center;
+  font-size: .875rem;
+  color: var(--muted);
+  border-top: 1px solid var(--sand-line);
+}
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/" aria-current="page">For coaches</a>
+    </nav>
+  </header>
+
+  <article>
+    <h1>Fuel your whole squad, not one athlete at a time</h1>
+    <p class="deck">You have given the same fueling talk a hundred times, on the deck, between sets. Pushing Peak gives every athlete on your team a plan built around the training you actually set.</p>
+
+    <p class="hero-cta">
+      <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Get your team started</a>
+      <span class="note">Tell us your club and roughly how many athletes. We will send your team's invite code.</span>
+    </p>
+
+    <h2>You can already see who ate</h2>
+
+    <p>You read it in the back half of a hard set. You know who skipped breakfast, who grabbed a pastry on the way in, and who is running the fourth morning of a heavy week on a cup of coffee.</p>
+
+    <p>You know the fix, too. You have given it a hundred times, one athlete at a time, between sets. We coach swimmers, so this is <a href="/why/">where we started</a> as well.</p>
+
+    <div class="pull">That works with one athlete. It does not work with forty, and it does not work at all at five in the morning, when no coach is standing in the kitchen.</div>
+
+    <h2>Your team is three steps from set up</h2>
+
+    <ol class="steps">
+      <li><strong>Tell us about your team.</strong> One email with your club and roughly how many athletes is enough to start.</li>
+      <li><strong>We set your team up and send you an invite code.</strong> One code covers your whole squad.</li>
+      <li><strong>Your athletes open Settings, then Join a Team.</strong> They enter the code and they are in. That is the whole thing.</li>
+    </ol>
+
+    <p>When your club covers membership, your athletes get their access from membership in the organization, so there is nothing for them to buy. When your club does not cover it, athletes hold their own membership and there is nothing for you to set up either way.</p>
+
+    <h2>What lands on their phone</h2>
+
+    <div class="benefit">
+      <h3>The plan is there before they are</h3>
+      <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer to "what do I eat before this session" is on the screen when they wake up.</p>
+    </div>
+
+    <div class="benefit">
+      <h3>Your training drives the day</h3>
+      <p>Add a session and the day rebuilds around it. A rest day looks different from a double, because it is different.</p>
+    </div>
+
+    <div class="benefit">
+      <h3>Every number traces back to a source</h3>
+      <p>An athlete who wants to know why the app asked for something can open it and find out. That is the part that sticks. They stop asking to be told what to eat and start asking sharper questions.</p>
+    </div>
+
+    <h2>The coach view <span class="soon">Coming soon</span></h2>
+
+    <p>One screen for your whole squad. See who has joined, and see how your athletes are fueling around the sessions you set, without asking them one at a time.</p>
+
+    <div class="next">
+      <p><strong>Set your team up now and you help shape it.</strong> The coaches who tell us what they actually need are the ones we build it for, and the ones who get it first.</p>
+    </div>
+
+    <h2>Questions coaches ask</h2>
+
+    <div class="faq">
+      <h3>Do my athletes need to buy anything?</h3>
+      <p>Not when your club covers membership. Their access comes from membership in the organization, so there is nothing for them to buy.</p>
+
+      <h3>What if we cannot cover it for everyone?</h3>
+      <p>Then those athletes hold their own membership, exactly as they would have anyway. You can cover some of your squad and not others, and nothing about the app changes for either group.</p>
+
+      <h3>Is this only for swimmers?</h3>
+      <p>We coach swimmers, so swimming is the sport it was built around and the one we know best. It works for any athlete training on a schedule.</p>
+
+      <h3>How old do athletes need to be?</h3>
+      <p>Thirteen and over.</p>
+
+      <h3>What do you do with our team's data?</h3>
+      <p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+    </div>
+
+    <div class="end">
+      <h2>Get your team started</h2>
+      <p>Send us your club and roughly how many athletes you have. We will set your team up and send your invite code.</p>
+      <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+      <p class="also">Want to look at it yourself first? <a href="https://apps.apple.com/app/id6753684222">Get the app</a> and set up your own week.</p>
+    </div>
+  </article>
+
+  <footer>
+    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p>A product of KILLERUX LLC</p>
+  </footer>
+
+</div>
+</body>
+</html>

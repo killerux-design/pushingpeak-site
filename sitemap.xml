@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  pushingpeak.app sitemap.
+
+  HAND-MAINTAINED. There is no build step (.nojekyll), so nothing generates this.
+  When you add a page, add it here, and keep <loc> byte-identical to that page's
+  own <link rel="canonical">, including the trailing slash. A sitemap URL that
+  disagrees with the canonical is a self-inflicted duplicate-content signal.
+
+  <lastmod> is the page's last real content change. Do not touch it for a typo
+  fix or a CSS tweak; a sitemap that claims everything changed today is ignored.
+
+  Deliberately absent:
+    404.html   - served for every unmatched path, returns HTTP 404, already noindex.
+    /u/<id>    - universal-link fallback (see .well-known/apple-app-site-association).
+                 These resolve to the 404 page for anyone without the app, so there
+                 is nothing to index and no Disallow is needed to keep them out.
+
+  No <priority> or <changefreq>: Google ignores both, and stating them invites
+  arguments about numbers that have no effect.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://pushingpeak.app/</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/why/</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/for-coaches/</loc>
+    <lastmod>2026-09-02</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/blog/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/blog/pushing-peak-vs-cal-ai/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/blog/pushing-peak-vs-chatgpt/</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/blog/pushing-peak-vs-myfitnesspal/</loc>
+    <lastmod>2026-08-29</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/blog/what-to-eat-before-morning-practice/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/support/</loc>
+    <lastmod>2026-09-01</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/privacy/</loc>
+    <lastmod>2026-09-01</lastmod>
+  </url>
+
+  <url>
+    <loc>https://pushingpeak.app/terms/</loc>
+    <lastmod>2026-09-01</lastmod>
+  </url>
+
+</urlset>
