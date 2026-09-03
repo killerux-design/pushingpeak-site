@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pushing Peak home v2</title>
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   HOMEPAGE V2, DRAFT. Not linked from anywhere, not in sitemap.xml, noindex.
+   Reachable only by URL. Delete or promote; do not leave it drifting.
+
+   Brief: Kevin asked for a homepage in the spirit of tiimoapp.com, product
+   focused, leaving out the proof sections (awards, App of the Year, testimonial
+   carousel, press logos) because we have none of them yet.
+
+   WHAT WAS TAKEN FROM TIIMO, read from their actual CSS rather than guessed:
+
+   1. THE NEUTRAL SYSTEM. This is the real lesson. Tiimo derives every neutral
+      from one ink colour at alpha:
+          --heading    #161613
+          --paragraphs #161613bf   (75%)
+          --border     #16161321   (13%)
+          --background-content #1616130a (4%)
+      Nothing on their page can fight the ground because nothing is a separate
+      hue. Ours does the same with purple-100, which also fixes a real bug: the
+      app's gray ramp is cyan-cast (hue 180) and was sitting on a purple ground
+      (hue 265), opposing it. Alpha neutrals contrast BETTER than the greys they
+      replace: muted goes from 4.99:1 to 5.79:1.
+
+   2. A TINTED GROUND, NOT WHITE. Tiimo is #f8f7f3, a warm off-white. Reading
+      their site as "white" is wrong. Ours stays purple-05, the same strategy in
+      our own hue.
+
+   3. SECTION RHYTHM. Full-width feature sections, each with one big screenshot
+      and one short heading, rather than everything inside one text measure.
+
+   4. HEADLINE SHAPE. Short, benefit with a turn: "Your to-do list, finally
+      doable", "Stay focused, not frozen", "The planner people don't quit".
+
+   5. CTA REPETITION. Tiimo runs 8+. The live homepage runs ONE, in the nav.
+      This draft runs seven.
+
+   WHAT WAS DELIBERATELY NOT TAKEN:
+   - Awards, App of the Year, press logos, testimonial carousel. Roughly a third
+     of Tiimo's page is proof and it is their strongest material. Copying the
+     layout without the proof leaves visible holes, so those sections are absent
+     rather than faked.
+   - Recoleta. Tiimo pairs a warm serif for display with SF Pro for body, and
+     that pairing is a large part of the warmth Kevin responded to. This draft
+     stays on Sailec because Kevin asked to keep it. THE DISPLAY SERIF IS THE
+     SINGLE BIGGEST REMAINING LEVER toward the Tiimo feel; it would need
+     self-hosting, since this site takes no CDN fonts.
+
+   SCREENSHOTS: three real ones, each used once. shot-plan in the hero,
+   shot-day for the section about training changing the plan, shot-food for
+   sources. No image repeats, which is a live bug on the current homepage where
+   shot-day proves a claim using the same picture as its own hero.
+   img/shot-training.png and img/shot-hero.png are PLACEHOLDER graphics that say
+   so on their face. The two-state rebuild pair in
+   .planning/screenshot-capture-spec.md is what this page still wants most.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  /* App design tokens, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json */
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+
+  /* Ground, and every neutral derived from the ink at alpha. Tiimo's method. */
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;   /* 78%, 10.52:1 */
+  --muted:   #06030d9e;   /* 62%,  5.79:1 */
+  --rule:    #06030d24;   /* 14% */
+  --surface: #06030d0d;   /*  5% */
+  --brand:   var(--purple-60);
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--body);
+  background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+.measure { max-width: 40rem; }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 {
+  font-size: clamp(2.4rem, 6.2vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  margin: 0 0 1.15rem;
+}
+h2 {
+  font-size: clamp(1.75rem, 4.4vw, 2.6rem);
+  line-height: 1.06;
+  letter-spacing: -.03em;
+  margin: 0 0 1rem;
+}
+h3 {
+  font-size: 1.125rem;
+  letter-spacing: -.012em;
+  line-height: 1.25;
+  margin: 0 0 .35rem;
+}
+p { margin: 0 0 1.15rem; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--ink); font-weight: 700; }
+
+/* ---- nav ---------------------------------------------------------------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap;
+}
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 10px; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: 1rem; }
+.topbar nav { display: flex; align-items: center; gap: 1.4rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+
+/* ---- the one button, repeated ------------------------------------------ */
+.cta {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: .9rem 1.55rem;
+  border-radius: 999px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.cta:hover { background: var(--brand); }
+.cta.small { font-size: .9375rem; padding: .7rem 1.2rem; }
+.cta-note { display: block; margin: .9rem 0 0; font-size: .9375rem; color: var(--muted); }
+
+/* ---- hero --------------------------------------------------------------- */
+.hero {
+  display: grid; grid-template-columns: 1fr 17rem;
+  gap: 0 3.5rem; align-items: center;
+  padding: clamp(1.5rem, 5vw, 3.5rem) 0 clamp(3rem, 7vw, 5rem);
+}
+.hero .lede { font-size: clamp(1.1rem, 2.2vw, 1.3rem); max-width: 34ch; margin-bottom: 1.9rem; }
+
+/* ---- the toolkit grid --------------------------------------------------- */
+.toolkit { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
+.tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.75rem 2.25rem; margin-top: 2.25rem;
+}
+.tile p { font-size: .9688rem; margin: 0; color: var(--muted); }
+
+/* ---- alternating feature sections --------------------------------------- */
+.feature {
+  display: grid; grid-template-columns: 1fr 19rem;
+  gap: 0 4rem; align-items: center;
+  padding: clamp(3rem, 7vw, 5rem) 0;
+  border-top: 1px solid var(--rule);
+}
+.feature.flip { grid-template-columns: 19rem 1fr; }
+.feature.flip .copy { order: 2; }
+.feature.flip .shot { order: 1; }
+.feature .copy p { max-width: 42ch; }
+.feature .cta { margin-top: 1.4rem; }
+
+@media (max-width: 800px) {
+  .hero, .feature, .feature.flip { grid-template-columns: 1fr; gap: 2.25rem 0; }
+  .hero .shot, .feature .shot { max-width: 15rem; }
+  .feature.flip .copy, .feature.flip .shot { order: 0; }
+}
+
+/* ---- faq ---------------------------------------------------------------- */
+.faq { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
+.faq .qa { max-width: 46rem; margin-top: 1.75rem; }
+.faq h3 { padding-top: 1.35rem; border-top: 1px solid var(--rule); }
+.faq .qa > h3:first-child { padding-top: 0; border-top: 0; }
+.faq p { margin-bottom: 1.35rem; max-width: 58ch; color: var(--muted); }
+.faq p:last-child { margin-bottom: 0; }
+
+/* ---- closing ------------------------------------------------------------ */
+.close {
+  margin: clamp(2.5rem, 6vw, 4rem) 0 3rem;
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+  background: var(--surface);
+  border-radius: 34px;
+  text-align: center;
+}
+.close h2 { margin-bottom: .75rem; }
+.close p { max-width: 40ch; margin: 0 auto 1.6rem; }
+
+footer {
+  padding: 2.25rem 0 3.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: .9375rem;
+  color: var(--muted);
+  display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+}
+footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+footer a { color: var(--body); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+      <a class="cta small" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="copy">
+        <h1>A fueling plan built around the training you actually do.</h1>
+        <p class="lede">Every meal gets its own time window and its own targets. Change the training and the day changes with it.</p>
+        <a class="cta" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+        <span class="cta-note">For competitive athletes, in any sport.</span>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" decoding="async">
+      </div>
+    </section>
+
+    <section class="toolkit">
+      <div class="measure">
+        <h2>Everything a training day asks for</h2>
+        <p>One number for the whole day cannot tell you when to eat. This does.</p>
+      </div>
+      <div class="tiles">
+        <div class="tile">
+          <h3>Ready before you are</h3>
+          <p>Tomorrow is built tonight. The answer is on the screen when the alarm goes.</p>
+        </div>
+        <div class="tile">
+          <h3>Windows, not one number</h3>
+          <p>Breakfast, lunch, dinner and the snacks between, each with its own time and its own targets.</p>
+        </div>
+        <div class="tile">
+          <h3>It moves when you do</h3>
+          <p>Add a session, and everything either side of it moves to make room.</p>
+        </div>
+        <div class="tile">
+          <h3>Open any number</h3>
+          <p>Every value traces back to a source you can read and correct yourself.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature">
+      <div class="copy">
+        <h2>Your training drives the day</h2>
+        <p>A rest day and a two session day are not the same day, so they should not carry the same plan. Put the week in and the food follows it, without you doing the arithmetic.</p>
+        <a class="cta" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-day.png" width="645" height="1398" alt="A training session added to the day, with the plan rebuilding around it" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="feature flip">
+      <div class="copy">
+        <h2>Describe a meal, in your own words</h2>
+        <p>Type what you ate the way you would say it out loud. It comes back broken into items, each one something you can open, check and correct.</p>
+        <a class="cta" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="measure">
+        <h2>Questions worth asking</h2>
+      </div>
+      <div class="qa">
+        <h3>How is this different from a calorie tracker?</h3>
+        <p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p>
+
+        <h3>Which sports is it for?</h3>
+        <p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p>
+
+        <h3>Where do the numbers come from?</h3>
+        <p>Public food databases, and the app shows you which one and lets you correct it. Nothing is a black box you have to trust.</p>
+
+        <h3>What do you do with my data?</h3>
+        <p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+
+        <h3>My club or coach covers my membership. How do I join?</h3>
+        <p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p>
+      </div>
+    </section>
+
+    <div class="close">
+      <h2>Start with tomorrow's session</h2>
+      <p>Put your week in and see what the day actually asks for.</p>
+      <a class="cta" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/why/">Why we built it</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+      <a href="/support">Support</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <span>A product of KILLERUX LLC</span>
+  </footer>
+
+</div>
+</body>
+</html>
