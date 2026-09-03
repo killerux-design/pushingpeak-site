@@ -81,13 +81,13 @@
   --purple-60: #8b26d5;
   --gray-60:   #646b6c;
   --gray-70:   #4c5353;
-  --gray-100:  #080909;
+  --purple-100: #06030d;
 
   /* Semantic roles */
   --paper:   var(--purple-05);
   --paper-2: var(--purple-10);
   --rule:    var(--purple-20);
-  --ink:     var(--gray-100);
+  --ink:     var(--purple-100);
   --body:    var(--gray-70);
   --muted:   var(--gray-60);   /* 4.99:1 on paper. gray-40 (#959c9e), which this
                                   site used, is 3.35:1 and fails AA for the
@@ -147,26 +147,25 @@ h1 {
 
 .post {
   display: grid;
-  grid-template-columns: 7rem 1fr;
-  gap: 0 1.75rem;
-  align-items: start;
-  padding: 1.75rem 0;
+  grid-template-columns: 6rem 1fr;
+  gap: 0 1.5rem;
+  align-items: baseline;
+  padding: 1.15rem 0;
   border-bottom: 1px solid var(--rule);
   text-decoration: none;
 }
 .post time {
-  font-size: .8125rem;
+  font-size: .75rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
-  padding-top: .5rem;
   white-space: nowrap;
 }
 .post h2 {
-  margin: 0 0 .4rem;
+  margin: 0 0 .2rem;
   color: var(--ink);
   font-weight: 700;
-  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
-  line-height: 1.18;
+  font-size: clamp(1.0625rem, 1.9vw, 1.2rem);
+  line-height: 1.3;
   letter-spacing: -.02em;
   text-wrap: balance;
 }
@@ -181,8 +180,7 @@ h1 {
 .post:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
 
 @media (max-width: 640px) {
-  .post { grid-template-columns: 1fr; gap: .35rem; padding: 1.5rem 0; }
-  .post time { padding-top: 0; }
+  .post { grid-template-columns: 1fr; gap: .25rem; padding: 1.1rem 0; }
 }
 
 .aside { margin: 2rem 0 0; font-size: .9375rem; color: var(--muted); }

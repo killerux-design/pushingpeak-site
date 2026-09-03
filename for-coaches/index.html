@@ -20,44 +20,73 @@
 <meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
 <link rel="icon" href="/img/appicon.png" type="image/png">
 <style>
-/* Self-contained. Same tokens and chrome as /why/; inline because the site has
-   no build step and .nojekyll means nothing is processed.
+/* ---------------------------------------------------------------------------
+   pushingpeak.app coaches and teams page.
 
-   SCOPE FENCE, read before editing this page.
+   STRUCTURE follows the org-facing genre, which is its own thing: a consumer
+   app sold to an organisation. Running order taken from Duolingo for Schools,
+   TrainingPeaks for coaches and Headspace for Organizations, all of which do
+   hero, mechanism, member experience, proof, FAQ, ask, with the FAQ sitting
+   immediately before the final ask.
 
-   1. VOICE. Every other page on this site addresses the ATHLETE. This one
-      addresses the coach, which is a deliberate, single-page exception and the
-      only reason the page exists. Do not let it leak: /why/, /blog/ and the
-      homepage stay athlete-facing.
+   NO ADMIN SCREENSHOTS, and that is fine. Pages in this genre routinely carry
+   without them: Headspace uses illustrations, Spotify Family is plain text,
+   Duolingo for Business uses numbered steps, Slack for Nonprofits is an
+   article. What carries a screenshot-free page is a concrete step sequence
+   plus the member app, and both are here.
 
-   2. THE COACH VIEW IS NOT DEPLOYED. The portal (coaches-portal/ in the app
-      repo) is built and merged but has never been deployed, so no coach can
-      reach it yet. Kevin's ruling 2026-09-02: describe it as a feature with a
-      "Coming soon" marker rather than narrating its absence. The marker is
-      therefore load-bearing. If you describe a coach-view capability, it stays
-      inside the section carrying that marker, and the marker does not come off
-      until the portal is actually reachable.
+   ONE CLAIM HAS NO IMAGE ON PURPOSE. "Your training drives the day" is the
+   product's actual differentiator, and it is stated as this section's premise
+   rather than given a feature row, because there is no honest picture of it
+   yet: a single still cannot show a day rebuilding. It needs the two-state
+   pair in .planning/screenshot-capture-spec.md. Do NOT illustrate it by
+   reusing shot-day.png, which is what the homepage currently does, proving the
+   claim with the same image as its own hero. img/shot-training.png is a
+   PLACEHOLDER graphic that says so on its face, not a screenshot.
 
-   3. WHAT SHIPS TODAY, and is safe to state flatly: team membership. Invite
-      codes, Settings > Join a Team, and a club covering membership for its
-      athletes are all live (TeamService/redeem_invite, and /support/ already
-      documents the athlete side). The three-step section describes a real
-      process that runs manually today.
+   WHITE OBJECTS ARE LOAD-BEARING. A tinted ground reads as dirty off-white
+   unless something truly white sits on it. The app screenshots have white
+   chrome and that is what makes purple-05 read as lilac. Do not remove the
+   screenshots and keep the tint.
 
-   4. NO DISCOUNT MECHANIC. Whether a discount is possible at all (Stripe,
-      Offer Codes, something else) is unresolved and explicitly out of scope as
-      of 2026-09-02. Do not put a discount, a price, or a billing mechanic on
-      this page until that question is answered.
+   SCOPE FENCE, read before editing.
 
-   5. VOCABULARY IS GATED. scripts/check-copy.py enforces
-      SUBMISSION-BANNED-TERMS.md Category 1 (Guideline 3.1.3(c),
-      organization-purchase framing). "seats", "invoice", "per-athlete",
-      "billed", "subscription price", "license", "activate", "unlock" and
-      "redeem your code" must never appear here, and neither must any price or
-      any description of a coach paying for an athlete. The approved framing is
-      the one already shipped at /support/: membership, invite code, Join a
-      Team, "nothing to buy".
-      Run `python3 scripts/check-copy.py .` before committing.
+   1. VOICE. This is the only page addressing the coach in the second person.
+      A deliberate single-page exception. /why/, /blog/ and the homepage stay
+      athlete-facing.
+
+   2. THE PORTAL IS NOT DEPLOYED. coaches-portal/ is built and merged but has
+      never shipped, so no coach can reach it. It is presented as a feature
+      with a "Coming soon" marker and NO SCREENSHOTS, which is the Glide
+      pattern; the anti-pattern is Bird, which shows mock screens of an
+      unshipped product. The marker is load-bearing. Any coach-view capability
+      described must stay inside the section carrying it.
+
+   3. NO DISCOUNT MECHANIC, NO PRICE. Whether a discount is even possible
+      (Stripe, Offer Codes, something else) is unresolved and out of scope.
+
+   4. VOCABULARY IS GATED. SUBMISSION-BANNED-TERMS.md Category 1, Guideline
+      3.1.3(c): "seats", "invoice", "per-athlete", "billed", "subscription
+      price", "license", "activate", "unlock", "redeem your code" must never
+      appear, and neither must any description of a coach paying for an
+      athlete. Approved framing is the one shipped at /support/: membership,
+      invite code, Join a Team, "nothing to buy".
+
+   5. THE FOUNDER NOTE SLOT IS DELIBERATELY EMPTY, and sits between the coach
+      view section and the FAQ. Research on this page genre says a signed
+      founder note is what substitutes for logos and case studies when a
+      product has neither, so the slot is real and worth filling. Kevin removed
+      a drafted one on 2026-09-02: he writes anything in his own voice himself,
+      because a generated founder story is not authentic and that is the whole
+      value of the device. Do not draft a replacement. Leave the slot until he
+      supplies the words.
+
+      Until then the FAQ carries the credibility load. That is defensible:
+      precision about mechanism, who pays, what a coach can see, what happens
+      when an athlete leaves, reads as credibility when nothing else is
+      available.
+
+   Run check-design.py and check-copy.py before commit.
 --------------------------------------------------------------------------- */
 
 @font-face {
@@ -73,35 +102,24 @@
 
 :root {
   color-scheme: light;
-  /* ---- Pushing Peak design tokens -------------------------------------
-     Values are the app's own, from
-     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
-     Primitive names match the app's; semantic roles are mapped below.
+  /* App design tokens, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json */
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-20:  #e4cfff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+  --gray-60:    #646b6c;
+  --gray-70:    #4c5353;
 
-     The sand ground these pages used to carry was the only off-system colour
-     on the site, inherited from Figma node 1506-45 (the placeholder frame that
-     also carried Cal AI content). The homepage was already on these tokens.
-     Do not invent a second scale: if a step is missing, add it to the app's
-     file. */
-  --purple-05: #f8f3ff;
-  --purple-10: #f2e8ff;
-  --purple-20: #e4cfff;
-  --purple-60: #8b26d5;
-  --gray-60:   #646b6c;
-  --gray-70:   #4c5353;
-  --gray-100:  #080909;
-
-  /* Semantic roles */
   --paper:   var(--purple-05);
   --paper-2: var(--purple-10);
   --rule:    var(--purple-20);
-  --ink:     var(--gray-100);
+  --ink:     var(--purple-100);
   --body:    var(--gray-70);
-  --muted:   var(--gray-60);   /* gray-40, which this site used, is 3.35:1 and
-                                  fails AA. This is 4.99:1. */
+  --muted:   var(--gray-60);
   --brand:   var(--purple-60);
   --radius-lg: 30px;
-
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -119,56 +137,53 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 1.5rem; }
+.narrow { max-width: 44rem; }
 
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; flex-wrap: wrap; }
 .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
 .brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
 .brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
 .topbar nav { display: flex; gap: 1.25rem; }
 .topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
 .topbar nav a:hover { color: var(--ink); }
-.topbar nav a[aria-current="page"] { color: var(--muted); }
-
-article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
 
 h1 {
   color: var(--ink);
-  font-size: clamp(2rem, 5vw, 2.9rem);
-  line-height: 1.08;
-  letter-spacing: -.025em;
+  font-size: clamp(2.1rem, 5.4vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: -.03em;
   margin: 0 0 1rem;
   text-wrap: balance;
 }
-
-.deck {
-  font-size: 1.15rem;
-  color: var(--body);
-  margin: 0 0 1.75rem;
-  text-wrap: pretty;
-}
-
 h2 {
   color: var(--ink);
-  font-size: clamp(1.35rem, 3vw, 1.65rem);
-  letter-spacing: -.02em;
-  line-height: 1.2;
-  margin: 2.75rem 0 .9rem;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  letter-spacing: -.022em;
+  line-height: 1.18;
+  margin: 0 0 .9rem;
   text-wrap: balance;
 }
-
 h3 {
   color: var(--ink);
   font-size: 1.0625rem;
   letter-spacing: -.01em;
-  margin: 1.75rem 0 .35rem;
+  margin: 0 0 .35rem;
 }
-
 p { margin: 0 0 1.15rem; }
+p:last-child { margin-bottom: 0; }
 strong { color: var(--ink); font-weight: 700; }
 a { color: var(--brand); }
 
-/* Primary call to action. The only button on the page: one page, one action. */
+section { padding: clamp(2.75rem, 6vw, 4.25rem) 0; border-top: 1px solid var(--rule); }
+section:first-of-type { border-top: 0; padding-top: clamp(1.25rem, 4vw, 2.5rem); }
+
+.deck { font-size: 1.175rem; color: var(--body); margin: 0 0 1.75rem; max-width: 40ch; text-wrap: pretty; }
+.lede { font-size: 1.0625rem; max-width: 52ch; }
+
+/* Primary action. Repeated four times down the page, which is the working
+   range for app marketing pages; this page previously had it once. */
 .cta {
   display: inline-block;
   background: var(--brand);
@@ -181,27 +196,31 @@ a { color: var(--brand); }
   line-height: 1.2;
 }
 .cta:hover { filter: brightness(1.08); }
-.hero-cta { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--rule); }
-.hero-cta .note { display: block; margin: .85rem 0 0; font-size: .9375rem; color: var(--muted); }
+.cta-note { display: block; margin: .85rem 0 0; font-size: .9375rem; color: var(--muted); }
 
-.pull {
-  margin: 2.5rem 0;
-  color: var(--ink);
-  font-size: clamp(1.4rem, 3.4vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.24;
-  letter-spacing: -.025em;
-  text-wrap: balance;
+/* ---- hero: copy left, app right --------------------------------------- */
+.hero { display: grid; grid-template-columns: 1fr 15rem; gap: 0 3rem; align-items: center; }
+.hero .shot img { width: 100%; height: auto; display: block; border-radius: 18px; }
+
+/* ---- alternating feature rows ------------------------------------------ */
+.feature { display: grid; grid-template-columns: 1fr 13rem; gap: 0 3rem; align-items: center; margin: 0 0 2.75rem; }
+.feature:last-child { margin-bottom: 0; }
+.feature.flip { grid-template-columns: 13rem 1fr; }
+.feature.flip .copy { order: 2; }
+.feature.flip .shot { order: 1; }
+.feature .shot img { width: 100%; height: auto; display: block; border-radius: 16px; }
+.feature p { margin: 0; max-width: 46ch; }
+
+@media (max-width: 720px) {
+  .hero, .feature, .feature.flip { grid-template-columns: 1fr; gap: 1.5rem 0; }
+  .hero .shot, .feature .shot { max-width: 13rem; }
+  .feature.flip .copy, .feature.flip .shot { order: 0; }
 }
 
-/* Numbered path to value. Three steps, because a longer list reads as work. */
-ol.steps { margin: 1.5rem 0 1.5rem; padding: 0; list-style: none; counter-reset: step; }
-ol.steps li {
-  counter-increment: step;
-  position: relative;
-  padding-left: 3rem;
-  margin: 0 0 1.25rem;
-}
+/* ---- numbered steps. The content genuinely is a sequence. --------------- */
+ol.steps { margin: 1.5rem 0 0; padding: 0; list-style: none; counter-reset: step; max-width: 46rem; }
+ol.steps li { counter-increment: step; position: relative; padding-left: 3rem; margin: 0 0 1.3rem; }
+ol.steps li:last-child { margin-bottom: 0; }
 ol.steps li::before {
   content: counter(step);
   position: absolute; left: 0; top: .1rem;
@@ -213,11 +232,23 @@ ol.steps li::before {
 }
 ol.steps strong { display: block; }
 
-.benefit { margin: 0 0 1.75rem; padding-top: 1.15rem; border-top: 1px solid var(--rule); }
-.benefit h3 { margin-top: 0; }
-.benefit p { margin-bottom: 0; }
+/* ---- a sentence reset large. Size is the device, not fill or hue. ------- */
+.pull {
+  margin: 2.5rem 0;
+  color: var(--ink);
+  font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  max-width: 22ch;
+}
 
-.status { margin: -.35rem 0 1.15rem; }
+.week { max-width: 46rem; }
+.week dt { color: var(--ink); font-weight: 700; margin: 1.35rem 0 .2rem; }
+.week dt:first-of-type { margin-top: 0; }
+.week dd { margin: 0; max-width: 54ch; }
+
 .soon {
   display: inline-block;
   padding: .2rem .6rem;
@@ -228,26 +259,23 @@ ol.steps strong { display: block; }
   font-weight: 700;
   white-space: nowrap;
 }
+.status { margin: -.4rem 0 1.15rem; }
+.soon-list { margin: 1.5rem 0 0; max-width: 46rem; }
+.soon-list div { padding-top: 1.15rem; border-top: 1px solid var(--rule); margin-bottom: 1.25rem; }
+.soon-list div:last-child { margin-bottom: 0; }
+.soon-list p { margin: 0; max-width: 52ch; }
 
-.next {
-  margin: 1.75rem 0 0;
-  padding-top: 1.35rem;
-  border-top: 1px solid var(--rule);
-}
-.next p { margin-bottom: 0; color: var(--ink); font-size: 1.0625rem; }
-
-.faq h3 {
-  margin: 0 0 .3rem;
-  padding-top: 1.35rem;
-  border-top: 1px solid var(--rule);
-}
+.faq { max-width: 46rem; }
+.faq h3 { padding-top: 1.35rem; border-top: 1px solid var(--rule); }
 .faq h3:first-child { padding-top: 0; border-top: 0; }
-.faq p { margin-bottom: 1.35rem; }
+.faq p { margin-bottom: 1.35rem; max-width: 56ch; }
 .faq p:last-child { margin-bottom: 0; }
 
+/* The only filled block on the page. Fill and radius say "separate object",
+   so they are spent once, here. */
 .end {
-  margin: 3rem 0 2rem;
-  padding: clamp(1.75rem, 4vw, 2.5rem);
+  margin: clamp(2.75rem, 6vw, 4rem) 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
   background: var(--paper-2);
   border-radius: var(--radius-lg);
   text-align: center;
@@ -285,88 +313,146 @@ footer a:hover { color: var(--ink); }
     </nav>
   </header>
 
-  <article>
-    <h1>Fuel your whole squad, not one athlete at a time</h1>
-    <p class="deck">You have given the same fueling talk a hundred times, on the deck, between sets. Pushing Peak gives every athlete on your team a plan built around the training you actually set.</p>
+  <main>
 
-    <p class="hero-cta">
-      <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Get your team started</a>
-      <span class="note">Tell us your club and roughly how many athletes. We will send your team's invite code.</span>
-    </p>
+    <section class="hero">
+      <div class="copy">
+        <h1>Fuel your whole squad, not one athlete at a time</h1>
+        <p class="deck">You have given the same fueling talk a hundred times, on the deck, between sets. Pushing Peak gives every athlete on your team a plan built around the training you actually set.</p>
+        <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+        <span class="cta-note">Clubs can cover membership. Athletes join with a code. We reply within two working days.</span>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-day.png" width="645" height="1398" alt="The Pushing Peak day view, showing the day's training session and each meal with its own time window and targets" decoding="async">
+      </div>
+    </section>
 
-    <h2>You can already see who ate</h2>
+    <section>
+      <div class="narrow">
+        <h2>You can already see who ate</h2>
+        <p>You read it in the back half of a hard set. You know who skipped breakfast, who grabbed something on the way in, and who is running the fourth morning of a heavy week on a cup of coffee.</p>
+        <p>You know the fix, too. You have given it a hundred times, one athlete at a time, between sets. We coach as well, which is <a href="/why/">where this started</a>.</p>
+      </div>
+      <p class="pull">That works with one athlete. It does not work with forty.</p>
+    </section>
 
-    <p>You read it in the back half of a hard set. You know who skipped breakfast, who grabbed a pastry on the way in, and who is running the fourth morning of a heavy week on a cup of coffee.</p>
+    <section>
+      <h2>What lands on their phone</h2>
+      <p class="lede">Add a session and the day rebuilds around it. A rest day looks different from a double, because it is different. Everything below follows from that.</p>
 
-    <p>You know the fix, too. You have given it a hundred times, one athlete at a time, between sets. We coach swimmers, so this is <a href="/why/">where we started</a> as well.</p>
+      <div class="feature" style="margin-top:2.5rem">
+        <div class="copy">
+          <h3>The plan is there before they are</h3>
+          <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer to "what do I eat before this session" is on the screen when they wake up.</p>
+        </div>
+        <div class="shot"><img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async"></div>
+      </div>
 
-    <div class="pull">That works with one athlete. It does not work with forty, and it does not work at all at five in the morning, when no coach is standing in the kitchen.</div>
+      <div class="feature flip">
+        <div class="copy">
+          <h3>Every number traces back to a source</h3>
+          <p>An athlete who wants to know why the app asked for something can open it and find out. That is the part that sticks. They stop asking to be told what to eat and start asking sharper questions.</p>
+        </div>
+        <div class="shot"><img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async"></div>
+      </div>
+    </section>
 
-    <h2>Your team is three steps from set up</h2>
+    <section>
+      <div class="narrow">
+        <h2>How a team works today</h2>
+        <p class="lede">No setup on your side, and nothing for you to install.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>You email us about your team.</strong> Club name, sport, and roughly how many athletes is enough to start.</li>
+        <li><strong>We set the team up and send you an invite code.</strong> One code covers your whole squad.</li>
+        <li><strong>Your athletes open Settings, then Join a Team.</strong> They enter the code and they are in.</li>
+      </ol>
+      <div class="narrow" style="margin-top:2rem">
+        <p>When your club covers membership, your athletes get their access from membership in the organization, so there is nothing for them to buy. When your club does not cover it, athletes hold their own membership and nothing changes for you either way.</p>
+      </div>
+    </section>
 
-    <ol class="steps">
-      <li><strong>Tell us about your team.</strong> One email with your club and roughly how many athletes is enough to start.</li>
-      <li><strong>We set your team up and send you an invite code.</strong> One code covers your whole squad.</li>
-      <li><strong>Your athletes open Settings, then Join a Team.</strong> They enter the code and they are in. That is the whole thing.</li>
-    </ol>
+    <section>
+      <div class="narrow">
+        <h2>One athlete's week</h2>
+        <p class="lede">The same athlete, three different days, so you can see what the app is actually doing between your sessions.</p>
+        <dl class="week">
+          <dt>Monday, lift at six</dt>
+          <dd>Something small and quick before, because there is not time to digest much. The real food lands after, inside a window while it still counts for something.</dd>
 
-    <p>When your club covers membership, your athletes get their access from membership in the organization, so there is nothing for them to buy. When your club does not cover it, athletes hold their own membership and there is nothing for you to set up either way.</p>
+          <dt>Wednesday, long run</dt>
+          <dd>Carbohydrate goes up the evening before, not the morning of. The plan moves it there without the athlete having to know that is the rule.</dd>
 
-    <h2>What lands on their phone</h2>
+          <dt>Sunday, rest</dt>
+          <dd>Fewer calories, and protein held where it was. This is the day athletes get wrong most often, usually by eating like it was a training day or by eating almost nothing.</dd>
+        </dl>
+        <p style="margin-top:1.75rem"><a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></p>
+      </div>
+    </section>
 
-    <div class="benefit">
-      <h3>The plan is there before they are</h3>
-      <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer to "what do I eat before this session" is on the screen when they wake up.</p>
-    </div>
+    <section>
+      <div class="narrow">
+        <h2>The coach view</h2>
+        <p class="status"><span class="soon">Coming soon</span></p>
+        <p class="lede">One screen for your whole squad, so you can see how your athletes are fueling around the sessions you set without asking them one at a time.</p>
+      </div>
+      <div class="soon-list">
+        <div>
+          <h3>Your roster in one place</h3>
+          <p>Who has joined, who has not, and who needs a code resending.</p>
+        </div>
+        <div>
+          <h3>Fueling around your sessions</h3>
+          <p>Whether the week you set is being eaten for, at the level of the squad rather than the individual meal.</p>
+        </div>
+        <div>
+          <h3>You decide what is shared</h3>
+          <p>Athletes will be told what joining a team shows you, before it shows you anything.</p>
+        </div>
+      </div>
+      <div class="narrow" style="margin-top:2rem">
+        <p><strong>Teams set up now get it first.</strong> The coaches who tell us what they actually need are the ones we build it for.</p>
+      </div>
+    </section>
 
-    <div class="benefit">
-      <h3>Your training drives the day</h3>
-      <p>Add a session and the day rebuilds around it. A rest day looks different from a double, because it is different.</p>
-    </div>
+    <section>
+      <div class="faq">
+        <h2>Questions coaches ask</h2>
 
-    <div class="benefit">
-      <h3>Every number traces back to a source</h3>
-      <p>An athlete who wants to know why the app asked for something can open it and find out. That is the part that sticks. They stop asking to be told what to eat and start asking sharper questions.</p>
-    </div>
+        <h3>Do my athletes need to buy anything?</h3>
+        <p>Not when your club covers membership. Their access comes from membership in the organization, so there is nothing for them to buy.</p>
 
-    <h2>The coach view</h2>
-    <p class="status"><span class="soon">Coming soon</span></p>
+        <h3>What if we cannot cover it for everyone?</h3>
+        <p>Then those athletes hold their own membership, exactly as they would have anyway. You can cover some of your squad and not others, and nothing about the app changes for either group.</p>
 
-    <p>One screen for your whole squad. See who has joined, and see how your athletes are fueling around the sessions you set, without asking them one at a time.</p>
+        <h3>What can I see about my athletes right now?</h3>
+        <p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives we will tell athletes exactly what it shows before it shows anything, and you will know too.</p>
 
-    <div class="next">
-      <p><strong>Set your team up now and you help shape it.</strong> The coaches who tell us what they actually need are the ones we build it for, and the ones who get it first.</p>
-    </div>
+        <h3>What happens if an athlete leaves the club?</h3>
+        <p>Their account is theirs. They keep their history and can continue with their own membership. Nothing of theirs is deleted because they left your team.</p>
 
-    <h2>Questions coaches ask</h2>
+        <h3>Is this only for swimmers?</h3>
+        <p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the sport we know best and the one we started with.</p>
 
-    <div class="faq">
-      <h3>Do my athletes need to buy anything?</h3>
-      <p>Not when your club covers membership. Their access comes from membership in the organization, so there is nothing for them to buy.</p>
+        <h3>How old do athletes need to be?</h3>
+        <p>Thirteen and over.</p>
 
-      <h3>What if we cannot cover it for everyone?</h3>
-      <p>Then those athletes hold their own membership, exactly as they would have anyway. You can cover some of your squad and not others, and nothing about the app changes for either group.</p>
-
-      <h3>Is this only for swimmers?</h3>
-      <p>We coach swimmers, so swimming is the sport it was built around and the one we know best. It works for any athlete training on a schedule.</p>
-
-      <h3>How old do athletes need to be?</h3>
-      <p>Thirteen and over.</p>
-
-      <h3>What do you do with our team's data?</h3>
-      <p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
-    </div>
+        <h3>What do you do with our team's data?</h3>
+        <p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+      </div>
+    </section>
 
     <div class="end">
       <h2>Get your team started</h2>
-      <p>Send us your club and roughly how many athletes you have. We will set your team up and send your invite code.</p>
+      <p>Send us your club, your sport, and roughly how many athletes you have. We will set the team up and send your invite code.</p>
       <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
-      <p class="also">Want to look at it yourself first? <a href="https://apps.apple.com/app/id6753684222">Get the app</a> and set up your own week.</p>
+      <p class="also">We reply within two working days. Want to look at it yourself first? <a href="https://apps.apple.com/app/id6753684222">Get the app</a> and set up your own week.</p>
     </div>
-  </article>
+
+  </main>
 
   <footer>
-    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p><a href="/terms">Terms of Service</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="/support">Support</a></p>
     <p>A product of KILLERUX LLC</p>
   </footer>
 
