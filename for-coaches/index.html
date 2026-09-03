@@ -73,15 +73,35 @@
 
 :root {
   color-scheme: light;
-  --sand: #f3ede3;
-  --sand-deep: #eae1d2;
-  --sand-line: #ddd2be;
-  --brand: #8b26d5;
-  --aqua: #07819e;
-  --ink: #080909;
-  --body: #4c5353;
-  --muted: #959c9e;
+  /* ---- Pushing Peak design tokens -------------------------------------
+     Values are the app's own, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
+     Primitive names match the app's; semantic roles are mapped below.
+
+     The sand ground these pages used to carry was the only off-system colour
+     on the site, inherited from Figma node 1506-45 (the placeholder frame that
+     also carried Cal AI content). The homepage was already on these tokens.
+     Do not invent a second scale: if a step is missing, add it to the app's
+     file. */
+  --purple-05: #f8f3ff;
+  --purple-10: #f2e8ff;
+  --purple-20: #e4cfff;
+  --purple-60: #8b26d5;
+  --gray-60:   #646b6c;
+  --gray-70:   #4c5353;
+  --gray-100:  #080909;
+
+  /* Semantic roles */
+  --paper:   var(--purple-05);
+  --paper-2: var(--purple-10);
+  --rule:    var(--purple-20);
+  --ink:     var(--gray-100);
+  --body:    var(--gray-70);
+  --muted:   var(--gray-60);   /* gray-40, which this site used, is 3.35:1 and
+                                  fails AA. This is 4.99:1. */
+  --brand:   var(--purple-60);
   --radius-lg: 30px;
+
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -95,7 +115,7 @@ body {
   font-weight: 500;
   line-height: 1.7;
   color: var(--body);
-  background: var(--sand);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -146,7 +166,7 @@ h3 {
 
 p { margin: 0 0 1.15rem; }
 strong { color: var(--ink); font-weight: 700; }
-a { color: var(--aqua); }
+a { color: var(--brand); }
 
 /* Primary call to action. The only button on the page: one page, one action. */
 .cta {
@@ -161,13 +181,13 @@ a { color: var(--aqua); }
   line-height: 1.2;
 }
 .cta:hover { filter: brightness(1.08); }
-.hero-cta { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--sand-line); }
+.hero-cta { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--rule); }
 .hero-cta .note { display: block; margin: .85rem 0 0; font-size: .9375rem; color: var(--muted); }
 
 .pull {
   margin: 2rem 0;
   padding: 1.5rem 1.75rem;
-  background: var(--sand-deep);
+  background: var(--paper-2);
   border-radius: var(--radius-lg);
   color: var(--ink);
   font-size: 1.15rem;
@@ -195,29 +215,26 @@ ol.steps li::before {
 }
 ol.steps strong { display: block; }
 
-.benefit { margin: 0 0 1.5rem; padding-left: 1.25rem; border-left: 3px solid var(--sand-line); }
+.benefit { margin: 0 0 1.75rem; padding-top: 1.15rem; border-top: 1px solid var(--rule); }
 .benefit h3 { margin-top: 0; }
 .benefit p { margin-bottom: 0; }
 
+.status { margin: -.35rem 0 1.15rem; }
 .soon {
   display: inline-block;
-  vertical-align: middle;
-  margin-left: .6rem;
-  padding: .25rem .7rem;
+  padding: .2rem .6rem;
   border-radius: 999px;
-  background: var(--brand);
-  color: #fff;
-  font-size: .75rem;
+  background: rgba(139, 38, 213, .10);
+  color: var(--brand);
+  font-size: .8125rem;
   font-weight: 700;
-  letter-spacing: .02em;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .next {
   margin: 1.5rem 0 0;
   padding: 1.5rem 1.75rem;
-  background: var(--sand-deep);
+  background: var(--paper-2);
   border-radius: var(--radius-lg);
 }
 .next p:last-child { margin-bottom: 0; }
@@ -228,7 +245,7 @@ ol.steps strong { display: block; }
 .end {
   margin: 3rem 0 2rem;
   padding: clamp(1.75rem, 4vw, 2.5rem);
-  background: var(--sand-deep);
+  background: var(--paper-2);
   border-radius: var(--radius-lg);
   text-align: center;
 }
@@ -242,9 +259,9 @@ footer {
   text-align: center;
   font-size: .875rem;
   color: var(--muted);
-  border-top: 1px solid var(--sand-line);
+  border-top: 1px solid var(--rule);
 }
-footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--rule); }
 footer a:hover { color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
@@ -309,7 +326,8 @@ footer a:hover { color: var(--ink); }
       <p>An athlete who wants to know why the app asked for something can open it and find out. That is the part that sticks. They stop asking to be told what to eat and start asking sharper questions.</p>
     </div>
 
-    <h2>The coach view <span class="soon">Coming soon</span></h2>
+    <h2>The coach view</h2>
+    <p class="status"><span class="soon">Coming soon</span></p>
 
     <p>One screen for your whole squad. See who has joined, and see how your athletes are fueling around the sessions you set, without asking them one at a time.</p>
 
