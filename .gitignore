@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .claude/
 sand-design-backup.html
+
+# Lane C planning artifacts. NOT committed on purpose: this repo is public and
+# is the live web root, and GitHub Pages serves dot-directories when .nojekyll
+# is present (/.well-known/ returns 200). Committing .planning/ would publish
+# competitive analysis and strategy at https://pushingpeak.app/.planning/.
+.planning/
