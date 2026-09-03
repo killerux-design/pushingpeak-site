@@ -20,9 +20,37 @@
 <meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
 <link rel="icon" href="/img/appicon.png" type="image/png">
 <style>
-/* Self-contained index page. Same tokens and chrome as the article pages; kept
-   inline because the site has no build step and .nojekyll means nothing is
-   processed. */
+/* ---------------------------------------------------------------------------
+   pushingpeak.app blog index.
+
+   FIRST PAGE ON THE NEW DESIGN LANGUAGE (2026-09-02). The secondary pages are
+   the proving ground; the homepage inherits this once it has been seen working.
+   /for-coaches/ and /why/ are next and should be brought to match, not left
+   half-converted.
+
+   GROUND: purple-05, #f8f3ff, taken from the APP'S OWN TOKEN FILE rather than
+   derived here. An earlier pass invented a parallel purple ramp before noticing
+   the app already ships one and the homepage already uses it. Do not invent a
+   second scale: if a step is missing, add it to the app's file. Tokens are
+   named for their ROLE below, so a palette change does not leave names lying.
+
+   STRUCTURE: a ledger, not cards. Four posts in a uniform card grid reads as a
+   shelf with gaps; a ledger with the date in the gutter reads as a record that
+   is growing. This is the part that survives any palette decision.
+
+   AQUA IS RETIRED. Links were #07819e, a second accent that pulled against the
+   purple. One accent, spent in one place. Restoring it is a token edit.
+
+   DO NOT REINTRODUCE, and scripts/check-design.py will catch most of them:
+     - a thick coloured border down one side of a repeated block. This is the
+       single most recognisable tell of generated UI and this site had two.
+     - all-caps tracked labels.
+     - an accent colour on one word or phrase of a heading.
+     - gradient text, glassmorphism, Inter / Space Grotesk / Instrument Serif.
+     - em and en dashes, entities included.
+   Run `python3 scripts/check-design.py .` and `check-copy.py .` before commit.
+--------------------------------------------------------------------------- */
+
 @font-face {
   font-family: "Sailec";
   src: url("/fonts/sailec-bold.woff2") format("woff2");
@@ -36,16 +64,37 @@
 
 :root {
   color-scheme: light;
-  --sand: #f3ede3;
-  --sand-deep: #eae1d2;
-  --sand-hover: #e3d9c7;
-  --sand-line: #ddd2be;
-  --brand: #8b26d5;
-  --aqua: #07819e;
-  --ink: #080909;
-  --body: #4c5353;
-  --muted: #959c9e;
-  --radius-lg: 30px;
+  /* ---- Pushing Peak design tokens -------------------------------------
+     Values are the app's own, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
+     Primitive names are kept identical to the app's so the two stay
+     traceable; semantic roles are mapped below.
+
+     The sand ground this page used to carry (#f3ede3 and friends) was the
+     only off-system colour on the site. It came from Figma node 1506-45, the
+     same placeholder frame that carried Cal AI content, and it never agreed
+     with a mark that is purple-50. The homepage was already on these tokens,
+     so this page is joining the system rather than starting a new one. */
+  --purple-05: #f8f3ff;
+  --purple-10: #f2e8ff;
+  --purple-20: #e4cfff;
+  --purple-60: #8b26d5;
+  --gray-60:   #646b6c;
+  --gray-70:   #4c5353;
+  --gray-100:  #080909;
+
+  /* Semantic roles */
+  --paper:   var(--purple-05);
+  --paper-2: var(--purple-10);
+  --rule:    var(--purple-20);
+  --ink:     var(--gray-100);
+  --body:    var(--gray-70);
+  --muted:   var(--gray-60);   /* 4.99:1 on paper. gray-40 (#959c9e), which this
+                                  site used, is 3.35:1 and fails AA for the
+                                  ledger dates, which are content. */
+  --brand:   var(--purple-60); /* 5.77:1 on paper */
+
+  --radius:  28px;
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -59,95 +108,118 @@ body {
   font-weight: 500;
   line-height: 1.7;
   color: var(--body);
-  background: var(--sand);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
 
-.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; flex-wrap: wrap; }
 .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
 .brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
 .brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
 .topbar nav { display: flex; gap: 1.25rem; }
 .topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
 .topbar nav a:hover { color: var(--ink); }
-.topbar nav a[aria-current="page"] { color: var(--muted); }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
 
 main { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
 
 h1 {
   color: var(--ink);
   font-size: clamp(2rem, 5vw, 2.9rem);
-  line-height: 1.08;
-  letter-spacing: -.025em;
-  margin: 0 0 1rem;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  margin: 0 0 .75rem;
   text-wrap: balance;
 }
 
 .deck {
   font-size: 1.15rem;
   color: var(--body);
-  margin: 0 0 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--sand-line);
+  margin: 0 0 2.5rem;
+  max-width: 46ch;
   text-wrap: pretty;
 }
 
-.posts { display: grid; gap: 1.25rem; }
+/* ---- the ledger ---------------------------------------------------------- */
+.posts { border-top: 1px solid var(--rule); }
 
 .post {
-  display: block;
-  padding: clamp(1.5rem, 4vw, 1.9rem);
-  background: var(--sand-deep);
-  border-radius: var(--radius-lg);
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0 1.75rem;
+  align-items: start;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--rule);
   text-decoration: none;
-  color: var(--body);
 }
-.post:hover { background: var(--sand-hover); }
+.post time {
+  font-size: .8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: .5rem;
+  white-space: nowrap;
+}
 .post h2 {
+  margin: 0 0 .4rem;
   color: var(--ink);
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  line-height: 1.18;
   letter-spacing: -.02em;
-  line-height: 1.2;
-  margin: 0 0 .5rem;
   text-wrap: balance;
 }
-.post p { margin: 0; text-wrap: pretty; }
-.post .more { display: block; margin-top: .9rem; color: var(--aqua); font-weight: 700; font-size: .9375rem; }
+.post p {
+  margin: 0;
+  color: var(--body);
+  font-size: .9688rem;
+  line-height: 1.6;
+  max-width: 56ch;
+}
+.post:hover h2 { color: var(--brand); }
+.post:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; border-radius: 4px; }
 
-.aside { margin: 1.75rem 0 0; font-size: .9375rem; }
-.aside a { color: var(--aqua); }
+@media (max-width: 640px) {
+  .post { grid-template-columns: 1fr; gap: .35rem; padding: 1.5rem 0; }
+  .post time { padding-top: 0; }
+}
 
+.aside { margin: 2rem 0 0; font-size: .9375rem; color: var(--muted); }
+.aside a { color: var(--brand); }
+
+/* Radius is spent here, on a block that genuinely is its own object, rather
+   than stamped on every element. */
 .end {
   margin: 3rem 0 2rem;
   padding: clamp(1.75rem, 4vw, 2.5rem);
-  background: var(--sand-deep);
-  border-radius: var(--radius-lg);
+  background: var(--paper-2);
+  border-radius: var(--radius);
   text-align: center;
 }
 .end h2 {
+  margin: 0 0 .6rem;
   color: var(--ink);
   font-size: clamp(1.35rem, 3vw, 1.65rem);
   letter-spacing: -.02em;
   line-height: 1.2;
-  margin: 0 0 .9rem;
   text-wrap: balance;
 }
-.end p { max-width: 42ch; margin: 0 auto 1.15rem; }
-.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
-.end a.badge img { height: 52px; width: auto; display: block; }
+.end p { max-width: 42ch; margin: 0 auto; }
+.end .badge { display: inline-block; line-height: 0; margin-top: 1.25rem; }
+.end .badge img { height: 48px; width: auto; display: block; }
 
 footer {
   padding: 2rem 0 3rem;
   text-align: center;
   font-size: .875rem;
   color: var(--muted);
-  border-top: 1px solid var(--sand-line);
+  border-top: 1px solid var(--rule);
 }
-footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--sand-line); }
+footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--rule); }
 footer a:hover { color: var(--ink); }
 
+a { color: var(--brand); }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
 </style>
 </head>
@@ -173,27 +245,35 @@ footer a:hover { color: var(--ink); }
     <div class="posts">
 
       <a class="post" href="/blog/what-to-eat-before-morning-practice/">
-        <h2>What to eat before a morning swim practice</h2>
-        <p>Most swimmers do one of two things at five in the morning. Neither of them puts much fuel in. Here is what is actually in each, and what a two and a half hour session runs on.</p>
-        <span class="more">Read the numbers</span>
+        <time datetime="2026-08-30">30 Aug 2026</time>
+        <span>
+          <h2>What to eat before a morning swim practice</h2>
+          <p>Most swimmers do one of two things at five in the morning. Neither of them puts much fuel in. Here is what is actually in each, and what a two and a half hour session runs on.</p>
+        </span>
       </a>
 
       <a class="post" href="/blog/pushing-peak-vs-cal-ai/">
-        <h2>Pushing Peak and Cal AI, honestly compared</h2>
-        <p>Cal AI logs a meal faster than we do, and its new owner says out loud what the trade is. Here is where that trade costs you, and where it does not.</p>
-        <span class="more">Read the comparison</span>
+        <time datetime="2026-08-30">30 Aug 2026</time>
+        <span>
+          <h2>Pushing Peak and Cal AI, honestly compared</h2>
+          <p>Cal AI logs a meal faster than we do, and its new owner says out loud what the trade is. Here is where that trade costs you, and where it does not.</p>
+        </span>
       </a>
 
       <a class="post" href="/blog/pushing-peak-vs-myfitnesspal/">
-        <h2>Pushing Peak and MyFitnessPal, honestly compared</h2>
-        <p>MyFitnessPal has a food database we cannot match. It was also built for a different job than fueling you around your training. Here is where each one is actually better.</p>
-        <span class="more">Read the comparison</span>
+        <time datetime="2026-08-29">29 Aug 2026</time>
+        <span>
+          <h2>Pushing Peak and MyFitnessPal, honestly compared</h2>
+          <p>MyFitnessPal has a food database we cannot match. It was also built for a different job than fueling you around your training. Here is where each one is actually better.</p>
+        </span>
       </a>
 
       <a class="post" href="/blog/pushing-peak-vs-chatgpt/">
-        <h2>Can ChatGPT plan your fueling?</h2>
-        <p>It answers the question well. It does not hold the plan. Here is where a chat window genuinely helps you, and where it quietly falls over.</p>
-        <span class="more">Read the comparison</span>
+        <time datetime="2026-08-29">29 Aug 2026</time>
+        <span>
+          <h2>Can ChatGPT plan your fueling?</h2>
+          <p>It answers the question well. It does not hold the plan. Here is where a chat window genuinely helps you, and where it quietly falls over.</p>
+        </span>
       </a>
 
     </div>
@@ -210,7 +290,7 @@ footer a:hover { color: var(--ink); }
   </main>
 
   <footer>
-    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
+    <p><a href="/terms">Terms of Service</a> &nbsp;&middot;&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="/support">Support</a></p>
     <p>A product of KILLERUX LLC</p>
   </footer>
 
