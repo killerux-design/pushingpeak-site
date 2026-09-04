@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pushing Peak coaches v2</title>
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   COACHES PAGE V2, DRAFT. Not linked, not in sitemap.xml, noindex. Reachable
+   only by URL. Promote it over /for-coaches/ or delete it; do not let it drift.
+
+   Brief: Kevin wants tiimoapp.com/partnerships/coaches in our own branding, for
+   real outreach to coaches. Same design system as /home-v2/.
+
+   THE OFFER IS REAL AND IT IS THE ONLY ONE ON THE PAGE.
+   A coach's free year ships today: it is comped through the existing team
+   mechanism, no App Store Connect work and no build.
+
+   DELIBERATELY ABSENT, and do not add either without Kevin saying so:
+     - An athlete discount. Tiimo offers 50% off and Kevin wants an equivalent,
+       but it is coming via STRIPE bulk billing, separate from App Store
+       Connect, and it does not exist yet. Describing it now is the claim rule.
+     - Anything about bulk billing, org purchasing, or how a club pays. When
+       that ships, the copy needs real care: SUBMISSION-BANNED-TERMS Category 1
+       exists precisely because organisation-purchase framing in a consumer
+       surface is the Guideline 3.1.3(c) tripwire, and athletes paying outside
+       Apple for in-app functionality is 3.1.1 territory on an app with three
+       prior rejections.
+
+   TIIMO'S OWN WORDING CANNOT BE PORTED. Their offer paragraph, pasted as-is,
+   trips this repo's copy gate EIGHT times: "seats", "invoice", "billed",
+   "subscription price", "unlock", "activate", "license", "redeem your code".
+   The same offer said differently passes clean, which is what is written below.
+   Run check-copy.py before touching this section.
+
+   What was taken from Tiimo: the plain email instructions, saying exactly what
+   to send and what happens next; short headlines with a turn; the neutral
+   system where every grey is the ink colour at alpha; CTA repetition.
+
+   What was not taken: awards, investor logos, testimonial carousel, team
+   portraits. We have none of it, and holes where proof should be are worse
+   than no section.
+
+   The founder-note slot from /for-coaches/ is intentionally not carried over
+   here either. Kevin writes anything in his own voice himself.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;   /* ink 78%, 10.52:1 */
+  --muted:   #06030d9e;   /* ink 62%,  5.79:1 */
+  --rule:    #06030d24;   /* ink 14% */
+  --surface: #06030d0d;   /* ink  5% */
+  --brand:   var(--purple-60);
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--body);
+  background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+.measure { max-width: 40rem; }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 { font-size: clamp(2.3rem, 5.8vw, 3.7rem); line-height: 1.03; letter-spacing: -.035em; margin: 0 0 1.15rem; }
+h2 { font-size: clamp(1.7rem, 4.2vw, 2.4rem); line-height: 1.07; letter-spacing: -.03em; margin: 0 0 1rem; }
+h3 { font-size: 1.125rem; letter-spacing: -.012em; line-height: 1.25; margin: 0 0 .35rem; }
+p { margin: 0 0 1.15rem; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--ink); font-weight: 700; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 10px; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: 1rem; }
+.topbar nav { display: flex; align-items: center; gap: 1.4rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
+
+.cta {
+  display: inline-block; background: var(--ink); color: #fff; text-decoration: none;
+  font-weight: 700; font-size: 1rem; padding: .9rem 1.55rem; border-radius: 999px;
+  line-height: 1.2; white-space: nowrap;
+}
+.cta:hover { background: var(--brand); }
+.cta.small { font-size: .9375rem; padding: .7rem 1.2rem; }
+.cta-note { display: block; margin: .9rem 0 0; font-size: .9375rem; color: var(--muted); }
+
+.hero {
+  display: grid; grid-template-columns: 1fr 16rem; gap: 0 3.5rem; align-items: center;
+  padding: clamp(1.5rem, 5vw, 3rem) 0 clamp(2.5rem, 6vw, 4rem);
+}
+.hero .lede { font-size: clamp(1.1rem, 2.1vw, 1.25rem); max-width: 36ch; margin-bottom: 1.9rem; }
+
+/* The offer. The one filled block on the page, because it genuinely is the
+   thing a coach came to read. */
+.offer {
+  background: var(--surface);
+  border-radius: 34px;
+  padding: clamp(1.9rem, 4.5vw, 3rem);
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+.offer h2 { margin-bottom: .6rem; }
+.offer .measure { margin-bottom: 1.9rem; }
+.send { max-width: 46rem; }
+.send dt { color: var(--ink); font-weight: 700; margin: 1.3rem 0 .15rem; }
+.send dt:first-of-type { margin-top: 0; }
+.send dd { margin: 0; color: var(--muted); max-width: 52ch; }
+.offer .after { margin-top: 1.9rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); max-width: 52ch; }
+
+section { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
+
+.feature { display: grid; grid-template-columns: 1fr 17rem; gap: 0 4rem; align-items: center; }
+.feature.flip { grid-template-columns: 17rem 1fr; }
+.feature.flip .copy { order: 2; }
+.feature.flip .shot { order: 1; }
+.feature .copy p { max-width: 42ch; }
+
+@media (max-width: 800px) {
+  .hero, .feature, .feature.flip { grid-template-columns: 1fr; gap: 2rem 0; }
+  .hero .shot, .feature .shot { max-width: 14rem; }
+  .feature.flip .copy, .feature.flip .shot { order: 0; }
+}
+
+ol.steps { margin: 1.75rem 0 0; padding: 0; list-style: none; counter-reset: step; max-width: 46rem; }
+ol.steps li { counter-increment: step; position: relative; padding-left: 3rem; margin: 0 0 1.3rem; }
+ol.steps li:last-child { margin-bottom: 0; }
+ol.steps li::before {
+  content: counter(step); position: absolute; left: 0; top: .05rem;
+  width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; font-size: .9375rem;
+}
+ol.steps strong { display: block; }
+
+.soon {
+  display: inline-block; padding: .2rem .6rem; border-radius: 999px;
+  background: rgba(139, 38, 213, .12); color: var(--brand);
+  font-size: .8125rem; font-weight: 700; white-space: nowrap;
+}
+.status { margin: -.4rem 0 1.15rem; }
+
+.qa { max-width: 46rem; margin-top: 1.75rem; }
+.qa h3 { padding-top: 1.35rem; border-top: 1px solid var(--rule); }
+.qa > h3:first-child { padding-top: 0; border-top: 0; }
+.qa p { margin-bottom: 1.35rem; max-width: 58ch; color: var(--muted); }
+.qa p:last-child { margin-bottom: 0; }
+
+.close {
+  margin: clamp(2.5rem, 6vw, 4rem) 0 3rem;
+  padding: clamp(2.5rem, 6vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  background: var(--surface); border-radius: 34px; text-align: center;
+}
+.close h2 { margin-bottom: .75rem; }
+.close p { max-width: 42ch; margin: 0 auto 1.6rem; }
+
+footer {
+  padding: 2.25rem 0 3.5rem; border-top: 1px solid var(--rule);
+  font-size: .9375rem; color: var(--muted);
+  display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+}
+footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+footer a { color: var(--body); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/" aria-current="page">For coaches</a>
+      <a class="cta small" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero" style="border-top:0">
+      <div class="copy">
+        <h1>Coach a squad? Your year is on us.</h1>
+        <p class="lede">Pushing Peak plans your athletes' eating around the sessions you actually set. Coaches get a free year, and your club can cover membership for the whole team.</p>
+        <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20coach%20account">Get your free year</a>
+        <span class="cta-note">One email. We reply within two working days.</span>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" decoding="async">
+      </div>
+    </section>
+
+    <div class="offer">
+      <div class="measure">
+        <h2>A free year, for any coach with a squad</h2>
+        <p>No catch and no call. Send us an email and we will set it up by hand.</p>
+      </div>
+      <dl class="send">
+        <dt>Email us from your club address</dt>
+        <dd>kevin@killerux.design. A club or school address helps us confirm you coach where you say you do.</dd>
+
+        <dt>Tell us your club and your sport</dt>
+        <dd>A link to the club works well. Roughly how many athletes you coach is useful too, though it changes nothing about your own year.</dd>
+
+        <dt>Include the address you signed up with</dt>
+        <dd>If you have already made an account, that is the one we apply it to. If you have not, tell us and we will walk you through it.</dd>
+      </dl>
+      <p class="after">That is the whole process. We are a small team and a person reads every message, so you will get an answer rather than a form response.</p>
+    </div>
+
+    <section style="border-top:0;padding-top:0">
+      <div class="measure">
+        <h2>What your athletes actually get</h2>
+        <p>Written for you, about them. This is what opens on their phone at five in the morning.</p>
+      </div>
+    </section>
+
+    <section class="feature" style="padding-top:0;border-top:0">
+      <div class="copy">
+        <h2>The plan is there before they are</h2>
+        <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer to "what do I eat before this session" is already on the screen.</p>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="feature flip">
+      <div class="copy">
+        <h2>Every number opens</h2>
+        <p>An athlete who wants to know why the app asked for something can open it and find the source. That is the part that sticks. They stop asking to be told what to eat and start asking sharper questions.</p>
+      </div>
+      <div class="shot">
+        <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section>
+      <div class="measure">
+        <h2>Getting your squad on it</h2>
+        <p>Nothing to install, and nothing to set up on your side.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>You email us.</strong> Club, sport, and roughly how many athletes.</li>
+        <li><strong>We set the team up and send you an invite code.</strong> One code covers the whole squad.</li>
+        <li><strong>Your athletes open Settings, then Join a Team.</strong> They enter the code and they are in.</li>
+      </ol>
+      <div class="measure" style="margin-top:1.9rem">
+        <p>When your club covers membership, athletes get their access from membership in the organization, so there is nothing for them to buy. When it does not, they hold their own membership and nothing changes for you either way.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="measure">
+        <h2>The coach view</h2>
+        <p class="status"><span class="soon">Coming soon</span></p>
+        <p>One screen for the whole squad. Who has joined, and how your athletes are fueling around the sessions you set, without asking them one at a time. Coaches who set a team up now help shape it and get it first.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="measure">
+        <h2>Questions coaches ask</h2>
+      </div>
+      <div class="qa">
+        <h3>Is the free year really free?</h3>
+        <p>Yes, and there is nothing to cancel afterwards that you did not choose. We apply it by hand to the account you tell us about.</p>
+
+        <h3>What can I see about my athletes right now?</h3>
+        <p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives, athletes will be told exactly what it shows before it shows anything.</p>
+
+        <h3>What if my club cannot cover everyone?</h3>
+        <p>Then those athletes hold their own membership, as they would have anyway. You can cover some of your squad and not others, and the app is identical for both.</p>
+
+        <h3>What happens if an athlete leaves the club?</h3>
+        <p>Their account is theirs. They keep their history and carry on with their own membership. Nothing is deleted because they left your team.</p>
+
+        <h3>Is this only for swimmers?</h3>
+        <p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the one we know best and where we started.</p>
+
+        <h3>What do you do with our data?</h3>
+        <p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+      </div>
+    </section>
+
+    <div class="close">
+      <h2>Get your free year</h2>
+      <p>Send your club, your sport, and the address you signed up with. We will do the rest.</p>
+      <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20coach%20account">Email us about your team</a>
+      <p class="cta-note">We reply within two working days.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/why/">Why we built it</a>
+      <a href="/blog/">Blog</a>
+      <a href="/support">Support</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <span>A product of KILLERUX LLC</span>
+  </footer>
+
+</div>
+</body>
+</html>
