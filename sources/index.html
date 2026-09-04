@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the numbers come from</title>
+<meta name="description" content="Every recommendation Pushing Peak makes, the published source it comes from, and the actual values used. Full references, checkable.">
+<meta property="og:title" content="Where the numbers come from">
+<meta property="og:description" content="Every recommendation Pushing Peak makes, the published source it comes from, and the actual values used.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://pushingpeak.app/sources/">
+<link rel="canonical" href="https://pushingpeak.app/sources/">
+<meta property="og:image" content="https://pushingpeak.app/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pushing Peak, the day view showing training and each meal with its own time window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where the numbers come from">
+<meta name="twitter:description" content="Every recommendation Pushing Peak makes, the published source it comes from, and the actual values used.">
+<meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   pushingpeak.app source page.
+
+   WHY THIS EXISTS. The site's central claim is that every number traces back to
+   a source. That was true of the app and false of the website, which asserted
+   carbohydrate physiology in blog posts and cited nothing anywhere. This page
+   closes that gap.
+
+   GROUND TRUTH is Packages/FuelingEngine/Sources/FuelingEngine/Rules/
+   RULE-TABLE.md in the app repo. Every value below is copied from there, not
+   restated from memory. If the rule table changes, this page is stale and must
+   be updated with it. RULE-TABLE.md is the SME-review artifact and is the only
+   engine file allowed to carry citations.
+
+   WHY THE APP ITSELF SHOWS NO CITATIONS. CitationLeakageTests in the engine
+   FAILS the build if a citation token reaches a user-facing string, per SPEC R7
+   / D-09. That is deliberate: citations inside a consumer app read as clinical
+   authority, which an app that is not a medical device must not claim. This
+   page is the correct home for them instead. Do not "helpfully" push these back
+   into the app.
+
+   EVERY REFERENCE WAS VERIFIED against PubMed, the publisher or the DOI on
+   2026-09-04, not reconstructed from memory. A wrong DOI on a page whose whole
+   purpose is checkability is worse than no page. If you add a reference, verify
+   it the same way.
+
+   Deliberately NOT here: the placement engine. What is published is the
+   evidence base and the values, which come from public literature anyway. How
+   meals are placed, merged, relaxed and capped is the product.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --purple-05:  #f8f3ff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;
+  --muted:   #06030d9e;
+  --rule:    #06030d24;
+  --surface: #06030d0d;
+  --brand:   var(--purple-60);
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; font-family: var(--font); font-size: 18px; font-weight: 500;
+  line-height: 1.65; color: var(--body); background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+a { color: var(--brand); }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.05; letter-spacing: -.032em; margin: 1rem 0 1rem; }
+h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.15; letter-spacing: -.025em; margin: 3rem 0 .9rem; padding-top: 1.6rem; border-top: 1px solid var(--rule); }
+h3 { font-size: 1.0625rem; letter-spacing: -.012em; margin: 1.9rem 0 .5rem; }
+p { margin: 0 0 1.15rem; max-width: 66ch; }
+strong { color: var(--ink); font-weight: 700; }
+
+.deck { font-size: 1.15rem; margin-bottom: 2rem; max-width: 54ch; }
+
+.scope { background: var(--surface); border-radius: 22px; padding: 1.5rem 1.75rem; margin: 0 0 2.5rem; }
+.scope p { font-size: .9688rem; margin-bottom: .8rem; color: var(--muted); }
+.scope p:last-child { margin-bottom: 0; }
+.scope strong { color: var(--ink); }
+
+table { width: 100%; border-collapse: collapse; margin: 1.1rem 0 1.4rem; font-size: .9375rem; display: block; overflow-x: auto; }
+th, td { border-bottom: 1px solid var(--rule); padding: .6rem .8rem .6rem 0; text-align: left; vertical-align: top; white-space: nowrap; }
+th { color: var(--ink); font-weight: 700; font-size: .875rem; }
+td.wrap-cell { white-space: normal; min-width: 16rem; }
+td { font-variant-numeric: tabular-nums; }
+
+.formula {
+  font-family: var(--mono); font-size: .875rem; line-height: 1.7;
+  background: var(--surface); border-radius: 14px;
+  padding: 1rem 1.15rem; margin: 1rem 0 1.4rem; overflow-x: auto;
+  color: var(--ink);
+}
+
+ol.refs { counter-reset: ref; list-style: none; padding: 0; margin: 1.4rem 0 0; }
+ol.refs li {
+  counter-increment: ref; position: relative; padding-left: 2.5rem;
+  margin: 0 0 1.4rem; font-size: .9375rem; max-width: 70ch;
+}
+ol.refs li::before {
+  content: "[" counter(ref) "]"; position: absolute; left: 0; top: 0;
+  color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 700;
+}
+ol.refs .title { color: var(--ink); font-weight: 700; }
+.ref-mark { font-size: .8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+footer {
+  margin-top: 3rem; padding: 2.25rem 0 3.5rem; border-top: 1px solid var(--rule);
+  font-size: .9375rem; color: var(--muted);
+  display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+}
+footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+footer a { color: var(--body); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Where the numbers come from</h1>
+    <p class="deck">Every recommendation the app makes, the published work it comes from, and the actual values used. If you want to check our arithmetic, this page is how.</p>
+
+    <div class="scope">
+      <p><strong>What this app is.</strong> Pushing Peak plans an athlete's eating around their training. It gives general nutrition and training information for healthy athletes aged thirteen and over.</p>
+      <p><strong>What it is not.</strong> It is not a medical device, and it does not diagnose, treat or prevent any condition. It is not built for anyone managing a clinical condition through what they eat, including eating disorders, diabetes and food allergies. If any of that applies to you, talk to a doctor or a registered dietitian, and treat what the app says as information rather than instruction.</p>
+      <p><strong>On the sources below.</strong> These are published, publicly available works. We are not affiliated with, endorsed by, or reviewed by any of their authors or the organisations they belong to. Reading them is how you check us, not evidence that they agree with us.</p>
+    </div>
+
+    <h2>Resting energy</h2>
+    <p>Daily energy starts from a resting metabolic rate estimate. For most athletes the app uses Mifflin-St Jeor <span class="ref-mark">[1]</span>, and cross-checks against Schofield <span class="ref-mark">[2]</span> for the younger age brackets, where Mifflin was not derived.</p>
+    <div class="formula">Mifflin-St Jeor, kcal/day
+male    = (10 x weight kg) + (6.25 x height cm) − (5 x age) + 5
+female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
+    <p>This is a starting anchor for sanity, not the prescription. The day's macros are each prescribed on their own terms and then summed, rather than a total being divided up.</p>
+
+    <h2>Energy from training</h2>
+    <p>Session energy uses MET values from the 2011 Compendium of Physical Activities <span class="ref-mark">[3]</span>, keyed to how hard the session is.</p>
+    <table>
+      <tr><th>Intensity</th><th>Swimming METs</th><th>Compendium code</th><th>Other sports METs</th></tr>
+      <tr><td>Low, warm up or very easy</td><td>5.0</td><td>18320</td><td>3.5</td></tr>
+      <tr><td>Moderate, recreational</td><td>6.0</td><td>18310</td><td>5.0</td></tr>
+      <tr><td>High, training set</td><td>8.3</td><td>18240</td><td>6.5</td></tr>
+      <tr><td>Maximum, race effort</td><td>10.0</td><td>18230</td><td>8.0</td></tr>
+    </table>
+    <p>The swimming values are Compendium entries directly. The values for other sports are a four-step spread around the Compendium's single generic figure, which is our extension rather than something the Compendium states, and it is flagged internally for review.</p>
+
+    <h2>Daily carbohydrate and protein</h2>
+    <p>Targets are grams per kilogram of body weight per day, and they move with how hard the week is. Swimming uses ranges from a swimming-specific review <span class="ref-mark">[4]</span>. Every other sport uses the joint position stand of the Academy of Nutrition and Dietetics, Dietitians of Canada and the American College of Sports Medicine <span class="ref-mark">[5]</span>.</p>
+    <table>
+      <tr><th>Mode</th><th>Swimming CHO</th><th>Swimming protein</th><th>Other sports CHO</th><th>Other sports protein</th></tr>
+      <tr><td>Basic</td><td>4.0 to 5.0 g/kg</td><td>1.2 to 1.4 g/kg</td><td>3.0 to 5.0 g/kg</td><td>1.2 to 1.4 g/kg</td></tr>
+      <tr><td>Performance</td><td>6.0 to 8.0 g/kg</td><td>1.4 to 1.7 g/kg</td><td>5.0 to 8.0 g/kg</td><td>1.4 to 1.7 g/kg</td></tr>
+      <tr><td>Performance max</td><td>8.0 to 12.0 g/kg</td><td>1.7 to 2.0 g/kg</td><td>7.0 to 10.0 g/kg</td><td>1.7 to 2.0 g/kg</td></tr>
+    </table>
+
+    <h2>Timing around a session</h2>
+    <p>Swimming timings come from the same swimming review <span class="ref-mark">[4]</span>. Other sports use the International Society of Sports Nutrition position stand on nutrient timing <span class="ref-mark">[6]</span>.</p>
+    <table>
+      <tr><th>When</th><th>Carbohydrate</th><th>Protein</th><th>Trigger</th></tr>
+      <tr><td>Before, about 60 min out</td><td>0.5 to 1.0 g/kg</td><td>none</td><td class="wrap-cell">every session</td></tr>
+      <tr><td>During</td><td>30 to 60 g/hour</td><td>none</td><td class="wrap-cell">sessions over 60 min</td></tr>
+      <tr><td>During, extended</td><td>60 to 90 g/hour</td><td>none</td><td class="wrap-cell">sessions over 150 min</td></tr>
+      <tr><td>After, within 90 min</td><td class="wrap-cell">1.0 to 1.2 g/kg swimming, 0.5 to 1.2 g/kg other</td><td class="wrap-cell">0.3 g/kg swimming, 0.25 to 0.4 g/kg other</td><td class="wrap-cell">every session</td></tr>
+    </table>
+    <p>The widely repeated "3-2-1 rule" for pre-event eating is not an evidence-based term and the app does not use it. What it uses instead is a continuum of roughly 1 to 4 g/kg across 1 to 4 hours before the session, plus a small easily digested snack inside the last half hour.</p>
+
+    <h2>Fat</h2>
+    <p>Fat is set as a share of the resting energy anchor, and it varies by the kind of day rather than being fixed. Bands are anchored to the Acceptable Macronutrient Distribution Range.</p>
+    <table>
+      <tr><th>Day type</th><th>Male</th><th>Female and other</th></tr>
+      <tr><td>Training day</td><td>22%</td><td>25%</td></tr>
+      <tr><td>Two sessions</td><td>22%</td><td>25%</td></tr>
+      <tr><td>Rest day</td><td>32%</td><td>35%</td></tr>
+    </table>
+    <div class="formula">fat grams = max( band % of resting anchor, 0.8 x weight kg )</div>
+    <p>That floor of 0.8 g/kg is an essential fatty acid backstop. On a low energy day the percentage alone would price fat below what the body needs, so whichever number is larger wins.</p>
+
+    <h2>Fluid</h2>
+    <p>Baseline and replacement figures come from the American College of Sports Medicine position stand on exercise and fluid replacement <span class="ref-mark">[7]</span>.</p>
+    <table>
+      <tr><th>What</th><th>Value</th></tr>
+      <tr><td>Daily baseline</td><td>35 to 40 mL per kg per day</td></tr>
+      <tr><td>Before a session</td><td>250 to 500 mL, about 30 min out</td></tr>
+      <tr><td>During, sessions over 30 min</td><td>150 to 250 mL every 17 min</td></tr>
+      <tr><td>After</td><td>1.5 x estimated sweat loss, within 2 hours</td></tr>
+    </table>
+    <p>Sweat loss is currently a fixed estimate, 700 mL per hour for swimming and 600 mL per hour otherwise, because the app does not yet measure it. That is an assumption, not a measurement, and it is the weakest number on this page.</p>
+
+    <h2>Eating across the day</h2>
+    <p>The app spreads intake across four to six eating occasions and watches the running energy balance through the day rather than only the daily total. Sustained hourly deficits of 300 to 400 kcal trigger a rebalance.</p>
+    <p>That threshold comes from work on within-day energy balance in endurance athletes <span class="ref-mark">[8]</span>, which found that athletes with suppressed resting metabolic rate spent more time in deficit and had larger single-hour deficits, with larger deficits associating with higher cortisol and a lower testosterone to cortisol ratio. Two people can eat the same daily total and be in very different states.</p>
+
+    <h2>Food composition</h2>
+    <p>Values for individual foods come from public food composition databases, chiefly <a href="https://fdc.nal.usda.gov/">USDA FoodData Central</a> and <a href="https://world.openfoodfacts.org/">Open Food Facts</a>. In the app, each item shows which one it came from, and you can correct it when it is wrong. Crowd contributed entries disagree with each other sometimes, which is why the app shows you the source rather than presenting a single confident figure.</p>
+
+    <h2>What is not on this page</h2>
+    <p>How the app decides where meals go, how it merges them when they collide, how it relaxes rules when a day will not fit, and how it caps the tail of a late evening. That is the part we built rather than the part we read, and it stays ours. The values above come from public literature and belong to everyone.</p>
+
+    <h2>References</h2>
+    <p>Verified against PubMed, the publisher or the DOI on 4 September 2026.</p>
+    <ol class="refs">
+      <li><span class="title">Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO.</span> A new predictive equation for resting energy expenditure in healthy individuals. <em>American Journal of Clinical Nutrition</em>. 1990;51(2):241 to 247. <a href="https://doi.org/10.1093/ajcn/51.2.241">doi:10.1093/ajcn/51.2.241</a>. PMID 2305711.</li>
+
+      <li><span class="title">Schofield WN.</span> Predicting basal metabolic rate, new standards and review of previous work. <em>Human Nutrition: Clinical Nutrition</em>. 1985;39 Suppl 1:5 to 41. <a href="https://pubmed.ncbi.nlm.nih.gov/4044297/">PMID 4044297</a>.</li>
+
+      <li><span class="title">Ainsworth BE, Haskell WL, Herrmann SD, et al.</span> 2011 Compendium of Physical Activities: a second update of codes and MET values. <em>Medicine and Science in Sports and Exercise</em>. 2011;43(8):1575 to 1581. <a href="https://doi.org/10.1249/MSS.0b013e31821ece12">doi:10.1249/MSS.0b013e31821ece12</a>. PMID 21681120.</li>
+
+      <li><span class="title">Domínguez R, Sánchez-Oliver AJ, Cuenca E, Jodra P, Fernandes da Silva S, Mata-Ordóñez F.</span> Nutritional needs in the professional practice of swimming: a review. <em>Journal of Exercise Nutrition and Biochemistry</em>. 2017;21(4):1 to 10. <a href="https://doi.org/10.20463/jenb.2017.0030">doi:10.20463/jenb.2017.0030</a>. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5772075/">PMC5772075</a>.</li>
+
+      <li><span class="title">Thomas DT, Erdman KA, Burke LM.</span> Position of the Academy of Nutrition and Dietetics, Dietitians of Canada, and the American College of Sports Medicine: Nutrition and Athletic Performance. <em>Journal of the Academy of Nutrition and Dietetics</em>. 2016;116(3):501 to 528. <a href="https://doi.org/10.1016/j.jand.2015.12.006">doi:10.1016/j.jand.2015.12.006</a>. PMID 26920240. Also published as an ACSM joint position statement in <em>Medicine and Science in Sports and Exercise</em>. 2016;48(3):543 to 568. <a href="https://doi.org/10.1249/MSS.0000000000000852">doi:10.1249/MSS.0000000000000852</a>.</li>
+
+      <li><span class="title">Kerksick CM, Arent S, Schoenfeld BJ, Stout JR, Campbell B, Wilborn CD, et al.</span> International Society of Sports Nutrition position stand: nutrient timing. <em>Journal of the International Society of Sports Nutrition</em>. 2017;14:33. <a href="https://doi.org/10.1186/s12970-017-0189-4">doi:10.1186/s12970-017-0189-4</a>. PMID 28919842.</li>
+
+      <li><span class="title">Sawka MN, Burke LM, Eichner ER, Maughan RJ, Montain SJ, Stachenfeld NS.</span> American College of Sports Medicine position stand: exercise and fluid replacement. <em>Medicine and Science in Sports and Exercise</em>. 2007;39(2):377 to 390. <a href="https://doi.org/10.1249/mss.0b013e31802ca597">doi:10.1249/mss.0b013e31802ca597</a>. PMID 17277604.</li>
+
+      <li><span class="title">Fahrenholtz IL, Sjödin A, Benardot D, et al.</span> Within-day energy deficiency and metabolic perturbation in male endurance athletes. <em>International Journal of Sport Nutrition and Exercise Metabolism</em>. 2018;28(4):419 to 427. <a href="https://doi.org/10.1123/ijsnem.2017-0337">doi:10.1123/ijsnem.2017-0337</a>. PMID 29405793.</li>
+    </ol>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/why/">Why we built it</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+      <a href="/support">Support</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <span>A product of KILLERUX LLC</span>
+  </footer>
+
+</div>
+</body>
+</html>

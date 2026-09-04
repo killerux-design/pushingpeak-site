@@ -36,7 +36,7 @@ import re
 import sys
 
 # Snapshot of the mechanically enforced terms, taken from
-# AthleteTracker/Resources/SUBMISSION-BANNED-TERMS.md on 2026-08-17.
+# AthleteTracker/Resources/SUBMISSION-BANNED-TERMS.md, re-synced 2026-09-04.
 # Used when the app repo is not on this machine. Pass --terms to read the
 # real file instead, which is always the source of truth.
 VENDORED_TERMS = [
@@ -46,7 +46,12 @@ VENDORED_TERMS = [
     r"\bweight loss\b", r"\blose weight\b", r"\bfat loss\b", r"\bdiet\b",
     r"\bdieting\b", r"\bcalorie deficit\b", r"\bslim\b",
     r"\bkid\b", r"\bkids\b", r"\byouth\b", r"\bchild\b", r"\bchildren\b",
-    r"\boptimal meet day\b", r"\bmeet day nutrition\b", r"\bperformance max\b",
+    r"\boptimal meet day\b", r"\bmeet day nutrition\b",
+    # NOT r"\bperformance max\b". The real list moved it to ### Watch: it is a
+    # legitimate feature name, banned only inside a claim sentence, and a neutral
+    # UI or table label is fine. This snapshot banned it mechanically and produced
+    # a false failure on /sources/, where it labels a mode in a table. Re-snapshot
+    # from the real file rather than editing this list by hand where possible.
 ]
 
 # Capabilities that do not ship. Reported, not failed: see the note above.
