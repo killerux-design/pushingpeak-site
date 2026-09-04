@@ -204,11 +204,32 @@ strong { color: var(--ink); font-weight: 700; }
 
 /* ---- faq ---------------------------------------------------------------- */
 .faq { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
-.faq .qa { max-width: 46rem; margin-top: 1.75rem; }
-.faq h3 { padding-top: 1.35rem; border-top: 1px solid var(--rule); }
-.faq .qa > h3:first-child { padding-top: 0; border-top: 0; }
-.faq p { margin-bottom: 1.35rem; max-width: 58ch; color: var(--muted); }
-.faq p:last-child { margin-bottom: 0; }
+/* Accordion on native details/summary. No JavaScript, and it keeps keyboard
+   support, screen reader semantics and find-in-page for free. */
+.faq .qa { max-width: 46rem; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq summary {
+  list-style: none; cursor: pointer; position: relative;
+  padding: 1.15rem 2.75rem 1.15rem 0;
+  color: var(--ink); font-weight: 700; font-size: 1.0625rem;
+  line-height: 1.35; letter-spacing: -.012em;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before,
+.faq summary::after {
+  content: ""; position: absolute; right: .35rem; top: 50%;
+  background: var(--muted); border-radius: 1px;
+}
+.faq summary::before { width: 13px; height: 2px; transform: translateY(-50%); }
+.faq summary::after  { width: 2px; height: 13px; transform: translate(5.5px, -50%); transition: opacity .18s ease; }
+.faq details[open] summary::after { opacity: 0; }
+.faq summary:hover { color: var(--brand); }
+.faq summary:hover::before, .faq summary:hover::after { background: var(--brand); }
+.faq summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 6px; }
+.faq .body { padding: 0 2.75rem 1.35rem 0; max-width: 58ch; color: var(--muted); }
+.faq .body p { margin-bottom: .9rem; }
+.faq .body p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .faq summary::after { transition: none; } }
 
 /* ---- closing ------------------------------------------------------------ */
 .close {
@@ -317,20 +338,30 @@ footer a:hover { color: var(--ink); }
         <h2>Questions worth asking</h2>
       </div>
       <div class="qa">
-        <h3>How is this different from a calorie tracker?</h3>
-        <p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p>
+                <details>
+          <summary>How is this different from a calorie tracker?</summary>
+          <div class="body"><p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p></div>
+        </details>
 
-        <h3>Which sports is it for?</h3>
-        <p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p>
+                <details>
+          <summary>Which sports is it for?</summary>
+          <div class="body"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
+        </details>
 
-        <h3>Where do the numbers come from?</h3>
-        <p>Public food databases, and the app shows you which one and lets you correct it. Nothing is a black box you have to trust.</p>
+                <details>
+          <summary>Where do the numbers come from?</summary>
+          <div class="body"><p>Public food databases, and the app shows you which one and lets you correct it. Nothing is a black box you have to trust.</p></div>
+        </details>
 
-        <h3>What do you do with my data?</h3>
-        <p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+                <details>
+          <summary>What do you do with my data?</summary>
+          <div class="body"><p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
+        </details>
 
-        <h3>My club or coach covers my membership. How do I join?</h3>
-        <p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p>
+                <details>
+          <summary>My club or coach covers my membership. How do I join?</summary>
+          <div class="body"><p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p></div>
+        </details>
       </div>
     </section>
 

@@ -175,11 +175,39 @@ ol.steps strong { display: block; }
 }
 .status { margin: -.4rem 0 1.15rem; }
 
-.qa { max-width: 46rem; margin-top: 1.75rem; }
-.qa h3 { padding-top: 1.35rem; border-top: 1px solid var(--rule); }
-.qa > h3:first-child { padding-top: 0; border-top: 0; }
-.qa p { margin-bottom: 1.35rem; max-width: 58ch; color: var(--muted); }
-.qa p:last-child { margin-bottom: 0; }
+/* Accordion on native <details>. Tiimo's is Webflow JavaScript; this needs
+   none, and gets keyboard support, screen reader semantics and find-in-page
+   for free. Ctrl+F finds text inside a closed panel in Chrome and Safari. */
+.qa { max-width: 46rem; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
+.qa details { border-bottom: 1px solid var(--rule); }
+.qa summary {
+  list-style: none; cursor: pointer; position: relative;
+  padding: 1.15rem 2.75rem 1.15rem 0;
+  color: var(--ink); font-weight: 700; font-size: 1.0625rem;
+  line-height: 1.35; letter-spacing: -.012em;
+}
+.qa summary::-webkit-details-marker { display: none; }
+/* A plus that loses its upright to become a minus. Drawn, not an icon. */
+.qa summary::before,
+.qa summary::after {
+  content: ""; position: absolute; right: .35rem; top: 50%;
+  background: var(--muted); border-radius: 1px;
+}
+.qa summary::before { width: 13px; height: 2px; transform: translateY(-50%); }
+.qa summary::after  { width: 2px; height: 13px; transform: translate(5.5px, -50%); transition: opacity .18s ease; }
+.qa details[open] summary::after { opacity: 0; }
+.qa summary:hover { color: var(--brand); }
+.qa summary:hover::before, .qa summary:hover::after { background: var(--brand); }
+.qa summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 6px; }
+.qa .body { padding: 0 2.75rem 1.35rem 0; max-width: 58ch; color: var(--muted); }
+.qa .body p { margin-bottom: .9rem; }
+.qa .body p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .qa summary::after { transition: none; } }
+
+/* ---- what the coach gets back ---- */
+.gives { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.9rem 2.5rem; margin-top: 2.25rem; }
+.gives h3 { margin-bottom: .4rem; }
+.gives p { font-size: .9688rem; margin: 0; color: var(--muted); }
 
 .close {
   margin: clamp(2.5rem, 6vw, 4rem) 0 3rem;
@@ -278,6 +306,31 @@ footer a:hover { color: var(--ink); }
 
     <section>
       <div class="measure">
+        <h2>What it gives you back</h2>
+        <p>You are a coach, not a dietitian, and the questions arrive anyway.</p>
+      </div>
+      <div class="gives">
+        <div>
+          <h3>The questions stop coming to you</h3>
+          <p>You have answered "what should I eat before practice" a hundred times, between sets, one athlete at a time. Now there is somewhere that answers it at five in the morning, when you are not there.</p>
+        </div>
+        <div>
+          <h3>It stays inside your lane</h3>
+          <p>Nutrition sits outside most coaching qualifications, and being asked anyway puts you in an awkward spot. Every number here traces back to a published source your athletes can open, so you are pointing at evidence instead of improvising.</p>
+        </div>
+        <div>
+          <h3>They start asking better questions</h3>
+          <p>Once an athlete understands why a heavy breakfast sits badly before a hard morning, the questions change shape. That is the part that outlasts a season, and it is the part you wanted to teach anyway.</p>
+        </div>
+        <div>
+          <h3>Nothing lands on your plate</h3>
+          <p>No dashboard to keep up with, no admin, no software to run. You send one email and your athletes are in.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="measure">
         <h2>Getting your squad on it</h2>
         <p>Nothing to install, and nothing to set up on your side.</p>
       </div>
@@ -304,23 +357,35 @@ footer a:hover { color: var(--ink); }
         <h2>Questions coaches ask</h2>
       </div>
       <div class="qa">
-        <h3>Is the free year really free?</h3>
-        <p>Yes, and there is nothing to cancel afterwards that you did not choose. We apply it by hand to the account you tell us about.</p>
+                <details>
+          <summary>Is the free year really free?</summary>
+          <div class="body"><p>Yes, and there is nothing to cancel afterwards that you did not choose. We apply it by hand to the account you tell us about.</p></div>
+        </details>
 
-        <h3>What can I see about my athletes right now?</h3>
-        <p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives, athletes will be told exactly what it shows before it shows anything.</p>
+                <details>
+          <summary>What can I see about my athletes right now?</summary>
+          <div class="body"><p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives, athletes will be told exactly what it shows before it shows anything.</p></div>
+        </details>
 
-        <h3>What if my club cannot cover everyone?</h3>
-        <p>Then those athletes hold their own membership, as they would have anyway. You can cover some of your squad and not others, and the app is identical for both.</p>
+                <details>
+          <summary>What if my club cannot cover everyone?</summary>
+          <div class="body"><p>Then those athletes hold their own membership, as they would have anyway. You can cover some of your squad and not others, and the app is identical for both.</p></div>
+        </details>
 
-        <h3>What happens if an athlete leaves the club?</h3>
-        <p>Their account is theirs. They keep their history and carry on with their own membership. Nothing is deleted because they left your team.</p>
+                <details>
+          <summary>What happens if an athlete leaves the club?</summary>
+          <div class="body"><p>Their account is theirs. They keep their history and carry on with their own membership. Nothing is deleted because they left your team.</p></div>
+        </details>
 
-        <h3>Is this only for swimmers?</h3>
-        <p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the one we know best and where we started.</p>
+                <details>
+          <summary>Is this only for swimmers?</summary>
+          <div class="body"><p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the one we know best and where we started.</p></div>
+        </details>
 
-        <h3>What do you do with our data?</h3>
-        <p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p>
+                <details>
+          <summary>What do you do with our data?</summary>
+          <div class="body"><p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
+        </details>
       </div>
     </section>
 
