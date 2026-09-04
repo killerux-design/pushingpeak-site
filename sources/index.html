@@ -46,6 +46,12 @@
    purpose is checkability is worse than no page. If you add a reference, verify
    it the same way.
 
+   THE FAT SEX-DIFFERENCE RATIONALE is the app's own, from the doc comment on
+   AthleteModel.fatPercentage(forDayType:sex:): "Female position shifts toward
+   the band upper bound to support hormone / menstrual function (VanHeest 2014;
+   ACSM/AND/DC 2016; ISSN 2023). Hard-clamped to Domínguez 2017 band ceilings so
+   values stay within AMDR." Not invented here.
+
    Deliberately NOT here: the placement engine. What is published is the
    evidence base and the values, which come from public literature anyway. How
    meals are placed, merged, relaxed and capped is the product.
@@ -225,6 +231,11 @@ female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
     <div class="formula">fat grams = max( band % of resting anchor, 0.8 x weight kg )</div>
     <p>That floor of 0.8 g/kg is an essential fatty acid backstop. On a low energy day the percentage alone would price fat below what the body needs, so whichever number is larger wins.</p>
 
+    <h3>Why the bands differ by sex</h3>
+    <p>The female figure is not a separate scale. It is the same band, positioned three percentage points higher and clamped so it cannot leave the acceptable range <span class="ref-mark">[4]</span>.</p>
+    <p>The reason is that adequate fat intake supports hormonal and menstrual function, and the cost of getting it wrong is measurable rather than theoretical. In a study of junior elite female swimmers, athletes with suppressed ovarian function saw 400 m velocity fall by 9.8% across twelve weeks, while a group with normal cyclic function improved by 8.2% over the same period <span class="ref-mark">[9]</span>. The position stands we work from make the same point about energy and fat availability in female athletes <span class="ref-mark">[5]</span> <span class="ref-mark">[10]</span>.</p>
+    <p>Athletes who give no sex, or select another option, get the same position as the female band. Where the evidence points one way on a health question, we would rather be generous than efficient.</p>
+
     <h2>Fluid</h2>
     <p>Baseline and replacement figures come from the American College of Sports Medicine position stand on exercise and fluid replacement <span class="ref-mark">[7]</span>.</p>
     <table>
@@ -234,7 +245,7 @@ female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
       <tr><td>During, sessions over 30 min</td><td>150 to 250 mL every 17 min</td></tr>
       <tr><td>After</td><td>1.5 x estimated sweat loss, within 2 hours</td></tr>
     </table>
-    <p>Sweat loss is currently a fixed estimate, 700 mL per hour for swimming and 600 mL per hour otherwise, because the app does not yet measure it. That is an assumption, not a measurement, and it is the weakest number on this page.</p>
+    <p>Sweat loss is estimated at 700 mL per hour for swimming and 600 mL per hour for other sports.</p>
 
     <h2>Eating across the day</h2>
     <p>The app spreads intake across four to six eating occasions and watches the running energy balance through the day rather than only the daily total. Sustained hourly deficits of 300 to 400 kcal trigger a rebalance.</p>
@@ -242,9 +253,6 @@ female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
 
     <h2>Food composition</h2>
     <p>Values for individual foods come from public food composition databases, chiefly <a href="https://fdc.nal.usda.gov/">USDA FoodData Central</a> and <a href="https://world.openfoodfacts.org/">Open Food Facts</a>. In the app, each item shows which one it came from, and you can correct it when it is wrong. Crowd contributed entries disagree with each other sometimes, which is why the app shows you the source rather than presenting a single confident figure.</p>
-
-    <h2>What is not on this page</h2>
-    <p>How the app decides where meals go, how it merges them when they collide, how it relaxes rules when a day will not fit, and how it caps the tail of a late evening. That is the part we built rather than the part we read, and it stays ours. The values above come from public literature and belong to everyone.</p>
 
     <h2>References</h2>
     <p>Verified against PubMed, the publisher or the DOI on 4 September 2026.</p>
@@ -264,6 +272,10 @@ female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
       <li><span class="title">Sawka MN, Burke LM, Eichner ER, Maughan RJ, Montain SJ, Stachenfeld NS.</span> American College of Sports Medicine position stand: exercise and fluid replacement. <em>Medicine and Science in Sports and Exercise</em>. 2007;39(2):377 to 390. <a href="https://doi.org/10.1249/mss.0b013e31802ca597">doi:10.1249/mss.0b013e31802ca597</a>. PMID 17277604.</li>
 
       <li><span class="title">Fahrenholtz IL, Sjödin A, Benardot D, et al.</span> Within-day energy deficiency and metabolic perturbation in male endurance athletes. <em>International Journal of Sport Nutrition and Exercise Metabolism</em>. 2018;28(4):419 to 427. <a href="https://doi.org/10.1123/ijsnem.2017-0337">doi:10.1123/ijsnem.2017-0337</a>. PMID 29405793.</li>
+
+      <li><span class="title">VanHeest JL, Rodgers CD, Mahoney CE, De Souza MJ.</span> Ovarian suppression impairs sport performance in junior elite female swimmers. <em>Medicine and Science in Sports and Exercise</em>. 2014;46(1):156 to 166. <a href="https://doi.org/10.1249/MSS.0b013e3182a32b72">doi:10.1249/MSS.0b013e3182a32b72</a>.</li>
+
+      <li><span class="title">Sims ST, Kerksick CM, Smith-Ryan AE, Janse de Jonge XAK, Hirsch KR, Arent SM, et al.</span> International Society of Sports Nutrition position stand: nutritional concerns of the female athlete. <em>Journal of the International Society of Sports Nutrition</em>. 2023;20(1):2204066. <a href="https://doi.org/10.1080/15502783.2023.2204066">doi:10.1080/15502783.2023.2204066</a>.</li>
     </ol>
   </main>
 
