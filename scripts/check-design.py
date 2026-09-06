@@ -60,8 +60,6 @@ FAIL = [
      "glassmorphism."),
     (r"font-family:[^;}]*\b(Inter|Space Grotesk|Instrument Serif)\b",
      "the default generated typeface set. This site has Sailec."),
-    (r"linear-gradient\([^)]*\b(purple|violet|indigo|#[89ab][0-9a-f]{5})\b[^)]*\)",
-     "purple gradient. The single most parodied generated-design move."),
 ]
 
 # --------------------------------------------------------------------------
@@ -79,7 +77,8 @@ REVIEW = [
      "an element parked invisible. If a scroll observer reveals it, that is "
      "fade-in-on-scroll, and the page has nothing in its first frame."),
     (r"linear-gradient|radial-gradient",
-     "a gradient. Check it is carrying meaning."),
+     "a gradient. Check it is carrying meaning rather than decorating. A single "
+     "hue fading to transparent, used to separate a region, is legitimate."),
     (r"<(h[1-4])[^>]*>[^<]*<(em|span|i|b)\b",
      "an inline accent inside a heading. Colouring or italicising one phrase "
      "of a headline is a tell. Let the whole heading carry itself."),
@@ -88,6 +87,72 @@ REVIEW = [
      "the same border-radius on three or more blocks. One radius stamped on "
      "everything flattens hierarchy; spend radius by role."),
 ]
+
+
+# --------------------------------------------------------------------------
+# Gradients need counting, not matching, so this is a function rather than a
+# regex in FAIL. The tell is a wash BETWEEN TWO COLOURS (the purple-to-blue
+# hero). One hue fading to transparent is how real sites separate a region and
+# is not the same thing. An earlier version of this rule was a regex that fired
+# on the word "purple" inside a token NAME, which is evidence of nothing, and
+# the version after that was an unparseable mess that crashed the gate. A
+# crashing gate is worse than a wrong one.
+# --------------------------------------------------------------------------
+GRADIENT = re.compile(r"(?:linear|radial)-gradient\(", re.I)
+TRANSPARENT = re.compile(
+    r"\btransparent\b|rgba?\([^()]*,\s*0(?:\.0+)?\s*\)|#[0-9a-fA-F]{6}00\b", re.I)
+COLOURISH = re.compile(
+    r"#[0-9a-fA-F]{3,8}|\brgba?\(|\bvar\(--|"
+    r"\b(?:purple|violet|indigo|blue|pink|fuchsia|magenta|teal|cyan|green|orange|red|yellow)\b",
+    re.I)
+
+
+def _gradient_body(src, open_idx):
+    """Return the text inside a gradient's parens, brace-matched."""
+    depth, i = 0, open_idx
+    while i < len(src):
+        if src[i] == "(":
+            depth += 1
+        elif src[i] == ")":
+            depth -= 1
+            if depth == 0:
+                return src[open_idx + 1:i]
+        i += 1
+    return ""
+
+
+def _split_stops(body):
+    """Split on top-level commas only; rgba() has commas of its own."""
+    out, depth, cur = [], 0, ""
+    for ch in body:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if ch == "," and depth == 0:
+            out.append(cur); cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur)
+    return out
+
+
+def gradient_findings(src):
+    """FAIL only when two or more stops carry an actual colour."""
+    hits = []
+    for m in GRADIENT.finditer(src):
+        body = _gradient_body(src, m.end() - 1)
+        stops = _split_stops(body)
+        chromatic = [st for st in stops
+                     if COLOURISH.search(st) and not TRANSPARENT.search(st)]
+        if len(chromatic) >= 2:
+            line = src[:m.start()].count("\n") + 1
+            hits.append((line, re.sub(r"\s+", " ", m.group(0) + body)[:70],
+                         "a gradient between two colours. The purple-to-blue "
+                         "wash is the most parodied generated-design move. One "
+                         "hue fading to transparent is not the same thing."))
+    return hits
 
 EMOJI = re.compile(
     r"[\U0001F300-\U0001FAFF☀-➿️]"
@@ -150,7 +215,7 @@ def main():
     for page in pages:
         src = open(page, encoding="utf-8").read()
 
-        page_fails = scan(src, FAIL)
+        page_fails = scan(src, FAIL) + gradient_findings(src)
         page_reviews = scan(src, REVIEW)
 
         # Dashes, entities included. The check-copy.py blind spot.

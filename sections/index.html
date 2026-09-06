@@ -230,6 +230,101 @@ a { color: var(--brand); }
   .mt-media { max-width: 22rem; justify-self: start; padding: 1.75rem; }
 }
 
+
+/* ===========================================================================
+   PATTERN 2: site-footer. Figma 1541:12217.
+
+   Node values: 82.5px top / 140px bottom padding, 42px between blocks, mark at
+   120px, tagline serif 29.4/33.9, description 16.9/27 at ink 75% capped
+   607.5px, columns 181.67px wide, headings 18/28.8 semibold, links 15/24 at
+   ink 75%, bottom bar 54px on ink 10% with 12px text.
+
+   FOUR COLUMNS, NOT SIX. Tiimo runs Product, Resources, Partnerships, Social,
+   Help, and a CTA pair. Against real pages we can fill: Product 0 of 5 (no
+   feature pages exist), Resources partial, Partnerships 1 of 2, Social 0 (no
+   accounts), Help 1 of 5. Building six columns would mean five of them holding
+   one link or a dead one. Every link below goes somewhere real; the rest are in
+   .planning/site-map-and-future-pages.md and get added as they ship.
+
+   NO LOGIN, NO WEB APP. Tiimo's CTA column is "Start on desktop" plus "Login".
+   Ours is the App Store button alone, by Kevin. Do not add a login.
+
+   NO COOKIE POLICY LINK. Tiimo has one; we set no cookies and ship no analytics,
+   so there is nothing to disclose. Adding the link would imply otherwise.
+
+   Their gradient is a purple wash rising from the lower left with a noise
+   texture over it. The wash is reproduced; the noise is a Tiimo asset and is
+   not. Their hand illustration is likewise theirs, so ours uses the mark.
+   =========================================================================== */
+
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: 5rem;
+  padding: 82px 0 0;
+  background:
+    linear-gradient(-20deg, var(--purple-20) 8%, rgba(228, 207, 250, 0) 58%),
+    var(--ground);
+}
+.site-footer .foot-top { display: flex; flex-direction: column; gap: 42px; padding-bottom: 3.5rem; }
+.site-footer .mark img { width: auto; height: 68px; }
+
+.foot-say h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 3vw, 1.8375rem);
+  line-height: 1.153;
+  letter-spacing: -.01em;
+  margin: 0 0 .6rem;
+}
+.foot-say p { margin: 0; max-width: 38rem; font-size: 1.0563rem; line-height: 1.6; color: var(--body); }
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.1fr);
+  gap: 2rem 1.5rem;
+  align-items: start;
+}
+.foot-cols h3 {
+  font-family: var(--font);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 .35rem;
+}
+.foot-cols ul { list-style: none; margin: 0; padding: 0; }
+.foot-cols li { margin: 0; }
+.foot-cols a {
+  display: inline-block;
+  padding: 3px 0;
+  font-size: .9375rem;
+  line-height: 1.6;
+  color: var(--body);
+  text-decoration: none;
+}
+.foot-cols a:hover { color: var(--ink); text-decoration: underline; }
+.foot-get .store { display: inline-block; line-height: 0; margin-top: .35rem; }
+.foot-get .store img { height: 44px; width: auto; }
+
+.foot-bar {
+  background: var(--rule);
+  padding: 12px 0;
+  font-size: .75rem;
+  line-height: 2;
+  color: var(--body);
+}
+.foot-bar .inner { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: center; }
+.foot-bar nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.foot-bar a { color: var(--body); text-decoration: underline; }
+.foot-bar a:hover { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+  .site-footer { padding-top: 3.5rem; }
+}
+
 /* ---- library chrome, not part of any pattern ---------------------------- */
 .lib-head { padding: 3rem 0 1rem; }
 .lib-head h1 { font-family: var(--display); font-weight: 400; color: var(--ink); font-size: clamp(2rem,5vw,2.9rem); line-height: 1.1; letter-spacing: -.012em; margin: 0 0 .75rem; }
@@ -295,6 +390,77 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     Not a public page. Patterns only, on the app's own design tokens.
   </footer>
 
-</div>
+  <p class="lib-label"><b>site-footer</b> &nbsp; Figma 1541:12217 &nbsp; &nbsp; four columns, because four is what we can fill honestly</p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="mark">
+          <img src="/img/pp-logo.svg" width="68" height="68" alt="" decoding="async">
+        </div>
+
+        <div class="foot-say">
+          <h2>Fueling that knows your day</h2>
+          <p>Pushing Peak plans your eating around the training you actually do. Every meal gets its own time window and its own targets, and every number traces back to a published source.</p>
+        </div>
+
+        <div class="foot-cols">
+          <div>
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/why/">Why we built it</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/sources/">Where the numbers come from</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Compared</h3>
+            <ul>
+              <li><a href="/blog/pushing-peak-vs-myfitnesspal/">Against MyFitnessPal</a></li>
+              <li><a href="/blog/pushing-peak-vs-cal-ai/">Against Cal AI</a></li>
+              <li><a href="/blog/pushing-peak-vs-chatgpt/">Against ChatGPT</a></li>
+              <li><a href="/blog/what-to-eat-before-morning-practice/">Before morning practice</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Coaches</h3>
+            <ul>
+              <li><a href="/for-coaches/">For coaches and teams</a></li>
+              <li><a href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Help</h3>
+            <ul>
+              <li><a href="/support/">Support</a></li>
+              <li><a href="mailto:kevin@killerux.design">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-get">
+            <h3>Get the app</h3>
+            <a class="store" href="https://apps.apple.com/app/id6753684222">
+              <img src="/img/app-store-badge.svg" width="132" height="44" alt="Download on the App Store">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <div class="wrap inner">
+        <span>&copy; 2026 KILLERUX LLC</span>
+        <nav>
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
