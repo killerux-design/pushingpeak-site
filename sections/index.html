@@ -413,6 +413,68 @@ a { color: var(--brand); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-top: 1.5rem; }
 .btn-note { margin: .75rem 0 0; font-size: .875rem; color: var(--muted); }
 
+
+/* ===========================================================================
+   PATTERN 4: faq. Figma 1541:12699.
+
+   Node values: white card at radius 16, each row padded 28, question Semibold
+   18/27 in #3c3d49, chevron 24px. No rules between rows; the padding separates
+   them, which is why the card reads as one object rather than a list.
+
+   NATIVE <details>/<summary>, no JavaScript. Keyboard support, screen reader
+   semantics and find-in-page come free, and Ctrl+F reaches text inside a closed
+   panel in Chrome and Safari, which a JS accordion breaks.
+
+   THE CHEVRON IS OURS, NOT THEIRS. The node's caret is a Tiimo asset and is not
+   used. img/chevron-down.png is the app's own ChevronDown, copied from
+   AthleteTracker/Assets.xcassets/ChevronDown.imageset at @3x (72px, rendered at
+   24). It is a PNG because that asset is PNG-only, unlike most of the app's
+   icons, so it CANNOT inherit colour from CSS. If an SVG is added it should
+   replace this and take currentColor. Rotation to the open state is a CSS
+   transform, which works on either.
+   =========================================================================== */
+
+.faq-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* No rules between rows. The node has none and neither does the reference:
+   28px of padding does the separating, which is what makes the card read as one
+   object rather than a list of five. Do not add dividers back. */
+.faq-card summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 28px;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+}
+.faq-card summary::-webkit-details-marker { display: none; }
+.faq-card summary:hover { color: var(--brand); }
+.faq-card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; border-radius: 12px; }
+.faq-card .chev {
+  flex: 0 0 auto;
+  width: 24px; height: 24px;
+  margin-top: .15rem;
+  transition: transform .18s ease;
+}
+.faq-card details[open] .chev { transform: rotate(180deg); }
+.faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
+.faq-card .answer p { margin: 0 0 .9rem; }
+.faq-card .answer p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .faq-card .chev { transition: none; } }
+@media (max-width: 560px) {
+  .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
+  .faq-card .answer { padding: 0 20px 20px; }
+}
+
 /* ---- library chrome, not part of any pattern ---------------------------- */
 .lib-head { padding: 3rem 0 1rem; }
 .lib-head h1 { font-family: var(--display); font-weight: 400; color: var(--ink); font-size: clamp(2rem,5vw,2.9rem); line-height: 1.1; letter-spacing: -.012em; margin: 0 0 .75rem; }
@@ -498,6 +560,32 @@ a { color: var(--brand); }
   </div>
   <p class="btn-note">outline, same sizes. White fill, border and lip #e3e6e7. Note the buttons align on the cap, not the lip.</p>
 
+
+
+  <p class="lib-label"><b>faq</b> &nbsp; Figma 1541:12699 &nbsp; &nbsp; native details, our chevron</p>
+
+  <div class="faq-card">
+      <details open>
+        <summary>What does Pushing Peak cost?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <div class="answer"><p>Seven ninety nine a month or forty nine ninety nine a year, and some clubs cover it for their athletes. The <a href="/pricing/">pricing page</a> has the detail.</p></div>
+      </details>
+      <details>
+        <summary>Is there a free version?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <div class="answer"><p>No, and we would rather say that plainly than ship a hobbled one. Downloading is free, so you can see what you are deciding about before you decide.</p></div>
+      </details>
+      <details>
+        <summary>Where do the numbers come from?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <div class="answer"><p>Published sports nutrition literature, and we list every source with the values we take from it. <a href="/sources/">Where the numbers come from</a>.</p></div>
+      </details>
+      <details>
+        <summary>Which sports is it for?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
+      </details>
+      <details>
+        <summary>My club covers my membership. How do I join?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <div class="answer"><p>Ask for your team's invite code, then open Settings and Join a Team. Your access comes from membership in the organization, so there is nothing for you to buy.</p></div>
+      </details>
+  </div>
 
   <p class="lib-label"><b>site-footer</b> &nbsp; Figma 1541:12217 &nbsp; &nbsp; four columns, because four is what we can fill honestly</p>
   </div>
