@@ -108,6 +108,7 @@
   --purple-10:  #f2e8ff;
   --purple-20:  #e4cfff;
   --purple-60:  #8b26d5;
+  --purple-80:  #5c0593;
   --purple-100: #06030d;
   --gray-60:    #646b6c;
   --gray-70:    #4c5353;
@@ -296,6 +297,30 @@ footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid v
 footer a:hover { color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+
+/* peak-btn, the app's canonical button. Chunky lip: border and lip are one
+   colour, and the cap sinks onto the lip on press. See /sections/. */
+.peak-btn {
+  --lip: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box; height: 50px; padding: 0 20px;
+  border: 3px solid; border-radius: 20px;
+  font-family: var(--font); font-weight: 700; font-size: 1.125rem; line-height: 1;
+  text-decoration: none; white-space: nowrap; margin-bottom: var(--lip);
+  transition: transform .07s ease, box-shadow .07s ease;
+}
+.peak-btn.sm { --lip: 2px; height: 30px; padding: 0 12px; border-radius: 12px; font-size: .875rem; }
+.peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
+.peak-btn.primary {
+  background: var(--purple-60); border-color: var(--purple-80); color: var(--purple-05);
+  box-shadow: 0 var(--lip) 0 0 var(--purple-80);
+}
+.peak-btn.outline {
+  background: #ffffff; border-color: #e3e6e7; color: #080909;
+  box-shadow: 0 var(--lip) 0 0 #e3e6e7;
+}
+.peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
 </style>
 </head>
 <body>
@@ -307,7 +332,8 @@ footer a:hover { color: var(--ink); }
       <span>Pushing Peak</span>
     </a>
     <nav>
-      <a href="/why/">Why</a>
+      <a href="/sources/">Sources</a>
+      <a href="/pricing/">Pricing</a>
       <a href="/blog/">Blog</a>
       <a href="/for-coaches/" aria-current="page">For coaches</a>
     </nav>
@@ -319,7 +345,7 @@ footer a:hover { color: var(--ink); }
       <div class="copy">
         <h1>Fuel your whole squad, not one athlete at a time</h1>
         <p class="deck">You have given the same fueling talk a hundred times, on the deck, between sets. Pushing Peak gives every athlete on your team a plan built around the training you actually set.</p>
-        <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+        <a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
         <span class="cta-note">Clubs can cover membership. Athletes join with a code. We reply within two working days.</span>
       </div>
       <div class="shot">
@@ -386,7 +412,7 @@ footer a:hover { color: var(--ink); }
           <dt>Sunday, rest</dt>
           <dd>Fewer calories, and protein held where it was. This is the day athletes get wrong most often, usually by eating like it was a training day or by eating almost nothing.</dd>
         </dl>
-        <p style="margin-top:1.75rem"><a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></p>
+        <p style="margin-top:1.75rem"><a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></p>
       </div>
     </section>
 
@@ -445,7 +471,7 @@ footer a:hover { color: var(--ink); }
     <div class="end">
       <h2>Get your team started</h2>
       <p>Send us your club, your sport, and roughly how many athletes you have. We will set the team up and send your invite code.</p>
-      <a class="cta" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+      <a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
       <p class="also">We reply within two working days. Want to look at it yourself first? <a href="https://apps.apple.com/app/id6753684222">Get the app</a> and set up your own week.</p>
     </div>
 

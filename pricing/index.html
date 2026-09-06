@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Pushing Peak costs</title>
+<meta name="description" content="One membership, 7.99 a month or 49.99 a year. Some clubs cover it for their athletes. No tiers, no add ons, and no free plan pretending to be one.">
+<meta property="og:title" content="What Pushing Peak costs">
+<meta property="og:description" content="One membership, 7.99 a month or 49.99 a year. Some clubs cover it for their athletes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pushingpeak.app/pricing/">
+<link rel="canonical" href="https://pushingpeak.app/pricing/">
+<meta property="og:image" content="https://pushingpeak.app/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pushing Peak, the day view showing training and each meal with its own time window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What Pushing Peak costs">
+<meta name="twitter:description" content="One membership, 7.99 a month or 49.99 a year.">
+<meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   pushingpeak.app pricing.
+
+   WHY IT EXISTS. The largest hole on the site: the app has a paywall and
+   nowhere said what it costs. An absent price reads as evasion, not simplicity.
+
+   THE NUMBERS ARE AUTHORITATIVE. They are lifted from the App Store listing's
+   own MEMBERSHIP paragraph, which has been through App Review:
+     "Pushing Peak Premium costs $7.99 per month or $49.99 per year. Some clubs
+      and coaches cover their athletes' membership. If yours does, ask your coach
+      for a code. For athletes 13 and older."
+   Verified live via the iTunes lookup API on 2026-09-06. If pricing changes in
+   App Store Connect, this page is stale the same day. Do not edit the figures
+   here without changing them there first.
+
+   THERE IS NO FREE TIER, and the page says so rather than implying one. The app
+   is gated: AthleteTrackerApp.swift, `hasAccess: comped/covered membership;
+   default FALSE = gate`. So there are no plans to compare and no tier table.
+
+   VOCABULARY IS GATED, and this page is Category 1's home ground. Guideline
+   3.1.3(c): "subscription price", "billed", "seats", "invoice", "per-athlete"
+   must never appear. Say "costs", "membership", "per month", "per year", which
+   is what the approved App Store paragraph says. Anything about a club paying
+   stays on /for-coaches/ and stays in the /support/ framing.
+
+   THE COACH FREE YEAR IS DELIBERATELY NOT HERE. It is a real offer, but the
+   live /for-coaches/ does not mention it yet (only the /coaches-v2/ draft does),
+   and a pricing page announcing an offer the coaches page does not carry would
+   be inconsistent. Add it here when that draft is promoted.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-60:  #8b26d5;
+  --purple-80:  #5c0593;
+  --purple-100: #06030d;
+
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;
+  --muted:   #06030d9e;
+  --rule:    #06030d24;
+  --surface: #06030d0d;
+  --brand:   var(--purple-60);
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; font-family: var(--font); font-size: 18px; font-weight: 500;
+  line-height: 1.65; color: var(--body); background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.05; letter-spacing: -.032em; margin: 1rem 0 1rem; }
+h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); line-height: 1.16; letter-spacing: -.022em; margin: 2.75rem 0 .6rem; }
+h3 { font-size: 1.0625rem; margin: 0 0 .3rem; }
+p { margin: 0 0 1.15rem; max-width: 62ch; }
+strong { color: var(--ink); font-weight: 700; }
+
+.deck { font-size: 1.15rem; margin-bottom: 2rem; max-width: 48ch; }
+
+/* The two ways to pay, side by side. Deliberately not a tier table: there are
+   no tiers, only a billing period. */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0 0 1.25rem; }
+.plan { background: var(--surface); border-radius: 22px; padding: 1.5rem 1.6rem; }
+.plan .period { font-size: .9375rem; color: var(--muted); margin: 0 0 .35rem; }
+.plan .fig {
+  font-size: clamp(2rem, 5.5vw, 2.6rem); font-weight: 700; color: var(--ink);
+  letter-spacing: -.03em; line-height: 1; margin: 0 0 .4rem;
+  font-variant-numeric: tabular-nums;
+}
+.plan .fig span { font-size: .9375rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.plan .note { font-size: .875rem; color: var(--muted); margin: 0; }
+.after-plans { font-size: .9375rem; color: var(--muted); }
+
+.covered { background: var(--purple-10); border-radius: 22px; padding: 1.6rem 1.75rem; margin: 2.5rem 0 0; }
+.covered h2 { margin: 0 0 .5rem; font-size: 1.3rem; }
+.covered p { margin: 0 0 .9rem; }
+.covered p:last-child { margin-bottom: 0; }
+
+.qa { margin-top: .5rem; border-top: 1px solid var(--rule); }
+.qa details { border-bottom: 1px solid var(--rule); }
+.qa summary {
+  list-style: none; cursor: pointer; position: relative;
+  padding: 1.15rem 2.75rem 1.15rem 0;
+  color: var(--ink); font-weight: 700; font-size: 1.0625rem; line-height: 1.35;
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::before, .qa summary::after {
+  content: ""; position: absolute; right: .35rem; top: 50%;
+  background: var(--muted); border-radius: 1px;
+}
+.qa summary::before { width: 13px; height: 2px; transform: translateY(-50%); }
+.qa summary::after { width: 2px; height: 13px; transform: translate(5.5px, -50%); transition: opacity .18s ease; }
+.qa details[open] summary::after { opacity: 0; }
+.qa summary:hover { color: var(--brand); }
+.qa summary:hover::before, .qa summary:hover::after { background: var(--brand); }
+.qa summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 6px; }
+.qa .body { padding: 0 2.75rem 1.35rem 0; max-width: 58ch; color: var(--muted); }
+.qa .body p { margin-bottom: .9rem; }
+.qa .body p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .qa summary::after { transition: none; } }
+
+/* peak-btn, the app's canonical button. See /sections/. */
+.peak-btn {
+  --lip: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box; height: 50px; padding: 0 20px;
+  border: 3px solid; border-radius: 20px;
+  font-family: var(--font); font-weight: 700; font-size: 1.125rem; line-height: 1;
+  text-decoration: none; white-space: nowrap; margin-bottom: var(--lip);
+  transition: transform .07s ease, box-shadow .07s ease;
+}
+.peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
+.peak-btn.primary {
+  background: var(--purple-60); border-color: var(--purple-80); color: var(--purple-05);
+  box-shadow: 0 var(--lip) 0 0 var(--purple-80);
+}
+.peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
+
+.end { margin: 3rem 0 2rem; text-align: center; }
+.end p { max-width: 42ch; margin: 0 auto 1.25rem; }
+
+footer {
+  margin-top: 2rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--rule);
+  font-size: .9375rem; color: var(--muted);
+  display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+}
+footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+footer a { color: var(--body); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+@media (max-width: 560px) { .plans { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/sources/">Sources</a>
+      <a href="/pricing/" aria-current="page">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>What it costs</h1>
+    <p class="deck">One membership. No tiers, no add ons, and no free plan built to be annoying enough that you upgrade.</p>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="period">Monthly</p>
+        <p class="fig">$7.99 <span>/ month</span></p>
+        <p class="note">Cancel whenever you like.</p>
+      </div>
+      <div class="plan">
+        <p class="period">Yearly</p>
+        <p class="fig">$49.99 <span>/ year</span></p>
+        <p class="note">About $4.17 a month, a little under half the monthly rate.</p>
+      </div>
+    </div>
+    <p class="after-plans">Handled by Apple, like any other App Store membership. Prices shown are US dollars; Apple converts for other regions.</p>
+
+    <div class="covered">
+      <h2>If your club covers it, you pay nothing</h2>
+      <p>Some clubs and coaches cover membership for their athletes. If yours does, ask for your team's invite code, then open Settings and Join a Team. Your access comes from membership in the organization, so there is nothing for you to buy.</p>
+      <p><a href="/for-coaches/">More for coaches and teams</a></p>
+    </div>
+
+    <h2>Questions</h2>
+    <div class="qa">
+      <details>
+        <summary>Is there a free version?</summary>
+        <div class="body"><p>No, and we would rather say that plainly than ship a hobbled one. The app needs a membership, or a club covering it. Downloading is free, so you can see what you are deciding about before you decide.</p></div>
+      </details>
+      <details>
+        <summary>What do I get for it?</summary>
+        <div class="body"><p>All of it. Every meal with its own time window and targets, the day rebuilding around the training you add, food you can describe in your own words, and <a href="/sources/">every number traceable to published work</a>. There is nothing held back for a higher tier, because there is no higher tier.</p></div>
+      </details>
+      <details>
+        <summary>How do I cancel?</summary>
+        <div class="body"><p>In the app, open Settings and then Manage Subscription, which opens Apple's own screen. You can also reach it from the Settings app on your device under your Apple Account. Cancelling stops the next renewal and access continues to the end of the period you have already paid for.</p></div>
+      </details>
+      <details>
+        <summary>What happens to my history if I stop?</summary>
+        <div class="body"><p>It stays. Your account and your data are yours, and stopping a membership does not delete either. If you want the account itself removed, <a href="/support/">Support</a> explains how, and that one is permanent.</p></div>
+      </details>
+      <details>
+        <summary>Who is it for?</summary>
+        <div class="body"><p>Athletes aged thirteen and over, in any sport with a training schedule. It is built around fuelling performance rather than changing your weight, which is a deliberate choice and shapes everything the app recommends.</p></div>
+      </details>
+    </div>
+
+    <div class="end">
+      <p>Download it, put your week in, and see what the day actually asks for.</p>
+      <a class="peak-btn primary" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/why/">Why we built it</a>
+      <a href="/blog/">Blog</a>
+      <a href="/compare/">Compared</a>
+      <a href="/sources/">Sources</a>
+      <a href="/for-coaches/">For coaches</a>
+      <a href="/support">Support</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <span>A product of KILLERUX LLC</span>
+  </footer>
+
+</div>
+</body>
+</html>
