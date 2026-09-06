@@ -21,17 +21,30 @@
    file 4lU5NseMBOYGOhWgCyB9ao, nodes 1541:12531 (media right) and
    1541:12546 (media left). Values below are the node's, not eyeballed:
 
-     grid-template-columns  minmax(0,1.1fr) minmax(0,1fr)   text column wider
+     grid-template-columns  1.1fr 1fr  text left   |  1fr 1.1fr  media left
      gap                    80px
-     align-items            end            copy sits on the media's baseline
+     align-items            end        (Tiimo ships three: stretch, end, center)
      media                  aspect 1/1, radius 16px
      inner media            radius 8px, shadow 0 2px 5px rgba(0,0,0,.2)
      copy stack gap         24px
-     copy padding           32px top, 20px bottom
+     copy margin            32px top, 20px bottom
      headline               ~51px / 59.33px  = 1.16 line-height, serif
      body                   16.9px / 27px    = 1.6 line-height, ink at 75%
      button                 outlined pill, 2px border, radius 150px,
                             padding 15px 22.5px, 15px semibold
+
+   BOTTOM ALIGNMENT IS THE DEFAULT because both nodes Kevin supplied are
+   `self-end`. `.align-center` is available for variety.
+
+   READ THIS BEFORE EDITING THE GRID. Tiimo swaps the COLUMN WIDTHS per variant:
+       .media-text-inner              grid-template-columns: 1fr 1.1fr
+       .media-text-inner.align-bottom grid-template-columns: 1.1fr 1fr
+       .media-text-inner.align-center grid-template-columns: 1.1fr 1fr
+   The first version of this file kept one column pair and moved the children
+   between columns instead. That put the SQUARE media in the 1.1fr column in the
+   flipped variant, so its height grew with its width and the section overflowed
+   the page. The media always takes the narrower 1fr column. Do not "simplify"
+   this back to one column pair.
 
    TWO DELIBERATE DEPARTURES FROM THE FIGMA NODE:
 
@@ -111,6 +124,8 @@ a { color: var(--brand); }
      </section>
    =========================================================================== */
 
+/* THE COLUMN WIDTHS SWAP WITH THE VARIANT, not just which child sits where.
+   See the note at the top of this file. The media always takes the 1fr column. */
 .media-text {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -118,20 +133,35 @@ a { color: var(--brand); }
   align-items: end;
   padding-bottom: 20px;
 }
+/* BOTH CHILDREN MUST BE PINNED TO ROW 1. Copy is first in the DOM; in the
+   flipped variant it takes column 2, which moves grid's placement cursor past
+   column 1, and sparse auto-placement never backtracks, so the media dropped
+   into a second row. That is why the flipped section rendered with the text
+   top-right and the media far below it. Pinning the row fixes it and costs
+   nothing in the default variant. */
+.media-text .mt-copy,
+.media-text .mt-media { grid-row: 1; }
 
-.media-text .mt-copy {
-  grid-column: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 24px;
-  padding: 32px 0 20px;
-}
+.media-text .mt-copy  { grid-column: 1; }
 .media-text .mt-media { grid-column: 2; }
 
-/* The counterpart. Same component, columns swapped. */
-.media-text.media-left .mt-copy  { grid-column: 2; }
+.media-text.media-left {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
 .media-text.media-left .mt-media { grid-column: 1; }
+.media-text.media-left .mt-copy  { grid-column: 2; }
+
+/* Copy is first in the DOM in both variants, so a screen reader and the mobile
+   stack both get the heading before the picture. */
+.media-text .mt-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 32px 0 20px;
+}
+
+/* Tiimo's other alignment, for breaking a run of bottom-aligned sections. */
+.media-text.align-center { align-items: center; }
 
 .media-text h2 {
   font-family: var(--display);
@@ -180,7 +210,7 @@ a { color: var(--brand); }
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 2.5rem;
+  padding: 1.75rem;
 }
 .mt-media img {
   max-height: 100%;
@@ -196,7 +226,7 @@ a { color: var(--brand); }
   .media-text .mt-media,
   .media-text.media-left .mt-copy,
   .media-text.media-left .mt-media { grid-column: 1; }
-  .media-text .mt-copy { padding: 0; }
+  .media-text .mt-copy { margin: 0; }
   .mt-media { max-width: 22rem; justify-self: start; padding: 1.75rem; }
 }
 
@@ -248,9 +278,9 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     </div>
   </section>
 
-  <p class="lib-label"><b>media-text</b> &nbsp; three in a row, to check the rhythm holds</p>
+  <p class="lib-label"><b>media-text.align-center</b> &nbsp; the other alignment</p>
 
-  <section class="media-text">
+  <section class="media-text align-center">
     <div class="mt-copy">
       <h2>The plan is there before you are</h2>
       <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer is on the screen when the alarm goes.</p>
