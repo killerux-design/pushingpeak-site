@@ -426,12 +426,14 @@ a { color: var(--brand); }
    panel in Chrome and Safari, which a JS accordion breaks.
 
    THE CHEVRON IS OURS, NOT THEIRS. The node's caret is a Tiimo asset and is not
-   used. img/chevron-down.png is the app's own ChevronDown, copied from
-   AthleteTracker/Assets.xcassets/ChevronDown.imageset at @3x (72px, rendered at
-   24). It is a PNG because that asset is PNG-only, unlike most of the app's
-   icons, so it CANNOT inherit colour from CSS. If an SVG is added it should
-   replace this and take currentColor. Rotation to the open state is a CSS
-   transform, which works on either.
+   used. img/chevron-down.svg is the app's own ChevronDown, supplied by Kevin,
+   with its hardcoded #080909 fill changed to currentColor so a shipped asset
+   does not carry a colour decision.
+
+   IT IS APPLIED AS A MASK, NOT AN <img>. An <img> cannot take currentColor, so
+   it would be locked to its exported colour and would not follow the text on
+   hover. As a mask the element's background shows through the glyph's alpha, so
+   one asset serves every colour. Rotation to the open state is a transform.
    =========================================================================== */
 
 .faq-card {
@@ -459,10 +461,17 @@ a { color: var(--brand); }
 .faq-card summary::-webkit-details-marker { display: none; }
 .faq-card summary:hover { color: var(--brand); }
 .faq-card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; border-radius: 12px; }
+/* The chevron is a MASK, not an <img>. An <img> cannot take currentColor, so a
+   PNG or a hex-filled SVG is locked to whatever colour it was exported at. As a
+   mask the element's own background shows through the glyph's alpha, so it
+   inherits the summary's colour and follows it on hover. */
 .faq-card .chev {
   flex: 0 0 auto;
   width: 24px; height: 24px;
   margin-top: .15rem;
+  background: currentColor;
+  -webkit-mask: url("/img/chevron-down.svg") center / contain no-repeat;
+          mask: url("/img/chevron-down.svg") center / contain no-repeat;
   transition: transform .18s ease;
 }
 .faq-card details[open] .chev { transform: rotate(180deg); }
@@ -566,23 +575,23 @@ a { color: var(--brand); }
 
   <div class="faq-card">
       <details open>
-        <summary>What does Pushing Peak cost?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <summary>What does Pushing Peak cost?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Seven ninety nine a month or forty nine ninety nine a year, and some clubs cover it for their athletes. The <a href="/pricing/">pricing page</a> has the detail.</p></div>
       </details>
       <details>
-        <summary>Is there a free version?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <summary>Is there a free version?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>No, and we would rather say that plainly than ship a hobbled one. Downloading is free, so you can see what you are deciding about before you decide.</p></div>
       </details>
       <details>
-        <summary>Where do the numbers come from?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <summary>Where do the numbers come from?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Published sports nutrition literature, and we list every source with the values we take from it. <a href="/sources/">Where the numbers come from</a>.</p></div>
       </details>
       <details>
-        <summary>Which sports is it for?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <summary>Which sports is it for?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
       </details>
       <details>
-        <summary>My club covers my membership. How do I join?<img class="chev" src="/img/chevron-down.png" width="24" height="24" alt="" decoding="async"></summary>
+        <summary>My club covers my membership. How do I join?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Ask for your team's invite code, then open Settings and Join a Team. Your access comes from membership in the organization, so there is nothing for you to buy.</p></div>
       </details>
   </div>
