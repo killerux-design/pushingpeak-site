@@ -375,12 +375,29 @@ strong { color: var(--ink); font-weight: 700; }
 }
 .faq-card details[open]::details-content { block-size: auto; }
 
+/* The content is revealed, not just uncovered. Without this the box grows but
+   the text is fully opaque from the first frame, which reads as a pop rather
+   than an opening: the only thing actually animating that the eye follows is
+   the chevron. The panel clips (overflow: hidden above) while the text fades
+   and lifts the last few pixels into place.
+
+   The fade is shorter than the box, so the text has finished arriving slightly
+   before the panel stops moving. Matching them makes the whole thing feel slow. */
+.faq-card .answer {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .18s ease-out, transform .28s cubic-bezier(.4, 0, .2, 1);
+}
+.faq-card details[open] .answer { opacity: 1; transform: none; }
+
 .faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
 .faq-card .answer p { margin: 0 0 .9rem; }
 .faq-card .answer p:last-child { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .faq-card .chev { transition: none; }
+  .faq-card .chev,
+  .faq-card .answer,
   .faq-card details::details-content { transition: none; }
+  .faq-card .answer { opacity: 1; transform: none; }
 }
 @media (max-width: 560px) {
   .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
