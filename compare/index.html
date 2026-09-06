@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pushing Peak compared with the apps you have tried</title>
+<meta name="description" content="Honest comparisons with MyFitnessPal, Cal AI and ChatGPT, including where each of them beats us. Written by us, which is why we say so.">
+<meta property="og:title" content="Pushing Peak compared with the apps you have tried">
+<meta property="og:description" content="Honest comparisons with MyFitnessPal, Cal AI and ChatGPT, including where each of them beats us.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pushingpeak.app/compare/">
+<link rel="canonical" href="https://pushingpeak.app/compare/">
+<meta property="og:image" content="https://pushingpeak.app/img/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pushing Peak, the day view showing training and each meal with its own time window">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pushing Peak compared with the apps you have tried">
+<meta name="twitter:description" content="Honest comparisons with MyFitnessPal, Cal AI and ChatGPT, including where each of them beats us.">
+<meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   pushingpeak.app comparison hub.
+
+   WHY IT EXISTS. Three separate research passes independently said a site like
+   this should have one: the org-page research, the Tiimo teardown, and
+   amyfoodjournal.com, which runs /vs as a hub with /vs/myfitnesspal and
+   /vs/cronometer beneath it. The comparison posts are the best
+   objection-handling material on this site and until now they lived only inside
+   the blog ledger, with nothing linking them as a set.
+
+   DESIGN SYSTEM: matches /sources/, which is the current live standard. Ground
+   purple-05, every neutral the ink colour at alpha, Sailec throughout. NOT the
+   serif from /sections/ and the v2 drafts: that is still an open decision and
+   this page should not become a third visual variant while it is pending.
+
+   THE CONCESSIONS ARE THE POINT. Every row names something the other app does
+   better, in its own column, first. That is the reason these posts work and the
+   reason anyone trusts the verdict at the end. If a future edit softens a
+   concession to make us look better, it has removed the only thing that made
+   the page worth reading. The concessions here are lifted from the posts
+   themselves, not re-invented.
+
+   No competitor logos. Using their marks to decorate our comparison is both a
+   trademark question and the kind of thing that reads as picking a fight.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;   /* ink 78% */
+  --muted:   #06030d9e;   /* ink 62% */
+  --rule:    #06030d24;   /* ink 14% */
+  --surface: #06030d0d;   /* ink  5% */
+  --brand:   var(--purple-60);
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; font-family: var(--font); font-size: 18px; font-weight: 500;
+  line-height: 1.65; color: var(--body); background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.05; letter-spacing: -.032em; margin: 1rem 0 1rem; }
+h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); line-height: 1.15; letter-spacing: -.022em; margin: 0 0 .5rem; }
+p { margin: 0 0 1.15rem; max-width: 62ch; }
+strong { color: var(--ink); font-weight: 700; }
+
+.deck { font-size: 1.15rem; margin-bottom: 1.5rem; max-width: 50ch; }
+
+.stance {
+  background: var(--surface); border-radius: 22px;
+  padding: 1.5rem 1.75rem; margin: 0 0 3rem;
+}
+.stance p { font-size: .9688rem; margin-bottom: .8rem; color: var(--muted); }
+.stance p:last-child { margin-bottom: 0; }
+.stance strong { color: var(--ink); }
+
+/* One row per comparison. The concession sits above the verdict, deliberately,
+   because it is what makes the verdict worth anything. */
+.rows { border-top: 1px solid var(--rule); }
+.row { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+.row h2 a { color: var(--ink); text-decoration: none; }
+.row h2 a:hover { color: var(--brand); }
+.row .give, .row .keep { margin: 0; max-width: 60ch; }
+/* The concession. Carried by type alone: a bold lead-in and a muted tone are
+   enough to separate it from the verdict. It was briefly a left-bordered block,
+   which is the repeated-side-border tell already removed from /for-coaches/,
+   and the gate caught it. Do not put the border back. */
+.row .give {
+  font-size: .9375rem; color: var(--muted);
+  margin: .9rem 0;
+}
+.row .give b { color: var(--ink); font-weight: 700; }
+.row .more { display: inline-block; margin-top: .9rem; font-size: .9375rem; }
+
+.end {
+  margin: 3rem 0 2rem; padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--purple-10); border-radius: 28px; text-align: center;
+}
+.end h2 { margin: 0 0 .6rem; }
+.end p { max-width: 44ch; margin: 0 auto 1.25rem; }
+.end .badge { display: inline-block; line-height: 0; }
+.end .badge img { height: 48px; width: auto; }
+
+footer {
+  margin-top: 2rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--rule);
+  font-size: .9375rem; color: var(--muted);
+  display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap;
+}
+footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+footer a { color: var(--body); text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/why/">Why</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Compared with the apps you have already tried</h1>
+    <p class="deck">Most people arriving here have used at least one of these. So rather than pretend they are bad, here is what each one is genuinely better at, and where we think the trade stops being worth it.</p>
+
+    <div class="stance">
+      <p><strong>We wrote all of these, so read them accordingly.</strong> We are not a neutral party and we are not going to pretend otherwise.</p>
+      <p>What we can do is be accurate. Every comparison below names what the other app does better before it says anything about us, and none of them are strawmen: MyFitnessPal, Cal AI and ChatGPT are all genuinely good at what they were built for. If you read one and conclude the other app suits you better, that is a fine outcome and we would rather you find that out now.</p>
+    </div>
+
+    <div class="rows">
+
+      <div class="row">
+        <h2><a href="/blog/pushing-peak-vs-myfitnesspal/">Pushing Peak and MyFitnessPal</a></h2>
+        <p class="give"><b>Where they win.</b> A food database we cannot match, built over fifteen years of people typing in what they ate. For finding a specific brand at a specific supermarket, it beats us most days.</p>
+        <p class="keep">It was built to record a day. This was built to plan one. That difference shows up at five in the morning, when a ledger can tell you what you ate yesterday but not what this session needs.</p>
+        <a class="more" href="/blog/pushing-peak-vs-myfitnesspal/">Read the comparison</a>
+      </div>
+
+      <div class="row">
+        <h2><a href="/blog/pushing-peak-vs-cal-ai/">Pushing Peak and Cal AI</a></h2>
+        <p class="give"><b>Where they win.</b> Logging a meal is faster. Photograph it and move on, which is the reason most people who quit food logging would not have quit.</p>
+        <p class="keep">The trade is what the number is worth once it is in. Ours comes back as items you can open, check against a published source and correct. Theirs is an estimate from an image.</p>
+        <a class="more" href="/blog/pushing-peak-vs-cal-ai/">Read the comparison</a>
+      </div>
+
+      <div class="row">
+        <h2><a href="/blog/pushing-peak-vs-chatgpt/">Pushing Peak and ChatGPT</a></h2>
+        <p class="give"><b>Where they win.</b> Understanding. It will explain why carbohydrate timing matters, go as deep as you want, and never make you feel silly for asking. Use it for that.</p>
+        <p class="keep">It answers the question and then forgets it. It does not hold the plan, it will not be there on Thursday, and it does not know what you did on Tuesday.</p>
+        <a class="more" href="/blog/pushing-peak-vs-chatgpt/">Read the comparison</a>
+      </div>
+
+    </div>
+
+    <p style="margin-top:2rem">Not a comparison, but the one people ask for next: <a href="/blog/what-to-eat-before-morning-practice/">what to actually eat before a morning session</a>. And if you want to check our arithmetic rather than take a verdict on trust, <a href="/sources/">every number we use traces back to published work</a>.</p>
+
+    <div class="end">
+      <h2>See it on your own week</h2>
+      <p>Put your training in and look at what the day asks for. That is a faster answer than any comparison.</p>
+      <a class="badge" href="https://apps.apple.com/app/id6753684222">
+        <img src="/img/app-store-badge.svg" width="132" height="48" alt="Download on the App Store">
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/why/">Why we built it</a>
+      <a href="/blog/">Blog</a>
+      <a href="/sources/">Sources</a>
+      <a href="/for-coaches/">For coaches</a>
+      <a href="/support">Support</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+    <span>A product of KILLERUX LLC</span>
+  </footer>
+
+</div>
+</body>
+</html>
