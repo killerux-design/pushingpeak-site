@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Section Library</title>
+<link rel="icon" href="/img/appicon.png" type="image/png">
+<style>
+/* ---------------------------------------------------------------------------
+   SECTION LIBRARY. Not linked, not in sitemap.xml, noindex. A working reference
+   for the section patterns pages are built from, so a pattern is defined once
+   and lifted rather than re-invented per page.
+
+   This site has no build step, so a "component" here is a documented block of
+   CSS plus its markup shape. Copy both. If you change a pattern, change it here
+   first and say which pages carry it.
+
+   ---------------------------------------------------------------------------
+   PATTERN 1: media-text. Implemented from Figma
+   file 4lU5NseMBOYGOhWgCyB9ao, nodes 1541:12531 (media right) and
+   1541:12546 (media left). Values below are the node's, not eyeballed:
+
+     grid-template-columns  minmax(0,1.1fr) minmax(0,1fr)   text column wider
+     gap                    80px
+     align-items            end            copy sits on the media's baseline
+     media                  aspect 1/1, radius 16px
+     inner media            radius 8px, shadow 0 2px 5px rgba(0,0,0,.2)
+     copy stack gap         24px
+     copy padding           32px top, 20px bottom
+     headline               ~51px / 59.33px  = 1.16 line-height, serif
+     body                   16.9px / 27px    = 1.6 line-height, ink at 75%
+     button                 outlined pill, 2px border, radius 150px,
+                            padding 15px 22.5px, 15px semibold
+
+   TWO DELIBERATE DEPARTURES FROM THE FIGMA NODE:
+
+   1. The node's images are TIIMO'S OWN marketing assets, pulled in when the
+      page was imported as a layout reference. They are Tiimo's copyright and
+      must never ship here. The media slot takes our screenshots instead, on a
+      purple-10 panel, which also does the job the research identified: a tinted
+      page ground needs a true white object on it to read as a colour rather
+      than as dirty off-white, and our app chrome is white.
+
+   2. `mix-blend-multiply` is dropped. It is a Webflow artifact that made their
+      media panel sit on their warm ground; on ours it just darkens.
+
+   THE HEADLINE IS A SERIF, and that is the point of the pattern. Figma reports
+   Georgia because the file falls back to it; Tiimo's real stack is
+   "Recoleta Regular, Georgia, sans-serif". `--display` is a single token so a
+   licensed serif is a one-line swap when one is chosen. Until then it resolves
+   to a system serif, which costs nothing to load and is what the Figma node
+   actually rendered.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-60:  #8b26d5;
+  --purple-100: #06030d;
+
+  --ground:  var(--purple-05);
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;   /* ink 78% */
+  --muted:   #06030d9e;   /* ink 62% */
+  --rule:    #06030d24;   /* ink 14% */
+  --surface: #06030d0d;   /* ink  5% */
+  --brand:   var(--purple-60);
+
+  --font:    "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Swap this one line for a licensed display serif. It must be self-hosted:
+     this site takes no CDN fonts. */
+  --display: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0; font-family: var(--font); font-size: 18px; font-weight: 500;
+  line-height: 1.65; color: var(--body); background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ===========================================================================
+   PATTERN: media-text
+   Markup:
+     <section class="media-text">            add .media-left to flip
+       <div class="mt-copy">
+         <h2>…</h2>
+         <p>…</p>
+         <a class="pill" href="…">…</a>
+       </div>
+       <div class="mt-media"><img …></div>
+     </section>
+   =========================================================================== */
+
+.media-text {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: end;
+  padding-bottom: 20px;
+}
+
+.media-text .mt-copy {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 32px 0 20px;
+}
+.media-text .mt-media { grid-column: 2; }
+
+/* The counterpart. Same component, columns swapped. */
+.media-text.media-left .mt-copy  { grid-column: 2; }
+.media-text.media-left .mt-media { grid-column: 1; }
+
+.media-text h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  line-height: 1.16;
+  letter-spacing: -.012em;
+  margin: 0;
+  text-wrap: balance;
+}
+.media-text .mt-copy > p {
+  margin: 0;
+  font-size: 1.0563rem;
+  line-height: 1.6;
+  color: var(--body);
+  max-width: 46ch;
+}
+
+/* Outlined pill. The node uses a 2px border and no fill, which is what keeps
+   these sections quiet enough to repeat down a page. */
+.pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+  border-radius: 150px;
+  padding: 15px 22.5px;
+  font-size: .9375rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  background: none;
+}
+.pill:hover { background: var(--ink); color: #fff; }
+
+/* Square media panel. Our screenshots are tall, so the panel holds them rather
+   than being them: purple-10 ground, screenshot centred and inset. */
+.mt-media {
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: var(--purple-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2.5rem;
+}
+.mt-media img {
+  max-height: 100%;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 860px) {
+  .media-text,
+  .media-text.media-left { grid-template-columns: 1fr; gap: 2rem; }
+  .media-text .mt-copy,
+  .media-text .mt-media,
+  .media-text.media-left .mt-copy,
+  .media-text.media-left .mt-media { grid-column: 1; }
+  .media-text .mt-copy { padding: 0; }
+  .mt-media { max-width: 22rem; justify-self: start; padding: 1.75rem; }
+}
+
+/* ---- library chrome, not part of any pattern ---------------------------- */
+.lib-head { padding: 3rem 0 1rem; }
+.lib-head h1 { font-family: var(--display); font-weight: 400; color: var(--ink); font-size: clamp(2rem,5vw,2.9rem); line-height: 1.1; letter-spacing: -.012em; margin: 0 0 .75rem; }
+.lib-head p { margin: 0; max-width: 60ch; color: var(--muted); }
+.lib-label {
+  margin: 3.5rem 0 .5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule);
+  font-size: .8125rem; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.lib-label b { color: var(--ink); font-weight: 700; }
+footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--rule); font-size: .9375rem; color: var(--muted); }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="lib-head">
+    <h1>Section library</h1>
+    <p>Patterns that pages are built from, shown with real content. Change a pattern here first, then say which pages carry it.</p>
+  </header>
+
+  <p class="lib-label"><b>media-text</b> &nbsp; default, media right &nbsp; &nbsp; Figma 1541:12531</p>
+
+  <section class="media-text">
+    <div class="mt-copy">
+      <h2>Your training drives the day</h2>
+      <p>A rest day and a two session day are not the same day, so they should not carry the same plan. Put the week in and the food follows it, without you doing the arithmetic.</p>
+      <a class="pill" href="/blog/what-to-eat-before-morning-practice/">See it on a real morning</a>
+    </div>
+    <div class="mt-media">
+      <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" decoding="async">
+    </div>
+  </section>
+
+  <p class="lib-label"><b>media-text.media-left</b> &nbsp; the counterpart &nbsp; &nbsp; Figma 1541:12546</p>
+
+  <section class="media-text media-left">
+    <div class="mt-copy">
+      <h2>Every number opens</h2>
+      <p>Describe a meal the way you would say it out loud and it comes back as items you can check. Every value traces to a published source, and we list all of them rather than asking you to take our word for it.</p>
+      <a class="pill" href="/sources/">Where the numbers come from</a>
+    </div>
+    <div class="mt-media">
+      <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+    </div>
+  </section>
+
+  <p class="lib-label"><b>media-text</b> &nbsp; three in a row, to check the rhythm holds</p>
+
+  <section class="media-text">
+    <div class="mt-copy">
+      <h2>The plan is there before you are</h2>
+      <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer is on the screen when the alarm goes.</p>
+      <a class="pill" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    </div>
+    <div class="mt-media">
+      <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
+    </div>
+  </section>
+
+  <footer>
+    Not a public page. Patterns only, on the app's own design tokens.
+  </footer>
+
+</div>
+</body>
+</html>
