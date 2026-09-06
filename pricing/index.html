@@ -235,6 +235,16 @@ strong { color: var(--ink); font-weight: 700; }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
 
+
+/* ONE OPEN AT A TIME, with no JavaScript. Every <details> in the card shares
+   name="faq", which makes them an exclusive group: opening one closes its
+   siblings. Native since Chrome 120, Safari 17.2 and Firefox 130.
+
+   Browsers without it simply allow several open at once, which is the old
+   behaviour rather than a broken one, so there is nothing to polyfill.
+
+   Keep the name unique per group if a page ever carries two accordions, or the
+   two will close each other. */
 /* ---- faq accordion. Keep in step with /sections/. ------------------------
    White card at radius 16, rows padded 28, no rules between them: the padding
    separates them, which is what makes the card read as one object.
@@ -312,23 +322,23 @@ strong { color: var(--ink); font-weight: 700; }
 
     <h2>Questions</h2>
     <div class="faq-card">
-      <details>
+      <details name="faq">
         <summary>Is there a free version?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>No, and we would rather say that plainly than ship a hobbled one. The app needs a membership, or a club covering it. Downloading is free, so you can see what you are deciding about before you decide.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>What do I get for it?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>All of it. Every meal with its own time window and targets, the day rebuilding around the training you add, food you can describe in your own words, and <a href="/sources/">every number traceable to published work</a>. There is nothing held back for a higher tier, because there is no higher tier.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>How do I cancel?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>In the app, open Settings and then Manage Subscription, which opens Apple's own screen. You can also reach it from the Settings app on your device under your Apple Account. Cancelling stops the next renewal and access continues to the end of the period you have already paid for.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>What happens to my history if I stop?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>It stays. Your account and your data are yours, and stopping a membership does not delete either. If you want the account itself removed, <a href="/support/">Support</a> explains how, and that one is permanent.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>Who is it for?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Athletes aged thirteen and over, in any sport with a training schedule. It is built around fuelling performance rather than changing your weight, which is a deliberate choice and shapes everything the app recommends.</p></div>
       </details>

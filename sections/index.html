@@ -416,6 +416,16 @@ a { color: var(--brand); }
 
 /* ===========================================================================
    PATTERN 4: faq. Figma 1541:12699.
+ ONE OPEN AT A TIME, with no JavaScript. Every <details> in the card shares
+   name="faq", which makes them an exclusive group: opening one closes its
+   siblings. Native since Chrome 120, Safari 17.2 and Firefox 130.
+
+   Browsers without it simply allow several open at once, which is the old
+   behaviour rather than a broken one, so there is nothing to polyfill.
+
+   Keep the name unique per group if a page ever carries two accordions, or the
+   two will close each other. 
+
 
    Node values: white card at radius 16, each row padded 28, question Semibold
    18/27 in #3c3d49, chevron 24px. No rules between rows; the padding separates
@@ -574,23 +584,23 @@ a { color: var(--brand); }
   <p class="lib-label"><b>faq</b> &nbsp; Figma 1541:12699 &nbsp; &nbsp; native details, our chevron</p>
 
   <div class="faq-card">
-      <details open>
+      <details name="faq" open>
         <summary>What does Pushing Peak cost?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Seven ninety nine a month or forty nine ninety nine a year, and some clubs cover it for their athletes. The <a href="/pricing/">pricing page</a> has the detail.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>Is there a free version?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>No, and we would rather say that plainly than ship a hobbled one. Downloading is free, so you can see what you are deciding about before you decide.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>Where do the numbers come from?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Published sports nutrition literature, and we list every source with the values we take from it. <a href="/sources/">Where the numbers come from</a>.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>Which sports is it for?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
       </details>
-      <details>
+      <details name="faq">
         <summary>My club covers my membership. How do I join?<span class="chev" aria-hidden="true"></span></summary>
         <div class="answer"><p>Ask for your team's invite code, then open Settings and Join a Team. Your access comes from membership in the organization, so there is nothing for you to buy.</p></div>
       </details>

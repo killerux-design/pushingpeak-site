@@ -313,6 +313,16 @@ strong { color: var(--ink); font-weight: 700; }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
 
+
+/* ONE OPEN AT A TIME, with no JavaScript. Every <details> in the card shares
+   name="faq", which makes them an exclusive group: opening one closes its
+   siblings. Native since Chrome 120, Safari 17.2 and Firefox 130.
+
+   Browsers without it simply allow several open at once, which is the old
+   behaviour rather than a broken one, so there is nothing to polyfill.
+
+   Keep the name unique per group if a page ever carries two accordions, or the
+   two will close each other. */
 /* ---- faq accordion. Keep in step with /sections/. ------------------------
    White card at radius 16, rows padded 28, no rules between them: the padding
    separates them, which is what makes the card read as one object.
@@ -430,27 +440,27 @@ strong { color: var(--ink); font-weight: 700; }
         <h2>Questions worth asking</h2>
       </div>
       <div class="faq-card">
-                <details>
+                <details name="faq">
           <summary>How is this different from a calorie tracker?<span class="chev" aria-hidden="true"></span></summary>
           <div class="answer"><p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p></div>
         </details>
 
-                <details>
+                <details name="faq">
           <summary>Which sports is it for?<span class="chev" aria-hidden="true"></span></summary>
           <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
         </details>
 
-                <details>
+                <details name="faq">
           <summary>Where do the numbers come from?<span class="chev" aria-hidden="true"></span></summary>
           <div class="answer"><p>Public food databases, and the app shows you which one and lets you correct it. The recommendations have sources too, and <a href="/sources/">they are all listed</a>, with the actual values.</p></div>
         </details>
 
-                <details>
+                <details name="faq">
           <summary>What do you do with my data?<span class="chev" aria-hidden="true"></span></summary>
           <div class="answer"><p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
         </details>
 
-                <details>
+                <details name="faq">
           <summary>My club or coach covers my membership. How do I join?<span class="chev" aria-hidden="true"></span></summary>
           <div class="answer"><p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p></div>
         </details>
