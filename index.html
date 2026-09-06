@@ -141,7 +141,7 @@ p { margin: 0; }
 img { display: block; max-width: 100%; }
 
 .page {
-  max-width: 1280px;          /* 1200 content + 40 gutters */
+  max-width: 1120px;          /* one page frame sitewide, matching /sections/ */
   margin: 0 auto;
   padding: 13px clamp(1rem, 3vw, 40px) 24px;
 }
@@ -199,7 +199,7 @@ img { display: block; max-width: 100%; }
 /* --- shared column -------------------------------------------------------- */
 
 .stack {
-  max-width: 1200px;
+  max-width: 100%;            /* .page already sets the frame */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -392,7 +392,7 @@ img { display: block; max-width: 100%; }
    .foot-inner is the footer's OWN container rather than the page's, because
    this page uses .page and the others use .wrap. One class the footer always
    owns is less fragile than matching whatever each page happens to call it. */
-.foot-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+.foot-inner { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 @media (max-width: 720px) { .foot-inner { padding: 0 1.5rem; } }
 .site-footer {
   position: relative; overflow: hidden; margin-top: 5rem; padding: 4.5rem 0 0;
@@ -505,6 +505,12 @@ img { display: block; max-width: 100%; }
 
     </div>
 
+
+  </div>
+</div>
+
+
+
   <footer class="site-footer">
     <div class="foot-inner">
       <div class="foot-top">
@@ -565,10 +571,6 @@ img { display: block; max-width: 100%; }
       </div>
     </div>
   </footer>
-
-  </div>
-
-</div>
 
 </body>
 </html>

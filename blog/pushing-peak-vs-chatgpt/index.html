@@ -89,7 +89,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+/* One page frame sitewide (1120), with the reading measure on main so
+   prose keeps its line length while the chrome shares a width. */
+main { max-width: 44rem; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
 .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
@@ -172,15 +175,6 @@ td:first-child { color: var(--ink); font-weight: 700; width: 34%; }
 .end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
 .end a.badge img { height: 52px; width: auto; display: block; }
 
-footer {
-  padding: 2rem 0 3rem;
-  text-align: center;
-  font-size: .875rem;
-  color: var(--muted);
-  border-top: 1px solid var(--rule);
-}
-footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid var(--rule); }
-footer a:hover { color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
 
@@ -317,6 +311,9 @@ footer a:hover { color: var(--ink); }
     </div>
   </article>
 
+
+</div>
+
   <footer class="site-footer">
     <div class="foot-inner">
       <div class="foot-top">
@@ -378,6 +375,5 @@ footer a:hover { color: var(--ink); }
     </div>
   </footer>
 
-</div>
 </body>
 </html>
