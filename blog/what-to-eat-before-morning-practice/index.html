@@ -59,7 +59,14 @@
   --purple-100: #06030d;
 
   /* Semantic roles */
-  --paper:      var(--purple-05);
+  /* GROUND: #fcfcfc with a fine grain, sitewide since 2026-09-06.
+     #fcfcfc is neutral (R=G=B=252) and is what Tiimo actually uses, confirmed by
+     sampling their rendered margins rather than by reading a token; their
+     `--background: #f8f7f3` is a section colour, not the page.
+     The GRAIN is load-bearing: flat near-white samples as one value across 89%
+     of the page and reads dead. SVG feTurbulence as a data URI, so no asset, no
+     CDN, no build step. Panels stay purple-10 and now carry the colour. */
+  --paper:      #fcfcfc;
   --paper-2:    var(--purple-10);
   --rule:       var(--purple-20);
   --ink:        var(--purple-100);
@@ -83,7 +90,9 @@ body {
   font-weight: 500;
   line-height: 1.7;
   color: var(--body);
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -181,6 +190,33 @@ footer a { color: var(--body); text-decoration: none; border-bottom: 1px solid v
 footer a:hover { color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+
+/* ---- shared site footer. Keep in step with /sections/. -------------------
+   .foot-inner is the footer's own container, not the page's, so the footer does
+   not depend on whatever each page calls its wrapper. */
+.foot-inner { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+.site-footer {
+  position: relative; overflow: hidden; margin-top: 5rem; padding: 4.5rem 0 0;
+  background: linear-gradient(-20deg, var(--purple-10) 8%, rgba(242, 232, 255, 0) 58%);
+}
+.site-footer .foot-top { display: flex; flex-direction: column; gap: 2.25rem; padding-bottom: 3rem; }
+.site-footer .mark img { width: auto; height: 56px; }
+.foot-say h2 { color: var(--ink); font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.16; letter-spacing: -.02em; margin: 0 0 .5rem; text-wrap: balance; }
+.foot-say p { margin: 0; max-width: 44ch; font-size: 1rem; line-height: 1.6; color: var(--body); }
+.foot-cols { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)) minmax(0,1.1fr); gap: 2rem 1.5rem; align-items: start; }
+.foot-cols h3 { font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; font-weight: 700; color: var(--ink); margin: 0 0 .3rem; }
+.foot-cols ul { list-style: none; margin: 0; padding: 0; }
+.foot-cols a { display: inline-block; padding: 3px 0; font-size: .9375rem; line-height: 1.6; color: var(--body); text-decoration: none; }
+.foot-cols a:hover { color: var(--ink); text-decoration: underline; }
+.foot-get .store { display: inline-block; line-height: 0; margin-top: .3rem; }
+.foot-get .store img { height: 42px; width: auto; }
+.foot-bar { background: var(--rule); padding: 12px 0; font-size: .75rem; line-height: 2; color: var(--body); }
+.foot-bar .inner { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: center; }
+.foot-bar nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.foot-bar a { color: var(--body); text-decoration: underline; }
+.foot-bar a:hover { color: var(--ink); }
+@media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
+@media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
 </style>
 </head>
 <body>
@@ -192,8 +228,9 @@ footer a:hover { color: var(--ink); }
       <span>Pushing Peak</span>
     </a>
     <nav>
-      <a href="/why/">Why</a>
-      <a href="/blog/">Blog</a>
+      <a href="/sources/">Sources</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/" aria-current="page">Blog</a>
       <a href="/for-coaches/">For coaches</a>
     </nav>
   </header>
@@ -288,9 +325,65 @@ footer a:hover { color: var(--ink); }
     </div>
   </article>
 
-  <footer>
-    <p><a href="/terms">Terms of Service</a> &nbsp;·&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="/support">Support</a></p>
-    <p>A product of KILLERUX LLC</p>
+  <footer class="site-footer">
+    <div class="foot-inner">
+      <div class="foot-top">
+        <div class="mark"><img src="/img/pp-logo.svg" width="56" height="56" alt="" decoding="async"></div>
+        <div class="foot-say">
+          <h2>Fueling that knows your day</h2>
+          <p>Pushing Peak plans your eating around the training you actually do. Every meal gets its own time window and its own targets, and every number traces back to a published source.</p>
+        </div>
+        <div class="foot-cols">
+          <div>
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/why/">Why we built it</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/pricing/">Pricing</a></li>
+              <li><a href="/sources/">Where the numbers come from</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Compared</h3>
+            <ul>
+              <li><a href="/compare/">All comparisons</a></li>
+              <li><a href="/blog/pushing-peak-vs-myfitnesspal/">Against MyFitnessPal</a></li>
+              <li><a href="/blog/pushing-peak-vs-cal-ai/">Against Cal AI</a></li>
+              <li><a href="/blog/pushing-peak-vs-chatgpt/">Against ChatGPT</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Coaches</h3>
+            <ul>
+              <li><a href="/for-coaches/">For coaches and teams</a></li>
+              <li><a href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Help</h3>
+            <ul>
+              <li><a href="/support">Support</a></li>
+              <li><a href="mailto:kevin@killerux.design">Contact</a></li>
+            </ul>
+          </div>
+          <div class="foot-get">
+            <h3>Get the app</h3>
+            <a class="store" href="https://apps.apple.com/app/id6753684222">
+              <img src="/img/app-store-badge.svg" width="126" height="42" alt="Download on the App Store">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="foot-inner inner">
+        <span>&copy; 2026 KILLERUX LLC</span>
+        <nav>
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+        </nav>
+      </div>
+    </div>
   </footer>
 
 </div>
