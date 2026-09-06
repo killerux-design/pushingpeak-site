@@ -154,23 +154,62 @@ strong { color: var(--ink); font-weight: 700; }
 .qa .body p:last-child { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) { .qa summary::after { transition: none; } }
 
-/* peak-btn, the app's canonical button. See /sections/. */
+/* ---------------------------------------------------------------------------
+   peak-btn — the web PeakButton. IDENTICAL to the app by intent, so every
+   value below is the Swift enum's, not an approximation. Source of truth:
+   AthleteTracker/DesignSystem/Components/Buttons/PeakButton.swift
+   (Figma "Peak UI Components" node 6400:187).
+
+     size  height  lip  radius  border  padding-x  font
+     xs    24      2    10      2       8          Bold 12
+     sm    30      2    12      3       12         Bold 14
+     md    42      4    16      3       16         Bold 16   <- the base
+     lg    50      6    20      3       20         Bold 18
+
+     primary  fill purple-60  border+lip purple-80  label purple-05
+     outline  fill #ffffff    border+lip #e3e6e7    label #080909
+
+   THE CHUNKY CONTRACT: border and lip are ONE colour. Never two.
+   ONLY the app's themes. PeakButton ships primary, outline, apple and ghost;
+   do not add a web-only variant, or the two drift.
+   The lip is reserved via margin-bottom so a row aligns on the CAP, not the
+   lip, and the press is translateY(lip) with the shadow dropped, so the
+   footprint does not change while held.
+--------------------------------------------------------------------------- */
 .peak-btn {
-  --lip: 6px;
+  --lip: 4px;
   display: inline-flex; align-items: center; justify-content: center;
-  box-sizing: border-box; height: 50px; padding: 0 20px;
-  border: 3px solid; border-radius: 20px;
-  font-family: var(--font); font-weight: 700; font-size: 1.125rem; line-height: 1;
-  text-decoration: none; white-space: nowrap; margin-bottom: var(--lip);
+  box-sizing: border-box;
+  height: 42px; padding: 0 16px;
+  border: 3px solid; border-radius: 16px;
+  font-family: var(--font); font-weight: 700; font-size: 1rem; line-height: 1;
+  text-decoration: none; white-space: nowrap;
+  margin-bottom: var(--lip);
+  /* Hug the label. Without this the button stretches to the cross-axis in any
+     flex or grid parent, which is what happened when it replaced the old pill
+     inside .mt-copy. The app models the same distinction explicitly:
+     ChunkyButtonStyle takes an isFullWidth flag, so hugging is the default and
+     stretching is opt-in. .full below is the web equivalent. */
+  align-self: start;
   transition: transform .07s ease, box-shadow .07s ease;
 }
+.peak-btn.full { align-self: stretch; width: 100%; }
+.peak-btn.xs { --lip: 2px; height: 24px; padding: 0 8px;  border-width: 2px; border-radius: 10px; font-size: .75rem; }
+.peak-btn.sm { --lip: 2px; height: 30px; padding: 0 12px; border-radius: 12px; font-size: .875rem; }
+.peak-btn.md { --lip: 4px; height: 42px; padding: 0 16px; border-radius: 16px; font-size: 1rem; }
+.peak-btn.lg { --lip: 6px; height: 50px; padding: 0 20px; border-radius: 20px; font-size: 1.125rem; }
 .peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
 .peak-btn.primary {
   background: var(--purple-60); border-color: var(--purple-80); color: var(--purple-05);
   box-shadow: 0 var(--lip) 0 0 var(--purple-80);
 }
+.peak-btn.outline {
+  background: #ffffff; border-color: #e3e6e7; color: #080909;
+  box-shadow: 0 var(--lip) 0 0 #e3e6e7;
+}
 .peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
+
 
 .end { margin: 3rem 0 2rem; text-align: center; }
 .end p { max-width: 42ch; margin: 0 auto 1.25rem; }
@@ -255,7 +294,7 @@ footer a:hover { color: var(--ink); }
 
     <div class="end">
       <p>Download it, put your week in, and see what the day actually asks for.</p>
-      <a class="peak-btn primary" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
     </div>
   </main>
 

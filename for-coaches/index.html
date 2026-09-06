@@ -298,18 +298,50 @@ footer a:hover { color: var(--ink); }
 
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
 
-/* peak-btn, the app's canonical button. Chunky lip: border and lip are one
-   colour, and the cap sinks onto the lip on press. See /sections/. */
+/* ---------------------------------------------------------------------------
+   peak-btn — the web PeakButton. IDENTICAL to the app by intent, so every
+   value below is the Swift enum's, not an approximation. Source of truth:
+   AthleteTracker/DesignSystem/Components/Buttons/PeakButton.swift
+   (Figma "Peak UI Components" node 6400:187).
+
+     size  height  lip  radius  border  padding-x  font
+     xs    24      2    10      2       8          Bold 12
+     sm    30      2    12      3       12         Bold 14
+     md    42      4    16      3       16         Bold 16   <- the base
+     lg    50      6    20      3       20         Bold 18
+
+     primary  fill purple-60  border+lip purple-80  label purple-05
+     outline  fill #ffffff    border+lip #e3e6e7    label #080909
+
+   THE CHUNKY CONTRACT: border and lip are ONE colour. Never two.
+   ONLY the app's themes. PeakButton ships primary, outline, apple and ghost;
+   do not add a web-only variant, or the two drift.
+   The lip is reserved via margin-bottom so a row aligns on the CAP, not the
+   lip, and the press is translateY(lip) with the shadow dropped, so the
+   footprint does not change while held.
+--------------------------------------------------------------------------- */
 .peak-btn {
-  --lip: 6px;
+  --lip: 4px;
   display: inline-flex; align-items: center; justify-content: center;
-  box-sizing: border-box; height: 50px; padding: 0 20px;
-  border: 3px solid; border-radius: 20px;
-  font-family: var(--font); font-weight: 700; font-size: 1.125rem; line-height: 1;
-  text-decoration: none; white-space: nowrap; margin-bottom: var(--lip);
+  box-sizing: border-box;
+  height: 42px; padding: 0 16px;
+  border: 3px solid; border-radius: 16px;
+  font-family: var(--font); font-weight: 700; font-size: 1rem; line-height: 1;
+  text-decoration: none; white-space: nowrap;
+  margin-bottom: var(--lip);
+  /* Hug the label. Without this the button stretches to the cross-axis in any
+     flex or grid parent, which is what happened when it replaced the old pill
+     inside .mt-copy. The app models the same distinction explicitly:
+     ChunkyButtonStyle takes an isFullWidth flag, so hugging is the default and
+     stretching is opt-in. .full below is the web equivalent. */
+  align-self: start;
   transition: transform .07s ease, box-shadow .07s ease;
 }
+.peak-btn.full { align-self: stretch; width: 100%; }
+.peak-btn.xs { --lip: 2px; height: 24px; padding: 0 8px;  border-width: 2px; border-radius: 10px; font-size: .75rem; }
 .peak-btn.sm { --lip: 2px; height: 30px; padding: 0 12px; border-radius: 12px; font-size: .875rem; }
+.peak-btn.md { --lip: 4px; height: 42px; padding: 0 16px; border-radius: 16px; font-size: 1rem; }
+.peak-btn.lg { --lip: 6px; height: 50px; padding: 0 20px; border-radius: 20px; font-size: 1.125rem; }
 .peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
 .peak-btn.primary {
   background: var(--purple-60); border-color: var(--purple-80); color: var(--purple-05);
@@ -321,6 +353,7 @@ footer a:hover { color: var(--ink); }
 }
 .peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
+
 </style>
 </head>
 <body>
@@ -345,7 +378,7 @@ footer a:hover { color: var(--ink); }
       <div class="copy">
         <h1>Fuel your whole squad, not one athlete at a time</h1>
         <p class="deck">You have given the same fueling talk a hundred times, on the deck, between sets. Pushing Peak gives every athlete on your team a plan built around the training you actually set.</p>
-        <a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+        <a class="peak-btn primary lg" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
         <span class="cta-note">Clubs can cover membership. Athletes join with a code. We reply within two working days.</span>
       </div>
       <div class="shot">
@@ -412,7 +445,7 @@ footer a:hover { color: var(--ink); }
           <dt>Sunday, rest</dt>
           <dd>Fewer calories, and protein held where it was. This is the day athletes get wrong most often, usually by eating like it was a training day or by eating almost nothing.</dd>
         </dl>
-        <p style="margin-top:1.75rem"><a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></p>
+        <p style="margin-top:1.75rem"><a class="peak-btn primary lg" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></p>
       </div>
     </section>
 
@@ -471,7 +504,7 @@ footer a:hover { color: var(--ink); }
     <div class="end">
       <h2>Get your team started</h2>
       <p>Send us your club, your sport, and roughly how many athletes you have. We will set the team up and send your invite code.</p>
-      <a class="peak-btn primary" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
+      <a class="peak-btn primary lg" href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a>
       <p class="also">We reply within two working days. Want to look at it yourself first? <a href="https://apps.apple.com/app/id6753684222">Get the app</a> and set up your own week.</p>
     </div>
 
