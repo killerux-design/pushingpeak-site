@@ -184,34 +184,8 @@ ol.steps strong { display: block; }
 }
 .status { margin: -.4rem 0 1.15rem; }
 
-/* Accordion on native <details>. Tiimo's is Webflow JavaScript; this needs
-   none, and gets keyboard support, screen reader semantics and find-in-page
-   for free. Ctrl+F finds text inside a closed panel in Chrome and Safari. */
-.qa { max-width: 46rem; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
-.qa details { border-bottom: 1px solid var(--rule); }
-.qa summary {
-  list-style: none; cursor: pointer; position: relative;
-  padding: 1.15rem 2.75rem 1.15rem 0;
-  color: var(--ink); font-weight: 700; font-size: 1.0625rem;
-  line-height: 1.35; letter-spacing: -.012em;
-}
-.qa summary::-webkit-details-marker { display: none; }
 /* A plus that loses its upright to become a minus. Drawn, not an icon. */
 .qa summary::before,
-.qa summary::after {
-  content: ""; position: absolute; right: .35rem; top: 50%;
-  background: var(--muted); border-radius: 1px;
-}
-.qa summary::before { width: 13px; height: 2px; transform: translateY(-50%); }
-.qa summary::after  { width: 2px; height: 13px; transform: translate(5.5px, -50%); transition: opacity .18s ease; }
-.qa details[open] summary::after { opacity: 0; }
-.qa summary:hover { color: var(--brand); }
-.qa summary:hover::before, .qa summary:hover::after { background: var(--brand); }
-.qa summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 6px; }
-.qa .body { padding: 0 2.75rem 1.35rem 0; max-width: 58ch; color: var(--muted); }
-.qa .body p { margin-bottom: .9rem; }
-.qa .body p:last-child { margin-bottom: 0; }
-@media (prefers-reduced-motion: reduce) { .qa summary::after { transition: none; } }
 
 /* ---- what the coach gets back ---- */
 .gives { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.9rem 2.5rem; margin-top: 2.25rem; }
@@ -312,6 +286,40 @@ ol.steps strong { display: block; }
 .foot-bar a:hover { color: var(--ink); }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+/* ---- faq accordion. Keep in step with /sections/. ------------------------
+   White card at radius 16, rows padded 28, no rules between them: the padding
+   separates them, which is what makes the card read as one object.
+   The chevron is a MASK, not an <img>, so it inherits currentColor and follows
+   the summary to brand purple on hover. An <img> cannot do that, which is why
+   the earlier PNG and even a hex-filled SVG would have been locked to one
+   colour. Asset: img/chevron-down.svg, the app's own ChevronDown. */
+.faq-card { background: #ffffff; border-radius: 16px; overflow: hidden; }
+.faq-card summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
+  padding: 28px;
+  color: var(--ink); font-weight: 700; font-size: 1.125rem; line-height: 1.5; letter-spacing: -.01em;
+}
+.faq-card summary::-webkit-details-marker { display: none; }
+.faq-card summary:hover { color: var(--brand); }
+.faq-card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; border-radius: 12px; }
+.faq-card .chev {
+  flex: 0 0 auto; width: 24px; height: 24px; margin-top: .15rem;
+  background: currentColor;
+  -webkit-mask: url("/img/chevron-down.svg") center / contain no-repeat;
+          mask: url("/img/chevron-down.svg") center / contain no-repeat;
+  transition: transform .18s ease;
+}
+.faq-card details[open] .chev { transform: rotate(180deg); }
+.faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
+.faq-card .answer p { margin: 0 0 .9rem; }
+.faq-card .answer p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .faq-card .chev { transition: none; } }
+@media (max-width: 560px) {
+  .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
+  .faq-card .answer { padding: 0 20px 20px; }
+}
 </style>
 </head>
 <body>
@@ -441,35 +449,35 @@ ol.steps strong { display: block; }
       <div class="measure">
         <h2>Questions coaches ask</h2>
       </div>
-      <div class="qa">
+      <div class="faq-card">
                 <details>
-          <summary>Is the free year really free?</summary>
-          <div class="body"><p>Yes, and there is nothing to cancel afterwards that you did not choose. We apply it by hand to the account you tell us about.</p></div>
+          <summary>Is the free year really free?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Yes, and there is nothing to cancel afterwards that you did not choose. We apply it by hand to the account you tell us about.</p></div>
         </details>
 
                 <details>
-          <summary>What can I see about my athletes right now?</summary>
-          <div class="body"><p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives, athletes will be told exactly what it shows before it shows anything.</p></div>
+          <summary>What can I see about my athletes right now?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Nothing, and that is deliberate. Joining a team covers an athlete's membership. It does not open their food log to you. When the coach view arrives, athletes will be told exactly what it shows before it shows anything.</p></div>
         </details>
 
                 <details>
-          <summary>What if my club cannot cover everyone?</summary>
-          <div class="body"><p>Then those athletes hold their own membership, as they would have anyway. You can cover some of your squad and not others, and the app is identical for both.</p></div>
+          <summary>What if my club cannot cover everyone?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Then those athletes hold their own membership, as they would have anyway. You can cover some of your squad and not others, and the app is identical for both.</p></div>
         </details>
 
                 <details>
-          <summary>What happens if an athlete leaves the club?</summary>
-          <div class="body"><p>Their account is theirs. They keep their history and carry on with their own membership. Nothing is deleted because they left your team.</p></div>
+          <summary>What happens if an athlete leaves the club?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Their account is theirs. They keep their history and carry on with their own membership. Nothing is deleted because they left your team.</p></div>
         </details>
 
                 <details>
-          <summary>Is this only for swimmers?</summary>
-          <div class="body"><p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the one we know best and where we started.</p></div>
+          <summary>Is this only for swimmers?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>No. It works for any athlete training on a schedule, in any sport. Swimming is where we coach, so it is the one we know best and where we started.</p></div>
         </details>
 
                 <details>
-          <summary>What do you do with our data?</summary>
-          <div class="body"><p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
+          <summary>What do you do with our data?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>We do not sell your athletes' information and we do not share it with data brokers. The app carries no advertising and no tracking, and it does not follow anyone across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
         </details>
       </div>
     </section>

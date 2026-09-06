@@ -213,33 +213,7 @@ strong { color: var(--ink); font-weight: 700; }
 }
 
 /* ---- faq ---------------------------------------------------------------- */
-.faq { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
-/* Accordion on native details/summary. No JavaScript, and it keeps keyboard
-   support, screen reader semantics and find-in-page for free. */
-.faq .qa { max-width: 46rem; margin-top: 1.75rem; border-top: 1px solid var(--rule); }
-.faq details { border-bottom: 1px solid var(--rule); }
-.faq summary {
-  list-style: none; cursor: pointer; position: relative;
-  padding: 1.15rem 2.75rem 1.15rem 0;
-  color: var(--ink); font-weight: 700; font-size: 1.0625rem;
-  line-height: 1.35; letter-spacing: -.012em;
-}
-.faq summary::-webkit-details-marker { display: none; }
 .faq summary::before,
-.faq summary::after {
-  content: ""; position: absolute; right: .35rem; top: 50%;
-  background: var(--muted); border-radius: 1px;
-}
-.faq summary::before { width: 13px; height: 2px; transform: translateY(-50%); }
-.faq summary::after  { width: 2px; height: 13px; transform: translate(5.5px, -50%); transition: opacity .18s ease; }
-.faq details[open] summary::after { opacity: 0; }
-.faq summary:hover { color: var(--brand); }
-.faq summary:hover::before, .faq summary:hover::after { background: var(--brand); }
-.faq summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 6px; }
-.faq .body { padding: 0 2.75rem 1.35rem 0; max-width: 58ch; color: var(--muted); }
-.faq .body p { margin-bottom: .9rem; }
-.faq .body p:last-child { margin-bottom: 0; }
-@media (prefers-reduced-motion: reduce) { .faq summary::after { transition: none; } }
 
 /* ---- closing ------------------------------------------------------------ */
 .close {
@@ -338,6 +312,40 @@ strong { color: var(--ink); font-weight: 700; }
 .foot-bar a:hover { color: var(--ink); }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+/* ---- faq accordion. Keep in step with /sections/. ------------------------
+   White card at radius 16, rows padded 28, no rules between them: the padding
+   separates them, which is what makes the card read as one object.
+   The chevron is a MASK, not an <img>, so it inherits currentColor and follows
+   the summary to brand purple on hover. An <img> cannot do that, which is why
+   the earlier PNG and even a hex-filled SVG would have been locked to one
+   colour. Asset: img/chevron-down.svg, the app's own ChevronDown. */
+.faq-card { background: #ffffff; border-radius: 16px; overflow: hidden; }
+.faq-card summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
+  padding: 28px;
+  color: var(--ink); font-weight: 700; font-size: 1.125rem; line-height: 1.5; letter-spacing: -.01em;
+}
+.faq-card summary::-webkit-details-marker { display: none; }
+.faq-card summary:hover { color: var(--brand); }
+.faq-card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; border-radius: 12px; }
+.faq-card .chev {
+  flex: 0 0 auto; width: 24px; height: 24px; margin-top: .15rem;
+  background: currentColor;
+  -webkit-mask: url("/img/chevron-down.svg") center / contain no-repeat;
+          mask: url("/img/chevron-down.svg") center / contain no-repeat;
+  transition: transform .18s ease;
+}
+.faq-card details[open] .chev { transform: rotate(180deg); }
+.faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
+.faq-card .answer p { margin: 0 0 .9rem; }
+.faq-card .answer p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .faq-card .chev { transition: none; } }
+@media (max-width: 560px) {
+  .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
+  .faq-card .answer { padding: 0 20px 20px; }
+}
 </style>
 </head>
 <body>
@@ -421,30 +429,30 @@ strong { color: var(--ink); font-weight: 700; }
       <div class="measure">
         <h2>Questions worth asking</h2>
       </div>
-      <div class="qa">
+      <div class="faq-card">
                 <details>
-          <summary>How is this different from a calorie tracker?</summary>
-          <div class="body"><p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p></div>
+          <summary>How is this different from a calorie tracker?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p></div>
         </details>
 
                 <details>
-          <summary>Which sports is it for?</summary>
-          <div class="body"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
+          <summary>Which sports is it for?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
         </details>
 
                 <details>
-          <summary>Where do the numbers come from?</summary>
-          <div class="body"><p>Public food databases, and the app shows you which one and lets you correct it. The recommendations have sources too, and <a href="/sources/">they are all listed</a>, with the actual values.</p></div>
+          <summary>Where do the numbers come from?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Public food databases, and the app shows you which one and lets you correct it. The recommendations have sources too, and <a href="/sources/">they are all listed</a>, with the actual values.</p></div>
         </details>
 
                 <details>
-          <summary>What do you do with my data?</summary>
-          <div class="body"><p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
+          <summary>What do you do with my data?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
         </details>
 
                 <details>
-          <summary>My club or coach covers my membership. How do I join?</summary>
-          <div class="body"><p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p></div>
+          <summary>My club or coach covers my membership. How do I join?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p></div>
         </details>
       </div>
     </section>
