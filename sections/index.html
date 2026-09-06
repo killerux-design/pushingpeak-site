@@ -86,7 +86,16 @@
   --purple-80:  #5c0593;
   --purple-100: #06030d;
 
-  --ground:  var(--purple-05);
+  /* NEAR-WHITE, NOT THE PURPLE TINT, on this page only for now. The rest of the
+     site is still purple-05, which is a deliberate divergence while the ground
+     is being judged. Do not let it drift: either this wins and goes everywhere,
+     or it reverts.
+
+     #fcfcfc is Tiimo's ACTUAL page ground, confirmed by sampling their rendered
+     margins (78% of pixels) rather than by reading a token. Their `--background:
+     #f8f7f3` is a SECTION colour used on particular blocks, and reading that as
+     the page was wrong. #fcfcfc is perfectly neutral: R=G=B=252. */
+  --ground:  #fcfcfc;
   --ink:     var(--purple-100);
   --body:    #06030dc7;   /* ink 78% */
   --muted:   #06030d9e;   /* ink 62% */
@@ -105,7 +114,19 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0; font-family: var(--font); font-size: 18px; font-weight: 500;
-  line-height: 1.65; color: var(--body); background: var(--ground);
+  line-height: 1.65; color: var(--body);
+  /* THE GRAIN IS THE POINT, not decoration. A flat near-white page is one value
+     repeated everywhere and reads slightly dead; sampling the margins gives
+     #FCFCFC at 89%. With this, the same margins spread across #FBFBFB and
+     #FAFAFA, which is below conscious notice and reads as paper rather than as
+     white. Tiimo does the same thing with a noise asset.
+
+     Generated as an SVG feTurbulence data URI: no asset file, no CDN request,
+     no build step, and nothing of theirs. 480 characters, tiles at 160px,
+     3.5% opacity. */
+  background-color: var(--ground);
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
 }
 img { display: block; max-width: 100%; height: auto; }
