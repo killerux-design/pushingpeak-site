@@ -120,7 +120,7 @@ a { color: var(--brand); }
        <div class="mt-copy">
          <h2>…</h2>
          <p>…</p>
-         <a class="pill" href="…">…</a>
+         <a class="peak-btn soft" href="…">…</a>
        </div>
        <div class="mt-media"><img …></div>
      </section>
@@ -183,24 +183,7 @@ a { color: var(--brand); }
   max-width: 46ch;
 }
 
-/* Outlined pill. The node uses a 2px border and no fill, which is what keeps
-   these sections quiet enough to repeat down a page. */
-.pill {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--ink);
-  border-radius: 150px;
-  padding: 15px 22.5px;
-  font-size: .9375rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ink);
-  text-decoration: none;
-  background: none;
-}
-.pill:hover { background: var(--ink); color: #fff; }
+
 
 /* Square media panel. Our screenshots are tall, so the panel holds them rather
    than being them: purple-10 ground, screenshot centred and inset. */
@@ -414,6 +397,22 @@ a { color: var(--brand); }
   color: #080909;
   box-shadow: 0 var(--lip) 0 0 #e3e6e7;
 }
+
+/* SOFT. A web addition, not in the app's PeakButton, which ships primary,
+   outline, apple and ghost only. Flagged as a divergence: if this is kept it
+   should be added to the app's theme enum too, or the two drift.
+
+   The point of it is that the chunky style does not need the FILL to define the
+   button. purple-05 against the purple-05 page ground is 1.00:1, invisible on
+   its own, but the 3px border and the lip draw the shape and purple-80 on
+   purple-05 is 10.1:1 for the label. So this reads as a light button with a
+   strong purple edge rather than a heavy purple slab. */
+.peak-btn.soft {
+  background: var(--purple-05);
+  border-color: var(--purple-60);
+  color: var(--purple-80);
+  box-shadow: 0 var(--lip) 0 0 var(--purple-60);
+}
 .peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
@@ -449,7 +448,7 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     <div class="mt-copy">
       <h2>Your training drives the day</h2>
       <p>A rest day and a two session day are not the same day, so they should not carry the same plan. Put the week in and the food follows it, without you doing the arithmetic.</p>
-      <a class="pill" href="/blog/what-to-eat-before-morning-practice/">See it on a real morning</a>
+      <a class="peak-btn soft" href="/blog/what-to-eat-before-morning-practice/">See it on a real morning</a>
     </div>
     <div class="mt-media">
       <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" decoding="async">
@@ -462,7 +461,7 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     <div class="mt-copy">
       <h2>Every number opens</h2>
       <p>Describe a meal the way you would say it out loud and it comes back as items you can check. Every value traces to a published source, and we list all of them rather than asking you to take our word for it.</p>
-      <a class="pill" href="/sources/">Where the numbers come from</a>
+      <a class="peak-btn soft" href="/sources/">Where the numbers come from</a>
     </div>
     <div class="mt-media">
       <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
@@ -475,7 +474,7 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     <div class="mt-copy">
       <h2>The plan is there before you are</h2>
       <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer is on the screen when the alarm goes.</p>
-      <a class="pill" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      <a class="peak-btn soft" href="https://apps.apple.com/app/id6753684222">Get the app</a>
     </div>
     <div class="mt-media">
       <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
@@ -506,6 +505,14 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
     <a class="peak-btn outline xs" href="#0">Read the comparison</a>
   </div>
   <p class="btn-note">outline, same sizes. White fill, border and lip #e3e6e7. Note the buttons align on the cap, not the lip.</p>
+
+  <div class="btn-row">
+    <a class="peak-btn soft lg" href="#0">Read the comparison</a>
+    <a class="peak-btn soft md" href="#0">Read the comparison</a>
+    <a class="peak-btn soft sm" href="#0">Read the comparison</a>
+    <a class="peak-btn soft xs" href="#0">Read the comparison</a>
+  </div>
+  <p class="btn-note">soft. A lighter option: purple-05 fill, border and lip purple-60, label purple-80. The fill is invisible against this ground on its own, so the edge is doing the work. Not in the app's button set, so keeping it means adding it there too.</p>
 
   <p class="lib-label"><b>site-footer</b> &nbsp; Figma 1541:12217 &nbsp; &nbsp; four columns, because four is what we can fill honestly</p>
   </div>
