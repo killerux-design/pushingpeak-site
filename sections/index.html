@@ -81,7 +81,9 @@
   color-scheme: light;
   --purple-05:  #f8f3ff;
   --purple-10:  #f2e8ff;
+  --purple-20:  #e4cfff;
   --purple-60:  #8b26d5;
+  --purple-80:  #5c0593;
   --purple-100: #06030d;
 
   --ground:  var(--purple-05);
@@ -345,6 +347,80 @@ a { color: var(--brand); }
   .lib-head h1 { font-size: clamp(1.6rem, 8vw, 2rem); }
 }
 
+
+/* ===========================================================================
+   PATTERN 3: peak-btn. The web translation of PeakButton, the app's canonical
+   button (Figma "Peak UI Components" node 6400:187, Swift at
+   AthleteTracker/DesignSystem/Components/Buttons/PeakButton.swift).
+
+   THE CHUNKY LIP IS THE SIGNATURE, not decoration. The button is a key-cap
+   sitting on a lip of the same colour as its border, and pressing it sinks the
+   cap onto the lip. That is the whole character of the app's buttons and the
+   flat pills used before this were unrelated to it.
+
+   THE CHUNKY CONTRACT: border and lip are ONE colour. Never two.
+
+   Values are the Swift enum's, which mirror the Figma variables:
+
+     size   height  lip  radius  border  padding-x  font
+     xs     24      2    10      2       8          Sailec Bold 12
+     sm     30      2    12      3       12         Sailec Bold 14
+     md     42      4    16      3       16         Sailec Bold 16
+     lg     50      6    20      3       20         Sailec Bold 18
+
+     primary   fill purple-60  border+lip purple-80  text purple-05
+     outline   fill #ffffff    border+lip #e3e6e7    text #080909
+
+   Total footprint is height + lip, so a row of buttons aligns on the CAP, not
+   the lip. The sink is translateY(lip) with the shadow removed, which keeps the
+   overall box the same height while pressed.
+   =========================================================================== */
+
+.peak-btn {
+  --lip: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 42px;
+  padding: 0 16px;
+  border: 3px solid;
+  border-radius: 16px;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-bottom: var(--lip);          /* reserve the lip in the layout box */
+  transition: transform .07s ease, box-shadow .07s ease;
+}
+.peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
+
+.peak-btn.xs { --lip: 2px; height: 24px; padding: 0 8px;  border-width: 2px; border-radius: 10px; font-size: .75rem; }
+.peak-btn.sm { --lip: 2px; height: 30px; padding: 0 12px; border-radius: 12px; font-size: .875rem; }
+.peak-btn.md { --lip: 4px; height: 42px; padding: 0 16px; border-radius: 16px; font-size: 1rem; }
+.peak-btn.lg { --lip: 6px; height: 50px; padding: 0 20px; border-radius: 20px; font-size: 1.125rem; }
+
+.peak-btn.primary {
+  background: var(--purple-60);
+  border-color: var(--purple-80);
+  color: var(--purple-05);
+  box-shadow: 0 var(--lip) 0 0 var(--purple-80);
+}
+.peak-btn.outline {
+  background: #ffffff;
+  border-color: #e3e6e7;
+  color: #080909;
+  box-shadow: 0 var(--lip) 0 0 #e3e6e7;
+}
+.peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-top: 1.5rem; }
+.btn-note { margin: .75rem 0 0; font-size: .875rem; color: var(--muted); }
+
 /* ---- library chrome, not part of any pattern ---------------------------- */
 .lib-head { padding: 3rem 0 1rem; }
 .lib-head h1 { font-family: var(--display); font-weight: 400; color: var(--ink); font-size: clamp(2rem,5vw,2.9rem); line-height: 1.1; letter-spacing: -.012em; margin: 0 0 .75rem; }
@@ -409,6 +485,27 @@ footer { margin-top: 4rem; padding: 2rem 0 3.5rem; border-top: 1px solid var(--r
   <footer>
     Not a public page. Patterns only, on the app's own design tokens.
   </footer>
+
+
+  <p class="lib-label"><b>peak-btn</b> &nbsp; the app's canonical button &nbsp; &nbsp; Figma 6400:187</p>
+
+  <p style="max-width:60ch">The key-cap sits on a lip the same colour as its border, and pressing it sinks the cap onto the lip. Click one. The flat pills used before this were unrelated to the app.</p>
+
+  <div class="btn-row">
+    <a class="peak-btn primary lg" href="#0">Get the app</a>
+    <a class="peak-btn primary md" href="#0">Get the app</a>
+    <a class="peak-btn primary sm" href="#0">Get the app</a>
+    <a class="peak-btn primary xs" href="#0">Get the app</a>
+  </div>
+  <p class="btn-note">primary, lg / md / sm / xs. Fill purple-60, border and lip purple-80.</p>
+
+  <div class="btn-row">
+    <a class="peak-btn outline lg" href="#0">Read the comparison</a>
+    <a class="peak-btn outline md" href="#0">Read the comparison</a>
+    <a class="peak-btn outline sm" href="#0">Read the comparison</a>
+    <a class="peak-btn outline xs" href="#0">Read the comparison</a>
+  </div>
+  <p class="btn-note">outline, same sizes. White fill, border and lip #e3e6e7. Note the buttons align on the cap, not the lip.</p>
 
   <p class="lib-label"><b>site-footer</b> &nbsp; Figma 1541:12217 &nbsp; &nbsp; four columns, because four is what we can fill honestly</p>
   </div>
