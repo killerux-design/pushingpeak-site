@@ -63,6 +63,8 @@
 }
 
 :root {
+  /* lets height animate to and from `auto`; see the faq motion note */
+  interpolate-size: allow-keywords;
   color-scheme: light;
   --purple-05:  #f8f3ff;
   --purple-10:  #f2e8ff;
@@ -267,13 +269,41 @@ strong { color: var(--ink); font-weight: 700; }
   background: currentColor;
   -webkit-mask: url("/img/chevron-down.svg") center / contain no-repeat;
           mask: url("/img/chevron-down.svg") center / contain no-repeat;
-  transition: transform .18s ease;
+  transition: transform .28s cubic-bezier(.4, 0, .2, 1);
 }
 .faq-card details[open] .chev { transform: rotate(180deg); }
+
+/* MOTION. The panel eases open and closed rather than snapping.
+
+   <details> has never been animatable in the obvious way, because its content
+   is shown and hidden discretely and `height: auto` was not an interpolable
+   value. Three modern features together make it work with no JavaScript and no
+   wrapper element:
+
+     interpolate-size: allow-keywords   makes `auto` an animatable height
+     ::details-content                  gives the content a box to transition
+     transition-behavior: allow-discrete carries content-visibility across
+
+   Everything degrades to an instant open where those are missing, which is the
+   behaviour we already had, so there is nothing to polyfill.
+
+   The chevron shares the curve and duration so the two read as one movement
+   rather than two things happening near each other. */
+.faq-card details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .28s cubic-bezier(.4, 0, .2, 1),
+              content-visibility .28s allow-discrete;
+}
+.faq-card details[open]::details-content { block-size: auto; }
+
 .faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
 .faq-card .answer p { margin: 0 0 .9rem; }
 .faq-card .answer p:last-child { margin-bottom: 0; }
-@media (prefers-reduced-motion: reduce) { .faq-card .chev { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .faq-card .chev { transition: none; }
+  .faq-card details::details-content { transition: none; }
+}
 @media (max-width: 560px) {
   .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
   .faq-card .answer { padding: 0 20px 20px; }
