@@ -82,6 +82,7 @@
      AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json */
   --purple-05:  #f8f3ff;
   --purple-10:  #f2e8ff;
+  --purple-20:  #e4cfff;
   --purple-60:  #8b26d5;
   --purple-80:  #5c0593;
   --purple-100: #06030d;
@@ -201,8 +202,12 @@ strong { color: var(--ink); font-weight: 700; }
 /* THE BANDS BLEED, so they are children of body and main rather than of .wrap,
    which caps at 1120px. .wrap is re-entered inside each one to hold the copy to
    that measure. This is the same shape the footer already uses. */
+/* THE BANNER HAS ITS OWN COLOUR, one step up the ramp from the fade beneath
+   it. Both were purple-10 at first and the hero simply did not read as a
+   banner: same value above and below the boundary meant there was nothing to
+   stand out from. purple-20 against the fade's purple-10 gives the step. */
 .topbar-band, .hero-band {
-  background-color: var(--purple-10);
+  background-color: var(--purple-20);
   background-image: var(--grain);
 }
 .hero-band {
@@ -221,9 +226,15 @@ strong { color: var(--ink); font-weight: 700; }
   position: absolute;
   inset: 0;
   /* Centred and sized so the white is spent by ~86% of the band's height. The
-     band therefore settles back to flat purple-10 before its bottom edge,
-     which is what lets .top-fade start below it without a seam. */
-  background: radial-gradient(85% 55% at 50% 52%, #ffffff 0%, rgba(255, 255, 255, 0) 62%);
+     band therefore settles back to flat purple-20 before its bottom edge,
+     which is what lets .top-fade start below it without a seam.
+
+     TWO NUMBERS THAT MATTER. Centred at 66%, so the light sits behind the
+     phones rather than behind the copy, which is what it is there to do. And
+     28% white, not solid: white at .5 lifts purple-20 to almost exactly
+     purple-10, so the banner's brightest point matched the colour the fade
+     below it starts from and the step between them disappeared. */
+  background: radial-gradient(70% 34% at 50% 66%, rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, 0) 62%);
   pointer-events: none;
 }
 .hero-band > * { position: relative; }
