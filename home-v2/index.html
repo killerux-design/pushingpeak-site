@@ -102,6 +102,9 @@
   --surface: #06030d0d;   /*  5% */
   --brand:   var(--purple-60);
 
+  /* The page grain, named once so the hero bands can reuse it. */
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -116,7 +119,7 @@ body {
   line-height: 1.65;
   color: var(--body);
   background-color: var(--ground);
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+  background-image: var(--grain);
   background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
 }
@@ -181,11 +184,72 @@ strong { color: var(--ink); font-weight: 700; }
 
 /* ---- hero --------------------------------------------------------------- */
 .hero {
-  display: grid; grid-template-columns: 1fr 17rem;
-  gap: 0 3.5rem; align-items: center;
-  padding: clamp(1.5rem, 5vw, 3.5rem) 0 clamp(3rem, 7vw, 5rem);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: clamp(2.25rem, 5.5vw, 4rem) 0 0;
 }
-.hero .lede { font-size: clamp(1.1rem, 2.2vw, 1.3rem); max-width: 34ch; margin-bottom: 1.9rem; }
+.hero h1 { max-width: 18ch; margin: 0 0 1rem; }
+.hero .lede {
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  max-width: 48ch; margin: 0 0 1.75rem;
+}
+/* .peak-btn carries align-self: start so it hugs its text in a left-aligned
+   column. Here the column is centred, so that has to be overridden or the
+   button sits off to the left under centred copy. */
+.hero .peak-btn { align-self: center; }
+.hero .cta-note { margin-top: .9rem; }
+
+/* THE BANDS BLEED, so they are children of body and main rather than of .wrap,
+   which caps at 1120px. .wrap is re-entered inside each one to hold the copy to
+   that measure. This is the same shape the footer already uses. */
+.topbar-band, .hero-band {
+  background-color: var(--purple-10);
+  background-image: var(--grain);
+}
+.hero-band {
+  position: relative;
+  /* The crop. The fan is taller than the band, so the phones are cut off at
+     the band's bottom edge and read as continuing below the fold. */
+  overflow: hidden;
+}
+/* NOT Tiimo's background. Theirs is a flat 135deg wash between two purples,
+   corner to corner. This is a single soft light rising from behind the phones
+   and fading out, so the ground is doing something the composition asks for
+   rather than being a diagonal tint. One hue to transparent, which is also the
+   only kind of gradient check-design.py allows. */
+.hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 85% at 50% 88%, #ffffff 0%, rgba(255, 255, 255, 0) 62%);
+  pointer-events: none;
+}
+.hero-band > * { position: relative; }
+
+/* The fan sits outside .wrap so it can run to the viewport edges, the way the
+   outer phones are cut off on Tiimo's mobile. */
+.hero-fan {
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+  height: clamp(200px, 27vw, 330px);
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow: hidden;
+}
+.hero-fan img {
+  flex: 0 0 auto;
+  width: clamp(148px, 19.5vw, 244px);
+  /* drop-shadow, not box-shadow: shot-food and shot-plan carry alpha, so a box
+     shadow would draw a rectangle around a phone-shaped image. shot-day is
+     opaque, hence a soft wide shadow rather than a tight one. */
+  filter: drop-shadow(0 14px 26px rgba(6, 3, 13, .16));
+  /* shot-food and shot-plan are device mockups with rounded transparent
+     corners, so this does nothing to them. shot-day is a bare screen capture
+     with hard square corners, and without it that one reads as a white
+     rectangle wedged between two phones. */
+  border-radius: 18px;
+}
+.hero-fan .ph-b { width: clamp(168px, 22vw, 278px); z-index: 3; }
+.hero-fan .ph-a, .hero-fan .ph-c { margin-top: clamp(24px, 3.2vw, 44px); z-index: 2; }
+.hero-fan .ph-a { margin-right: clamp(-40px, -2.6vw, -18px); }
+.hero-fan .ph-c { margin-left:  clamp(-40px, -2.6vw, -18px); }
 
 /* ---- the toolkit grid --------------------------------------------------- */
 .toolkit { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
@@ -314,18 +378,17 @@ strong { color: var(--ink); font-weight: 700; }
        .media-text, .media-text.media-left { ... padding-bottom: 0 }
 
    and in a selector list every selector keeps its own specificity, so
-   .media-text.media-left (0,2,0) outranks main > .media-text (0,1,1). The
+   .media-text.media-left (0,2,0) outranks .wrap > .media-text (0,1,1). The
    flipped section alone would keep losing its spacing on mobile. Margin is a
    property the pattern never sets, so there is nothing to outrank. */
-main > .media-text {
+.wrap > .media-text {
   padding-top: clamp(3rem, 7vw, 5rem);
   border-top: 1px solid var(--rule);
   margin-bottom: clamp(3rem, 7vw, 5rem);
 }
 
 @media (max-width: 800px) {
-  .hero { grid-template-columns: 1fr; gap: 2.25rem 0; }
-  .hero .shot { max-width: 15rem; }
+  .hero h1 { max-width: 14ch; }
 }
 
 /* ---- faq ---------------------------------------------------------------- */
@@ -520,34 +583,46 @@ main > .media-text {
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header class="topbar">
-    <a class="brand" href="/">
-      <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
-      <span>Pushing Peak</span>
-    </a>
-    <nav>
-      <a href="/sources/">Sources</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/blog/">Blog</a>
-      <a href="/for-coaches/">For coaches</a>
-    </nav>
-  </header>
+<div class="topbar-band">
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+        <span>Pushing Peak</span>
+      </a>
+      <nav>
+        <a href="/sources/">Sources</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/blog/">Blog</a>
+        <a href="/for-coaches/">For coaches</a>
+      </nav>
+    </header>
+  </div>
+</div>
 
-  <main>
+<main>
 
-    <section class="hero">
-      <div class="copy">
+  <div class="hero-band">
+    <div class="wrap">
+      <section class="hero">
         <h1>A fueling plan built around the training you actually do.</h1>
         <p class="lede">Every meal gets its own time window and its own targets. Change the training and the day changes with it.</p>
         <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
         <span class="cta-note">For competitive athletes, in any sport.</span>
-      </div>
-      <div class="shot">
-        <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" decoding="async">
-      </div>
-    </section>
+      </section>
+    </div>
+    <!-- The centre phone carries the differentiator, a day with a training
+         session in it. The flanking two are context and are decorative, so
+         they take an empty alt rather than repeating the same claim twice. -->
+    <div class="hero-fan">
+      <img class="ph-a" src="/img/shot-food.png" width="680" height="1247" alt="" decoding="async">
+      <img class="ph-b" src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing a training session and each meal with its own time window and targets" decoding="async">
+      <img class="ph-c" src="/img/shot-plan.png" width="680" height="1247" alt="" decoding="async">
+    </div>
+  </div>
+
+  <div class="wrap">
 
     <section class="toolkit">
       <div class="measure">
@@ -645,10 +720,9 @@ main > .media-text {
       <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
     </div>
 
-  </main>
+  </div>
 
-
-</div>
+</main>
 
   <footer class="site-footer">
     <div class="foot-inner">
