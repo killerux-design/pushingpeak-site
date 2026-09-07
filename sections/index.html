@@ -108,6 +108,16 @@
   --font:    "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* Swap this one line for a licensed display serif. It must be self-hosted:
      this site takes no CDN fonts. */
+  /* Semantic text tokens, from the app's design-tokens.tokens.json.
+     tokens/light/text/text-primary   -> primitives.gray.gray-100  #080909
+     tokens/light/text/text-secondary -> primitives.gray.gray-60   #646b6c
+     These are the app's grays. The site's own --ink / --body are the purple
+     ink at alpha, a different system; the media-text pattern is on the app's
+     tokens because that is what the Figma component specifies. */
+  --gray-60:  #646b6c;
+  --gray-100: #080909;
+  --text-primary:   var(--gray-100);
+  --text-secondary: var(--gray-60);
   --display: Georgia, "Iowan Old Style", "Times New Roman", serif;
 }
 
@@ -188,21 +198,35 @@ a { color: var(--brand); }
 /* Tiimo's other alignment, for breaking a run of bottom-aligned sections. */
 .media-text.align-center { align-items: center; }
 
+/* Figma 1541:12447. heading-07: Sailec Bold, 700, 42px, letter-spacing 0, on
+   text-primary. This replaced a 32-51px fluid serif set in var(--display).
+   TWO THINGS THAT WERE WRONG AND ARE NOW FIXED BY THE TOKEN. The family was
+   Georgia here and Sailec on /home-v2/, because --display is only defined in
+   this file, so one pattern rendered in two typefaces depending on the page.
+   And the size was fluid where the token is fixed.
+   Line-height is the one value not taken literally: the token says 100, and
+   1.16 is what `normal` gives Sailec at this size, which is what the Figma
+   frame itself renders. */
 .media-text h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  color: var(--ink);
-  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 42px;
   line-height: 1.16;
-  letter-spacing: -.012em;
+  letter-spacing: 0;
+  color: var(--text-primary);
   margin: 0;
   text-wrap: balance;
 }
+/* body-02: Sailec Medium, 500, 16px, on text-secondary.
+   Line-height stays 1.6 rather than the token's 100. At 16px the token's
+   leading is about 1.2, which is right in a Figma frame and cramped for a
+   paragraph someone actually reads on a page. Say the word and it matches. */
 .media-text .mt-copy > p {
   margin: 0;
-  font-size: 1.0563rem;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 1.6;
-  color: var(--body);
+  color: var(--text-secondary);
   max-width: 46ch;
 }
 
@@ -247,7 +271,6 @@ a { color: var(--brand); }
   .media-text .mt-copy  { order: 1; margin: 0; gap: 1rem; }
   .media-text .mt-media { order: 2; }
 
-  .media-text h2 { font-size: clamp(1.75rem, 8vw, 2.2rem); }
   .mt-media { max-width: 20rem; justify-self: start; padding: 1.25rem; }
   .pill { padding: 13px 20px; }
 }
