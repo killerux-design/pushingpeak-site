@@ -259,7 +259,7 @@ li { margin: .5rem 0; }
 <p>We collect only what the app needs to do its job. Specifically:</p>
 <ul>
 <li><strong>Account information</strong>: the email address you use to sign in (we authenticate with a one-time email code; we do not store a password).</li>
-<li><strong>Athlete profile</strong>: your date of birth (birthdate), height, weight, sport, and training preferences. Your birthdate is collected to compute age-appropriate fueling targets and to enforce our minimum-age policy (see <em>Children and Minors</em>).</li>
+<li><strong>Athlete profile</strong>: your date of birth (birthdate), height, weight, sport, and training preferences. Your birthdate is collected to compute age-appropriate fueling targets and to enforce our minimum-age policy (see <em>Children and Minors</em>). We also store when you last updated your weight (a timestamp), so the app can tell a current weight from an out-of-date one — your daily fueling targets are calculated from it. We keep only your current weight and that one date, not the earlier numbers you entered.</li>
 <li><strong>Training and nutrition logs</strong>: the workouts, meals, and food entries you record, including the free-text meal descriptions you type and the foods you confirm.</li>
 <li><strong>Subscription and entitlement records</strong>: whether your account has active access, and the source of that access (for example, an in-app purchase).</li>
 <li><strong>Optional profile photo</strong>: if you set a profile avatar, the image you choose.</li>
@@ -295,7 +295,7 @@ li { margin: .5rem 0; }
 <p>We share the minimum data necessary with the following named companies, each for the specific purpose listed. These are our only third-party data recipients.</p>
 <table>
 <tr><th>Recipient</th><th>What it receives</th><th>Purpose</th></tr>
-<tr><td><strong>Supabase Inc.</strong></td><td>Account email; athlete profile (birthdate, height, weight); training and nutrition logs; subscription/entitlement records; optional profile photo</td><td>Cloud database, authentication (email one-time code), file storage, and cross-device sync. Supabase is our primary data processor.</td></tr>
+<tr><td><strong>Supabase Inc.</strong></td><td>Account email; athlete profile (birthdate, height, weight, and when weight was last updated); training and nutrition logs; subscription/entitlement records; optional profile photo</td><td>Cloud database, authentication (email one-time code), file storage, and cross-device sync. Supabase is our primary data processor.</td></tr>
 <tr><td><strong>Apple Inc.</strong></td><td>In-app purchase and transaction data, subscription status, and a random per-account token (an <code>appAccountToken</code> that carries no name, email, or profile data)</td><td>In-app purchase and subscription management, and App Store distribution.</td></tr>
 <tr><td><strong>Google LLC</strong></td><td>The free-text meal descriptions you type for AI food logging</td><td>Turns a described meal into an itemized list of foods with estimated macros (AI itemization).</td></tr>
 <tr><td><strong>Anthropic PBC (Claude)</strong></td><td>The food text used to rank and verify catalog matches</td><td>Improves the accuracy of matching your food to our verified nutrition catalog (AI re-ranking).</td></tr>
