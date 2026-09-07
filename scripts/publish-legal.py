@@ -80,14 +80,30 @@ def convert(md: str) -> tuple[str, str]:
     return title, '\n'.join(out)
 
 def publish(md_path: pathlib.Path, html_path: pathlib.Path) -> None:
+    """Replace the page's <main> content. Everything outside it is the page's
+    own chrome and is preserved verbatim, in both directions.
+
+    THE TAIL USED TO BE HARDCODED as '</main></body></html>', which meant any
+    wrapper closing after </main> was silently destroyed on the next publish.
+    That made it impossible for these pages to carry the site chrome, which
+    closes a .wrap and a .top-fade after </main>. Now the tail is preserved the
+    same way the head always was, so the chrome is the page's to own and this
+    script only ever owns what is between the <main> tags.
+    """
     title, body = convert(md_path.read_text())
     page = html_path.read_text()
     head, sep, tail = page.partition('<main>')
     assert sep, f'{html_path}: no <main>'
-    footer_match = re.search(r'<p class="footer">.*?</p>', tail, re.S)
+    close = tail.find('</main>')
+    assert close != -1, f'{html_path}: no </main>'
+    after = tail[close + len('</main>'):]          # chrome, preserved
+    footer_match = re.search(r'<p class="footer">.*?</p>', tail[:close], re.S)
     assert footer_match, f'{html_path}: no footer'
-    new_main = f'\n<h1>{html.escape(title, quote=False)}</h1>\n{body}\n{footer_match.group(0)}\n</main>\n</body>\n</html>\n'
-    html_path.write_text(head + sep + new_main)
+    # The h1 goes in .page-hero so these pages open the way every other page
+    # does: a centred heading over the fade.
+    new_main = (f'\n<div class="page-hero"><h1>{html.escape(title, quote=False)}</h1></div>\n'
+                f'{body}\n{footer_match.group(0)}\n</main>')
+    html_path.write_text(head + sep + new_main + after)
     print(f'{html_path.name}: rebuilt from {md_path.name} ({len(body.splitlines())} body lines)')
 
 if __name__ == '__main__':

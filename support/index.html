@@ -3,97 +3,376 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pushing Peak Support</title>
+<title>Support</title>
+<meta name="description" content="How to reach us, report a safety concern, manage your membership and delete your account.">
 <link rel="canonical" href="https://pushingpeak.app/support/">
 <style>
-:root { color-scheme: light dark; }
-* { box-sizing: border-box; }
-body {
-  margin: 0; padding: 2.5rem 1.25rem 4rem;
-  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #1a1a1a; background: #ffffff;
+/* Self-contained. Same tokens as the homepage; inline because the site has no
+   build step and .nojekyll means nothing is processed. */
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
 }
-main { max-width: 720px; margin: 0 auto; }
-h1 { font-size: 1.9rem; line-height: 1.25; margin: 0 0 1.5rem; }
-h2 { font-size: 1.25rem; margin: 2.25rem 0 .75rem; padding-top: .5rem; border-top: 1px solid #eee; }
-p, li { color: #2a2a2a; }
-a { color: #0a6cff; text-decoration: underline; overflow-wrap: anywhere; }
-strong { font-weight: 650; }
-code { font: 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; background: rgba(0,0,0,.06); padding: .1em .35em; border-radius: 4px; }
-ul { padding-left: 1.25rem; }
-li { margin: .35rem 0; }
-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .95rem; display: block; overflow-x: auto; }
-th, td { border: 1px solid #ddd; padding: .55rem .7rem; text-align: left; vertical-align: top; }
-th { background: rgba(0,0,0,.04); font-weight: 650; }
-.footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #eee; font-size: .85rem; color: #777; }
-@media (prefers-color-scheme: dark) {
-  body { color: #e8e8e8; background: #121212; }
-  p, li { color: #d0d0d0; }
-  h2 { border-top-color: #2a2a2a; }
-  a { color: #4c9dff; }
-  code { background: rgba(255,255,255,.10); }
-  th, td { border-color: #333; }
-  th { background: rgba(255,255,255,.06); }
-  .footer { border-top-color: #2a2a2a; color: #888; }
+@font-face {
+  font-family: "Sailec";
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  /* ---- Pushing Peak design tokens -------------------------------------
+     Values are the app's own, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
+     Primitive names match the app's; semantic roles are mapped below.
+
+     The sand ground these pages used to carry was the only off-system colour
+     on the site, inherited from Figma node 1506-45 (the placeholder frame that
+     also carried Cal AI content). The homepage was already on these tokens.
+     Do not invent a second scale: if a step is missing, add it to the app's
+     file. */
+  --purple-05: #f8f3ff;
+  --purple-10: #f2e8ff;
+  --purple-20: #e4cfff;
+  --purple-60: #8b26d5;
+  --gray-60:   #646b6c;
+  --gray-70:   #4c5353;
+  --purple-100: #06030d;
+
+  /* Semantic roles */
+  /* GROUND: #fcfcfc with a fine grain, sitewide since 2026-09-06.
+     #fcfcfc is neutral (R=G=B=252) and is what Tiimo actually uses, confirmed by
+     sampling their rendered margins rather than by reading a token; their
+     `--background: #f8f7f3` is a section colour, not the page.
+     The GRAIN is load-bearing: flat near-white samples as one value across 89%
+     of the page and reads dead. SVG feTurbulence as a data URI, so no asset, no
+     CDN, no build step. Panels stay purple-10 and now carry the colour. */
+  --paper:   #fcfcfc;
+  --paper-2: var(--purple-10);
+  --rule:    var(--purple-20);
+  --ink:     var(--purple-100);
+  --body:    var(--gray-70);
+  --muted:   var(--gray-60);   /* gray-40, which this site used, is 3.35:1 and
+                                  fails AA. This is 4.99:1. */
+  --brand:   var(--purple-60);
+  --radius-lg: 30px;
+
+  --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* The page grain, named once so .top-fade can reuse it. */
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--body);
+  background-color: var(--paper);
+  background-image: var(--grain);
+  background-repeat: repeat;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* One page frame sitewide (1120), with the reading measure on main so
+   prose keeps its line length while the chrome shares a width. */
+/* margin-inline so the centred .page-hero centres on the page rather than
+   inside a column pinned to the left of a 1120px .wrap. */
+main { max-width: 44rem; margin-inline: auto; }
+
+/* The legal pages carry wide tables. Without this they push the whole
+   document sideways on a phone; the original chrome had it and porting
+   the site CSS dropped it. The table scrolls, the page does not. */
+main table { display: block; width: 100%; overflow-x: auto; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 32px; height: 32px; border-radius: 9px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.01em; font-size: .9375rem; }
+.topbar nav { display: flex; gap: 1.25rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--muted); }
+
+article { padding: clamp(1.5rem, 5vw, 3rem) 0 0; }
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.deck {
+  font-size: 1.15rem;
+  color: var(--body);
+  margin: 0 0 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+  text-wrap: pretty;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  margin: 2.75rem 0 .9rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1.15rem; }
+strong { color: var(--ink); font-weight: 700; }
+a { color: var(--brand); }
+
+ul { margin: 0 0 1.15rem; padding-left: 1.15rem; }
+li { margin: .5rem 0; }
+
+.pull {
+  margin: 2.5rem 0;
+  color: var(--ink);
+  font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.asks { margin: 1.75rem 0 2rem; }
+.asks p {
+  margin: 0 0 .7rem; color: var(--ink); font-weight: 700;
+  font-size: clamp(1.0625rem, 2vw, 1.2rem); line-height: 1.35;
+  text-wrap: pretty;
+}
+.asks p:last-child { margin-bottom: 0; }
+
+.end {
+  margin: 3rem 0 2rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--paper-2);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.end h2 { margin-top: 0; }
+.end p { max-width: 42ch; margin-left: auto; margin-right: auto; }
+.end a.badge { display: inline-block; line-height: 0; margin-top: .5rem; }
+.end a.badge img { height: 52px; width: auto; display: block; }
+
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+
+
+/* ---- shared site footer. Keep in step with /sections/. -------------------
+   .foot-inner is the footer's own container, not the page's, so the footer does
+   not depend on whatever each page calls its wrapper. */
+.foot-inner { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+.site-footer {
+  position: relative; overflow: hidden; margin-top: 5rem; padding: 4.5rem 0 0;
+  background: linear-gradient(-20deg, var(--purple-10) 8%, rgba(242, 232, 255, 0) 58%);
+}
+.site-footer .foot-top { display: flex; flex-direction: column; gap: 2.25rem; padding-bottom: 3rem; }
+.site-footer .mark img { width: auto; height: 56px; }
+.foot-say h2 { color: var(--ink); font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.16; letter-spacing: -.02em; margin: 0 0 .5rem; text-wrap: balance; }
+.foot-say p { margin: 0; max-width: 44ch; font-size: 1rem; line-height: 1.6; color: var(--body); }
+.foot-cols { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)) minmax(0,1.1fr); gap: 2rem 1.5rem; align-items: start; }
+.foot-cols h3 { font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; font-weight: 700; color: var(--ink); margin: 0 0 .3rem; }
+.foot-cols ul { list-style: none; margin: 0; padding: 0; }
+.foot-cols a { display: inline-block; padding: 3px 0; font-size: .9375rem; line-height: 1.6; color: var(--body); text-decoration: none; }
+.foot-cols a:hover { color: var(--ink); text-decoration: underline; }
+.foot-get .store { display: inline-block; line-height: 0; margin-top: .3rem; }
+.foot-get .store img { height: 42px; width: auto; }
+.foot-bar { background: var(--rule); padding: 12px 0; font-size: .75rem; line-height: 2; color: var(--body); }
+.foot-bar .inner { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; align-items: center; }
+.foot-bar nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.foot-bar a { color: var(--body); text-decoration: underline; }
+.foot-bar a:hover { color: var(--ink); }
+@media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
+@media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+/* ===========================================================================
+   page-hero  ·  every page except home
+   =========================================================================== */
+
+/* A short centred heading and one short description, then the sections follow.
+   No image and no solid banner: the page opens straight into the fade, which
+   starts at the top of the document with the nav sitting on it. Home is the
+   deliberate exception, keeping the purple-20 banner and the phone fan so it
+   stands apart from every other page. Reference is Tiimo's product pages. */
+.page-hero {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: clamp(2.25rem, 5.5vw, 4rem) 0 clamp(1.75rem, 4vw, 2.75rem);
+}
+.page-hero h1 { max-width: 20ch; margin: 0 0 1rem; }
+.page-hero > p {
+  max-width: 58ch; margin: 0;
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  color: var(--body);
+}
+/* .peak-btn carries align-self: start for left-aligned columns. */
+.page-hero .peak-btn { align-self: center; margin-top: 1.5rem; }
+.page-hero .cta-note { margin-top: .9rem; }
+
+/* The fade the page opens into. Full width, so it wraps .wrap rather than
+   living inside it: .wrap caps at 1120px and would leave near-white gutters
+   either side of a purple strip. The grain rides underneath so the coloured
+   region keeps the page texture instead of going flat. */
+.top-fade {
+  background-image:
+    linear-gradient(to bottom, var(--purple-10) 0, rgba(242, 232, 255, 0) 520px),
+    var(--grain);
+  background-repeat: no-repeat, repeat;
 }
 </style>
 </head>
 <body>
-<main>
-<h1>Support</h1>
 
-<p>Pushing Peak is made by a small team. Every message reaches a person, and we answer all of
+<div class="top-fade">
+<div class="wrap">
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="32" height="32" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/sources/">Sources</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+    </nav>
+  </header>
+
+  <main>
+      <div class="page-hero">
+        <h1>Support</h1>
+        <p>Pushing Peak is made by a small team. Every message reaches a person, and we answer all of
 them, usually within one business day.</p>
+      </div>
 
-<h2>Contact us</h2>
+      <h2>Contact us</h2>
 
-<p><strong>Email:</strong> <a href="mailto:kevin@killerux.design">kevin@killerux.design</a></p>
+      <p><strong>Email:</strong> <a href="mailto:kevin@killerux.design">kevin@killerux.design</a></p>
 
-<p>To help us sort things out on the first reply, it is useful (but never required) to include the
-email address on your account, your device and iOS version, and what you expected to happen.</p>
+      <p>To help us sort things out on the first reply, it is useful (but never required) to include the
+      email address on your account, your device and iOS version, and what you expected to happen.</p>
 
-<h2>Reporting a safety concern</h2>
+      <h2>Reporting a safety concern</h2>
 
-<p>If someone on Pushing Peak is behaving in a way that concerns you, you can report or block them
-directly from their profile: open the profile, tap the <strong>&hellip;</strong> button at the top
-right, and choose <strong>Report</strong> or <strong>Block</strong>. Blocking takes effect
-immediately in both directions.</p>
+      <p>If someone on Pushing Peak is behaving in a way that concerns you, you can report or block them
+      directly from their profile: open the profile, tap the <strong>&hellip;</strong> button at the top
+      right, and choose <strong>Report</strong> or <strong>Block</strong>. Blocking takes effect
+      immediately in both directions.</p>
 
-<p><strong>We review every report within 24 hours.</strong> If we find a violation, the reported
-account may be removed or restricted. You can also email us at the address above and we will treat
-it the same way.</p>
+      <p><strong>We review every report within 24 hours.</strong> If we find a violation, the reported
+      account may be removed or restricted. You can also email us at the address above and we will treat
+      it the same way.</p>
 
-<h2>How do I manage or cancel my membership?</h2>
+      <h2>How do I manage or cancel my membership?</h2>
 
-<p>Memberships are handled by Apple, not by us. In the app, open <strong>Settings &rarr; Manage
-Subscription</strong>, which opens Apple's own subscription screen. You can also reach it any time
-from the Settings app on your device under your Apple Account &rarr; Subscriptions. Cancelling
-stops the next renewal; access continues until the end of the period you have already paid for.</p>
+      <p>Memberships are handled by Apple, not by us. In the app, open <strong>Settings &rarr; Manage
+      Subscription</strong>, which opens Apple's own subscription screen. You can also reach it any time
+      from the Settings app on your device under your Apple Account &rarr; Subscriptions. Cancelling
+      stops the next renewal; access continues until the end of the period you have already paid for.</p>
 
-<h2>My club or coach covers my membership. How do I join?</h2>
+      <h2>My club or coach covers my membership. How do I join?</h2>
 
-<p>Ask them for your team's invite code, then open <strong>Settings &rarr; Join a Team</strong> in
-the app and enter it. Your access comes from your membership in that organization, so there is
-nothing to buy.</p>
+      <p>Ask them for your team's invite code, then open <strong>Settings &rarr; Join a Team</strong> in
+      the app and enter it. Your access comes from your membership in that organization, so there is
+      nothing to buy.</p>
 
-<h2>How do I delete my account?</h2>
+      <h2>How do I delete my account?</h2>
 
-<p>Open <strong>Settings &rarr; Profile</strong> and tap <strong>Delete Account</strong> at the
-bottom of the screen. This permanently deletes your account and the data associated with it. If you
-also hold a paid membership, cancel it separately in Apple's subscription settings. Deleting
-your account does not cancel an Apple subscription.</p>
+      <p>Open <strong>Settings &rarr; Profile</strong> and tap <strong>Delete Account</strong> at the
+      bottom of the screen. This permanently deletes your account and the data associated with it. If you
+      also hold a paid membership, cancel it separately in Apple's subscription settings. Deleting
+      your account does not cancel an Apple subscription.</p>
 
-<h2>Is Pushing Peak medical advice?</h2>
+      <h2>Is Pushing Peak medical advice?</h2>
 
-<p>No. Pushing Peak provides general nutrition and training information for athletes and is not a
-substitute for professional medical or nutritional care. See the
-<a href="https://pushingpeak.app/terms">Terms of Service</a> for the full disclaimer.</p>
+      <p>No. Pushing Peak provides general nutrition and training information for athletes and is not a
+      substitute for professional medical or nutritional care. See the
+      <a href="https://pushingpeak.app/terms">Terms of Service</a> for the full disclaimer.</p>
 
-<h2>Age requirement</h2>
+      <h2>Age requirement</h2>
 
-<p>Pushing Peak is for athletes aged 13 and over.</p>
+      <p>Pushing Peak is for athletes aged 13 and over.</p>
 
-<p class="footer">Pushing Peak is a product of KILLERUX LLC. Terms: <a href="https://pushingpeak.app/terms">pushingpeak.app/terms</a> &middot; Privacy: <a href="https://pushingpeak.app/privacy">pushingpeak.app/privacy</a></p>
-</main>
+      <p class="footer">Pushing Peak is a product of KILLERUX LLC. Terms: <a href="https://pushingpeak.app/terms">pushingpeak.app/terms</a> &middot; Privacy: <a href="https://pushingpeak.app/privacy">pushingpeak.app/privacy</a></p>
+  </main>
+
+</div>
+</div>
+
+  <footer class="site-footer">
+    <div class="foot-inner">
+      <div class="foot-top">
+        <div class="mark"><img src="/img/pp-logo.svg" width="56" height="56" alt="" decoding="async"></div>
+        <div class="foot-say">
+          <h2>Fueling that knows your day</h2>
+          <p>Pushing Peak plans your eating around the training you actually do. Every meal gets its own time window and its own targets, and every number traces back to a published source.</p>
+        </div>
+        <div class="foot-cols">
+          <div>
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="/why/">Why we built it</a></li>
+              <li><a href="/blog/">Blog</a></li>
+              <li><a href="/pricing/">Pricing</a></li>
+              <li><a href="/sources/">Where the numbers come from</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Compared</h3>
+            <ul>
+              <li><a href="/compare/">All comparisons</a></li>
+              <li><a href="/blog/pushing-peak-vs-myfitnesspal/">Against MyFitnessPal</a></li>
+              <li><a href="/blog/pushing-peak-vs-cal-ai/">Against Cal AI</a></li>
+              <li><a href="/blog/pushing-peak-vs-chatgpt/">Against ChatGPT</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Coaches</h3>
+            <ul>
+              <li><a href="/for-coaches/">For coaches and teams</a></li>
+              <li><a href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Help</h3>
+            <ul>
+              <li><a href="/support">Support</a></li>
+              <li><a href="mailto:kevin@killerux.design">Contact</a></li>
+            </ul>
+          </div>
+          <div class="foot-get">
+            <h3>Get the app</h3>
+            <a class="store" href="https://apps.apple.com/app/id6753684222">
+              <img src="/img/app-store-badge.svg" width="126" height="42" alt="Download on the App Store">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <div class="foot-inner inner">
+        <span>&copy; 2026 KILLERUX LLC</span>
+        <nav>
+          <a href="/terms">Terms of Service</a>
+          <a href="/privacy">Privacy Policy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

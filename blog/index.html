@@ -103,6 +103,9 @@
 
   --radius:  28px;
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* The page grain, named once so .top-fade can reuse it. */
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -116,14 +119,17 @@ body {
   line-height: 1.7;
   color: var(--body);
   background-color: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
+  background-image: var(--grain);
   background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
 }
 
 /* One page frame sitewide (1120), with the reading measure on main so
    prose keeps its line length while the chrome shares a width. */
-main { max-width: 46rem; }
+/* margin-inline added 2026-09-07. The column was left aligned inside a
+   1120px .wrap, so the centred .page-hero centred itself inside the
+   column rather than on the page and sat visibly off axis. */
+main { max-width: 46rem; margin-inline: auto; }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; flex-wrap: wrap; }
@@ -250,9 +256,45 @@ a { color: var(--brand); }
 .foot-bar a:hover { color: var(--ink); }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+/* ===========================================================================
+   page-hero  ·  every page except home
+   =========================================================================== */
+
+/* A short centred heading and one short description, then the sections follow.
+   No image and no solid banner: the page opens straight into the fade, which
+   starts at the top of the document with the nav sitting on it. Home is the
+   deliberate exception, keeping the purple-20 banner and the phone fan so it
+   stands apart from every other page. Reference is Tiimo's product pages. */
+.page-hero {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: clamp(2.25rem, 5.5vw, 4rem) 0 clamp(1.75rem, 4vw, 2.75rem);
+}
+.page-hero h1 { max-width: 20ch; margin: 0 0 1rem; }
+.page-hero > p {
+  max-width: 58ch; margin: 0;
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  color: var(--body);
+}
+/* .peak-btn carries align-self: start for left-aligned columns. */
+.page-hero .peak-btn { align-self: center; margin-top: 1.5rem; }
+.page-hero .cta-note { margin-top: .9rem; }
+
+/* The fade the page opens into. Full width, so it wraps .wrap rather than
+   living inside it: .wrap caps at 1120px and would leave near-white gutters
+   either side of a purple strip. The grain rides underneath so the coloured
+   region keeps the page texture instead of going flat. */
+.top-fade {
+  background-image:
+    linear-gradient(to bottom, var(--purple-10) 0, rgba(242, 232, 255, 0) 520px),
+    var(--grain);
+  background-repeat: no-repeat, repeat;
+}
 </style>
 </head>
 <body>
+<div class="top-fade">
 <div class="wrap">
 
   <header class="topbar">
@@ -269,8 +311,10 @@ a { color: var(--brand); }
   </header>
 
   <main>
-    <h1>Blog</h1>
-    <p class="deck">Notes on eating around your training, and honest comparisons with the apps you have probably already tried.</p>
+    <div class="page-hero">
+      <h1>Blog</h1>
+      <p class="deck">Notes on eating around your training, and honest comparisons with the apps you have probably already tried.</p>
+    </div>
 
     <div class="posts">
 
@@ -321,6 +365,8 @@ a { color: var(--brand); }
 
 
 </div>
+</div>
+
 
   <footer class="site-footer">
     <div class="foot-inner">
