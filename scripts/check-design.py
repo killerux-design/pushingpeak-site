@@ -48,6 +48,7 @@ import argparse
 import html
 import os
 import re
+import subprocess
 import sys
 
 # --------------------------------------------------------------------------
@@ -185,18 +186,37 @@ def scan(src, patterns):
     return sorted(hits)
 
 
+def _ignored(paths):
+    """Paths git ignores. These are never published, so they are not this
+    gate's business. Without this, one gitignored local backup at the repo
+    root kept `check-design.py .` permanently red, which trains everyone to
+    stop reading the output. A file that cannot reach the site cannot fail."""
+    if not paths:
+        return set()
+    try:
+        r = subprocess.run(["git", "check-ignore", "--stdin"],
+                           input="\n".join(paths), capture_output=True, text=True)
+    except (OSError, FileNotFoundError):
+        return set()
+    return {ln.strip() for ln in r.stdout.splitlines() if ln.strip()}
+
+
 def find_pages(paths):
-    pages = []
+    named, walked = [], []
     for p in paths:
         if os.path.isfile(p):
-            pages.append(p)
+            named.append(p)          # asked for by name: always scan it
             continue
         for root, dirs, files in os.walk(p):
             dirs[:] = [d for d in dirs
                        if d not in {".git", ".claude", ".planning",
                                     "scripts", "fonts", "img"}]
-            pages += [os.path.join(root, f) for f in files if f.endswith(".html")]
-    return sorted(set(pages))
+            walked += [os.path.join(root, f) for f in files if f.endswith(".html")]
+    walked = sorted(set(walked))
+    skip = _ignored(walked)
+    walked = [p for p in walked
+              if p not in skip and os.path.normpath(p) not in skip]
+    return sorted(set(named) | set(walked))
 
 
 def main():

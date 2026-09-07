@@ -545,7 +545,11 @@ main .media-text {
   gap: 1rem; margin: 1.9rem 0 0;
 }
 .plan {
-  background: var(--surface); border-radius: 22px; padding: 1.5rem 1.6rem;
+  /* purple-10, not --surface. --surface is the ink at 5%, which on /pricing/
+     reads as a tinted card because that page sits it on white. Here the cards
+     sit on the fade and it came out flat grey, the one dull moment on the page.
+     purple-10 puts them in the same family as the media panels. */
+  background: var(--purple-10); border-radius: 22px; padding: 1.5rem 1.6rem;
   display: flex; flex-direction: column; gap: .35rem;
 }
 .plan .period { font-size: .9375rem; color: var(--muted); margin: 0; }
