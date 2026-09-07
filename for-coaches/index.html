@@ -155,12 +155,12 @@ strong { color: var(--ink); font-weight: 700; }
 
 /* No separator. The rule used to sit on every <section>, which meant the
    carried media-text sections got one too even though the component has
-   none. Removed 2026-09-07, same as home-v2: the purple fade at the top of
+   none. Removed 2026-09-07, same as the homepage: the purple fade at the top of
    the page does the separating and rules on top of it read as clutter. */
 section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
 
 /* ---- media-text, carried verbatim from /sections/ ------------------------
-   Replaced the old .feature pair, the same swap home-v2 got. Do not edit these
+   Replaced the old .feature pair, the same swap the homepage got. Do not edit these
    rules: edit the pattern in /sections/ and carry it across. */
 /* THE COLUMN WIDTHS SWAP WITH THE VARIANT, not just which child sits where.
    See the note at the top of this file. The media always takes the 1fr column. */
@@ -204,7 +204,7 @@ section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
 /* Figma 1541:12447. heading-07: Sailec Bold, 700, 42px, letter-spacing 0, on
    text-primary. This replaced a 32-51px fluid serif set in var(--display).
    TWO THINGS THAT WERE WRONG AND ARE NOW FIXED BY THE TOKEN. The family was
-   Georgia here and Sailec on /home-v2/, because --display is only defined in
+   Georgia here and Sailec on the homepage, because --display is only defined in
    this file, so one pattern rendered in two typefaces depending on the page.
    And the size was fluid where the token is fixed.
    Line-height is the one value not taken literally: the token says 100, and

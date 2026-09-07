@@ -18,46 +18,55 @@
 <meta name="twitter:title" content="Pushing Peak. Fueling that knows your day">
 <meta name="twitter:description" content="A nutrition app for competitive athletes. Every meal gets its own time window and targets, built around the training you actually do.">
 <meta name="twitter:image" content="https://pushingpeak.app/img/og-card.png">
-<link rel="icon" href="img/appicon.png" type="image/png">
+<link rel="icon" href="/img/appicon.png" type="image/png">
 <style>
 /* ---------------------------------------------------------------------------
-   pushingpeak.app homepage.
+   THE HOMEPAGE. Promoted from /home-v2/ on 2026-09-07; that draft is deleted.
+   The previous homepage is archived at
+   .planning/2026-09-07-original-homepage.md, which is gitignored on purpose.
 
-   Implemented from Figma: "Pushing Peak App" / node 1506-45 ("1440w light").
-   Layout, spacing, radii, colours and the type scale are taken from that frame.
-   The COPY and the FEATURE IMAGES are not — see the two notes below.
+   Built in the spirit of tiimoapp.com, product focused, and deliberately
+   without the proof sections they carry (awards, App of the Year, testimonial
+   carousel, press logos) because we have none of them and a fabricated one is
+   worse than none. The eyebrow slot above the headline is empty for that
+   reason; it stays empty until there is something true to put in it.
 
-   Self-contained: inline CSS, real image files under /img and /fonts, no CDN,
-   no build step. `.nojekyll` means nothing processes this site.
+   THE NEUTRAL SYSTEM is Tiimo's method, read from their CSS rather than
+   guessed: every neutral is one ink colour at alpha, so nothing fights the
+   purple. The ground is #fcfcfc with a fine grain; flat near-white samples as
+   one value across most of the page and reads dead.
 
-   SCOPE: this file only. /privacy/, /terms/, /support/ and /404.html keep their
-   own older inline chrome. The app was approved 2026-08-28, so unifying that
-   chrome is now unblocked — but it is deliberately not in this change.
-
-   FONT LICENCE — UNRESOLVED, flagged by Kevin 2026-08-28 ("keep it and flag it,
-   might change the font later"). Sailec is a COMMERCIAL font. The iOS app
-   bundles it under an app licence; serving it as a webfont is a separate grant
-   that has not been confirmed. If it turns out not to be covered, delete the
-   two @font-face rules below and the type falls back to the system stack with
-   no other change required.
-
-   The Figma frame sets the wordmark in Mabry Pro Black, which this repo does
-   not have and which is also commercial. It falls back to Sailec Bold at the
-   same -1px tracking.
---------------------------------------------------------------------------- */
+   THE HERO BANNER is purple-20 and is the one band on the site that does not
+   open on the fade. Every other page starts with the nav on purple-10 falling
+   to the ground; this one holds a solid colour so it stands apart.
+   --------------------------------------------------------------------------- */
 
 @font-face {
   font-family: "Sailec";
-  src: url("fonts/sailec-bold.woff2") format("woff2");
+  src: url("/fonts/sailec-bold.woff2") format("woff2");
   font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "Sailec";
-  src: url("fonts/sailec-medium.woff2") format("woff2");
+  src: url("/fonts/sailec-medium.woff2") format("woff2");
   font-weight: 500; font-style: normal; font-display: swap;
 }
 
 :root {
+  /* lets height animate to and from `auto`; see the faq motion note */
+  interpolate-size: allow-keywords;
+  color-scheme: light;
+
+  /* App design tokens, from
+     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json */
+  --purple-05:  #f8f3ff;
+  --purple-10:  #f2e8ff;
+  --purple-20:  #e4cfff;
+  --purple-60:  #8b26d5;
+  --purple-80:  #5c0593;
+  --purple-100: #06030d;
+
+  /* Ground, and every neutral derived from the ink at alpha. Tiimo's method. */
   /* GROUND: #fcfcfc with a fine grain, sitewide since 2026-09-06.
      #fcfcfc is neutral (R=G=B=252) and is what Tiimo actually uses, confirmed by
      sampling their rendered margins rather than by reading a token; their
@@ -65,56 +74,28 @@
      The GRAIN is load-bearing: flat near-white samples as one value across 89%
      of the page and reads dead. SVG feTurbulence as a data URI, so no asset, no
      CDN, no build step. Panels stay purple-10 and now carry the colour. */
-  --paper: #fcfcfc;
-  color-scheme: light;
+  --ground:  #fcfcfc;
+  --ink:     var(--purple-100);
+  --body:    #06030dc7;   /* 78%, 10.52:1 */
+  --muted:   #06030d9e;   /* 62%,  5.79:1 */
+  --rule:    #06030d24;   /* 14% */
+  --surface: #06030d0d;   /*  5% */
+  --brand:   var(--purple-60);
 
-  /* ---- Pushing Peak design tokens -------------------------------------
-     Values and names are lifted from the app's own token file,
-     AthleteTracker/DesignSystem/Foundation/design-tokens.tokens.json.
-     Only the tokens this page actually uses are listed. The greys the Figma
-     frame used for the hero (#c4c4c4) and footer (#ededf1) were not on the
-     system at all, and are mapped onto real tokens below. Each panel takes a
-     -05/-20 tint and steps one shade deeper on hover. */
-  --gray-05:   #f1f2f3;
-  --gray-50:   #7c8485;
-  --gray-60:   #646b6c;
-  --gray-100:  #080909;
+  /* The page grain, named once so the hero bands can reuse it. */
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
 
-  --purple-10: #f2e8ff;
-  --purple-20: #e4cfff;
-  --purple-30: #d3aeff;
-  --purple-50: #9833e6;
-
-  --aqua-05:   #d5eff6;
-  --aqua-10:   #aee0ec;
-
-  /* trinidad-orange — the family the app's calorie and meal rings use */
-  --orange-05: #ffe4cb;
-  --orange-10: #ffcea0;
-
-  /* Semantic roles */
+  /* Semantic text tokens, from the app's design-tokens.tokens.json.
+     tokens/light/text/text-primary   -> primitives.gray.gray-100  #080909
+     tokens/light/text/text-secondary -> primitives.gray.gray-60   #646b6c
+     These are the app's grays. The site's own --ink / --body are the purple
+     ink at alpha, a different system; the media-text pattern is on the app's
+     tokens because that is what the Figma component specifies. */
+  --gray-60:  #646b6c;
+  --gray-100: #080909;
   --text-primary:   var(--gray-100);
   --text-secondary: var(--gray-60);
-  --body-muted:     var(--gray-50);
-  --hero-bg:        var(--purple-10);
-  --foot-bg:        var(--gray-05);
-
-  /* Semantic tokens the shared footer needs. Mapped onto this page's own
-     scale rather than duplicated, so there is one source per value. */
-  --ink:     var(--gray-100);
-  --body:    var(--gray-60);
-  --muted:   var(--gray-50);
-  --rule:    #06030d24;
-  --purple-10: #f2e8ff;
-
-  --radius-card: 70px;
-  --radius-pill: 41px;
-
   --font: "Sailec", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-
-  /* Type scale. heading-07 (42px) / body-04 (20px) / heading-02 (16px) are
-     named Figma styles; they are applied at their use sites below. */
-  --display: clamp(2.25rem, 6.4vw, 4rem);   /* hero h1, 64px at 1440 */
 }
 
 * { box-sizing: border-box; }
@@ -122,278 +103,404 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background-color: var(--paper);
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%20opacity%3D%270.035%27%2F%3E%3C%2Fsvg%3E");
-  background-repeat: repeat;
-  color: var(--body-muted);
   font-family: var(--font);
+  font-size: 18px;
   font-weight: 500;
+  line-height: 1.65;
+  color: var(--body);
+  background-color: var(--ground);
+  background-image: var(--grain);
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2 {
-  margin: 0;
-  color: var(--text-primary);
-  font-weight: 700;
-  letter-spacing: -.01em;
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--brand); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+.measure { max-width: 40rem; }
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; }
+h1 {
+  font-size: clamp(2.4rem, 6.2vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  margin: 0 0 1.15rem;
 }
-p { margin: 0; }
-img { display: block; max-width: 100%; }
-
-.page {
-  max-width: 1120px;          /* one page frame sitewide, matching /sections/ */
-  margin: 0 auto;
-  padding: 13px clamp(1rem, 3vw, 40px) 24px;
+h2 {
+  font-size: clamp(1.75rem, 4.4vw, 2.6rem);
+  line-height: 1.06;
+  letter-spacing: -.03em;
+  margin: 0 0 1rem;
 }
+h3 {
+  font-size: 1.125rem;
+  letter-spacing: -.012em;
+  line-height: 1.25;
+  margin: 0 0 .35rem;
+}
+p { margin: 0 0 1.15rem; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--ink); font-weight: 700; }
 
-/* --- header pill ---------------------------------------------------------- */
-
-.topbar nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-.topbar nav a { font-size: .9375rem; color: var(--text-secondary); text-decoration: none; }
-.topbar nav a:hover { color: var(--text-primary); }
-.topbar nav a[aria-current="page"] { color: var(--purple-50); }
+/* ---- nav ---------------------------------------------------------------- */
 .topbar {
-  max-width: 1172px;          /* inset 14px inside the 1200 column, per Figma */
-  margin: 0 auto 12px;
-  min-height: 88px;
-  background: #fff;
-  border-radius: var(--radius-pill);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 16px 16px 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap;
 }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 10px; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: 1rem; }
+.topbar nav { display: flex; align-items: center; gap: 1.4rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+/* ---- the one button, repeated ------------------------------------------ */
+.cta {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
   text-decoration: none;
-}
-.brand img { width: 32px; height: 32px; }
-.brand span {
-  font-size: 20px;
   font-weight: 700;
-  letter-spacing: -1px;
-  color: #000;
+  font-size: 1rem;
+  padding: .9rem 1.55rem;
+  border-radius: 999px;
+  line-height: 1.2;
+  white-space: nowrap;
 }
+.cta:hover { background: var(--brand); }
+.cta.small { font-size: .9375rem; padding: .7rem 1.2rem; }
+.cta-note { display: block; margin: .9rem 0 0; font-size: .9375rem; color: var(--muted); }
 
-/* height:auto only — the real Apple SVG is 119.66x40 (2.9916), so the
-   frame's 146x47 box stretched it 3.8%. Apple's guidelines forbid that. */
-.topbar .badge img { width: 146px; height: auto; }
-
-/* Keep the wordmark on one line once the pill gets tight. */
-@media (max-width: 520px) {
-  .topbar { min-height: 72px; padding: 12px 12px 12px 16px; }
-  .brand span { font-size: 17px; letter-spacing: -.5px; }
-  .topbar .badge img { width: 120px; height: auto; }
-}
-
-/* iPhone SE and similar — keeps the wordmark off a second line. */
-@media (max-width: 360px) {
-  .brand span { font-size: 15px; }
-  .topbar .badge img { width: 104px; }
-}
-
-/* --- shared column -------------------------------------------------------- */
-
-.stack {
-  max-width: 100%;            /* .page already sets the frame */
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
-}
-
-/* --- hero ----------------------------------------------------------------- */
-
+/* ---- hero --------------------------------------------------------------- */
 .hero {
-  background: var(--hero-bg);
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  height: 625px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 80px clamp(1rem, 4vw, 3rem) 0;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: clamp(2.25rem, 5.5vw, 4rem) 0 0;
 }
-
-.hero h1 {
-  font-size: var(--display);
-  line-height: 1.1;
-  text-align: center;
-  text-wrap: balance;
+.hero h1 { max-width: 18ch; margin: 0 0 1rem; }
+.hero .lede {
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  max-width: 48ch; margin: 0 0 1.75rem;
 }
+/* .peak-btn carries align-self: start so it hugs its text in a left-aligned
+   column. Here the column is centred, so that has to be overridden or the
+   button sits off to the left under centred copy. */
+.hero .peak-btn { align-self: center; }
+.hero .cta-note { margin-top: .9rem; }
 
-.hero .sub {
-  margin-top: 20px;
-  max-width: 42ch;
-  text-align: center;
-  text-wrap: pretty;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);   /* body-04 */
-  line-height: 1.4;
-  color: var(--body-muted);
+/* THE BANDS BLEED, so they are children of body and main rather than of .wrap,
+   which caps at 1120px. .wrap is re-entered inside each one to hold the copy to
+   that measure. This is the same shape the footer already uses. */
+/* THE BANNER HAS ITS OWN COLOUR, one step up the ramp from the fade beneath
+   it. Both were purple-10 at first and the hero simply did not read as a
+   banner: same value above and below the boundary meant there was nothing to
+   stand out from. purple-20 against the fade's purple-10 gives the step. */
+.topbar-band, .hero-band {
+  background-color: var(--purple-20);
+  background-image: var(--grain);
 }
-
-/* Shared device frame — purple ring over a black bezel, from the Figma phone.
-   Used by the hero and by every feature panel so the page reads as one object. */
-.device {
+.hero-band {
   position: relative;
-  background: #000;                              /* the bezel */
-  border: 3.58px solid var(--purple-50);         /* the ring  */
-  border-radius: 53.5px;
-  padding: 4.3px;
+  /* The crop. The fan is taller than the band, so the phones are cut off at
+     the band's bottom edge and read as continuing below the fold. */
+  overflow: hidden;
 }
-.device img { display: block; width: 100%; height: auto; border-radius: 47.7px; }
-
-/* Figma had the phone at 54px below the h1; the subheadline now takes part of
-   that gap, so the phone tucks up to keep the same amount of it above the fold. */
-.hero .device {
-  margin-top: 30px;
-  width: 331px;
-  max-width: 100%;   /* not vw — that ignores the page and hero padding */
-  flex: none;
-}
-
-.island {
+/* NOT Tiimo's background. Theirs is a flat 135deg wash between two purples,
+   corner to corner. This is a single soft light rising from behind the phones
+   and fading out, so the ground is doing something the composition asks for
+   rather than being a diagonal tint. One hue to transparent, which is also the
+   only kind of gradient check-design.py allows. */
+.hero-band::before {
+  content: "";
   position: absolute;
-  top: 2.4%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 27%;
-  height: 3.7%;
-  background: #000;
-  border-radius: 36px;
+  inset: 0;
+  /* Centred and sized so the white is spent by ~86% of the band's height. The
+     band therefore settles back to flat purple-20 before its bottom edge,
+     which is what lets .top-fade start below it without a seam.
+
+     TWO NUMBERS THAT MATTER. Centred at 66%, so the light sits behind the
+     phones rather than behind the copy, which is what it is there to do. And
+     28% white, not solid: white at .5 lifts purple-20 to almost exactly
+     purple-10, so the banner's brightest point matched the colour the fade
+     below it starts from and the step between them disappeared. */
+  background: radial-gradient(70% 34% at 50% 66%, rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, 0) 62%);
+  pointer-events: none;
+}
+.hero-band > * { position: relative; }
+
+/* THE PURPLE FADE. Sitewide treatment: the ground is purple at the top of the
+   page and falls away into #fcfcfc over roughly one section. This page is the
+   exception the rule is written around, because the hero band above is solid
+   purple so it stands out, and the fade restarts underneath it.
+
+   It cannot live on .wrap, which caps at 1120px and would leave near-white
+   gutters either side of a purple strip. It needs a full-width element, hence
+   this wrapper. The grain rides underneath so the faded region keeps the same
+   texture as the rest of the page rather than going flat. */
+.top-fade {
+  background-image:
+    linear-gradient(to bottom, var(--purple-10) 0, rgba(242, 232, 255, 0) 520px),
+    var(--grain);
+  background-repeat: no-repeat, repeat;
 }
 
-@media (max-width: 780px) {
-  .hero { height: auto; padding-bottom: 0; }
-  .hero .device { margin-top: 40px; margin-bottom: -14%; }
+/* The fan sits outside .wrap so it can run to the viewport edges, the way the
+   outer phones are cut off on Tiimo's mobile. */
+.hero-fan {
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+  height: clamp(200px, 27vw, 330px);
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow: hidden;
 }
+.hero-fan img {
+  flex: 0 0 auto;
+  width: clamp(148px, 19.5vw, 244px);
+  /* drop-shadow, not box-shadow: shot-food and shot-plan carry alpha, so a box
+     shadow would draw a rectangle around a phone-shaped image. shot-day is
+     opaque, hence a soft wide shadow rather than a tight one. */
+  filter: drop-shadow(0 14px 26px rgba(6, 3, 13, .16));
+  /* shot-food and shot-plan are device mockups with rounded transparent
+     corners, so this does nothing to them. shot-day is a bare screen capture
+     with hard square corners, and without it that one reads as a white
+     rectangle wedged between two phones. */
+  border-radius: 18px;
+}
+.hero-fan .ph-b { width: clamp(168px, 22vw, 278px); z-index: 3; }
+.hero-fan .ph-a, .hero-fan .ph-c { margin-top: clamp(24px, 3.2vw, 44px); z-index: 2; }
+.hero-fan .ph-a { margin-right: clamp(-40px, -2.6vw, -18px); }
+.hero-fan .ph-c { margin-left:  clamp(-40px, -2.6vw, -18px); }
 
-/* --- feature rows --------------------------------------------------------- */
+/* ---- the toolkit grid --------------------------------------------------- */
+.toolkit { padding: clamp(2.5rem, 6vw, 4rem) 0; }
+.tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.75rem 2.25rem; margin-top: 2.25rem;
+}
+.tile p { font-size: .9688rem; margin: 0; color: var(--muted); }
 
-.features { display: flex; flex-direction: column; gap: 64px; }
-
-.row {
+/* ---- media-text, carried verbatim from /sections/ ------------------------
+   This replaced the old .feature pair. Do not edit the rules below: edit the
+   pattern in /sections/ and carry it across, or the two drift the way the
+   buttons did. The only page-level addition is the rhythm rule after. */
+/* THE COLUMN WIDTHS SWAP WITH THE VARIANT, not just which child sits where.
+   See the note at the top of this file. The media always takes the 1fr column. */
+.media-text {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: end;
+  padding-bottom: 20px;
 }
+/* BOTH CHILDREN MUST BE PINNED TO ROW 1. Copy is first in the DOM; in the
+   flipped variant it takes column 2, which moves grid's placement cursor past
+   column 1, and sparse auto-placement never backtracks, so the media dropped
+   into a second row. That is why the flipped section rendered with the text
+   top-right and the media far below it. Pinning the row fixes it and costs
+   nothing in the default variant. */
+.media-text .mt-copy,
+.media-text .mt-media { grid-row: 1; }
 
-.row .copy {
+.media-text .mt-copy  { grid-column: 1; }
+.media-text .mt-media { grid-column: 2; }
+
+.media-text.media-left {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+.media-text.media-left .mt-media { grid-column: 1; }
+.media-text.media-left .mt-copy  { grid-column: 2; }
+
+/* Copy is first in the DOM in both variants, so a screen reader and the mobile
+   stack both get the heading before the picture. */
+.media-text .mt-copy {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 16px;
+  gap: 24px;
+  margin: 32px 0 20px;
 }
 
-.row h2 {
-  font-size: clamp(1.75rem, 3.4vw, 42px);
-  line-height: 1.15;
+/* Tiimo's other alignment, for breaking a run of bottom-aligned sections. */
+.media-text.align-center { align-items: center; }
+
+/* Figma 1541:12447. heading-07: Sailec Bold, 700, 42px, letter-spacing 0, on
+   text-primary. This replaced a 32-51px fluid serif set in var(--display).
+   TWO THINGS THAT WERE WRONG AND ARE NOW FIXED BY THE TOKEN. The family was
+   Georgia here and Sailec on the homepage, because --display is only defined in
+   this file, so one pattern rendered in two typefaces depending on the page.
+   And the size was fluid where the token is fixed.
+   Line-height is the one value not taken literally: the token says 100, and
+   1.16 is what `normal` gives Sailec at this size, which is what the Figma
+   frame itself renders. */
+.media-text h2 {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1.16;
+  letter-spacing: 0;
+  color: var(--text-primary);
+  margin: 0;
   text-wrap: balance;
 }
-.row p {
-  font-size: clamp(1.0625rem, 1.5vw, 20px);
-  line-height: 1.35;
-  color: var(--body-muted);
+/* body-02: Sailec Medium, 500, 16px, on text-secondary.
+   Line-height stays 1.6 rather than the token's 100. At 16px the token's
+   leading is about 1.2, which is right in a Figma frame and cramped for a
+   paragraph someone actually reads on a page. Say the word and it matches. */
+.media-text .mt-copy > p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 46ch;
 }
 
-.row.flip .copy  { order: 2; }
-.row.flip .panel { order: 1; }
 
-/* Flat tinted slab, no border and no lip. The Figma frame's "Chunky Effect"
-   (a 6px hard offset) was only ever on the first of the three cards; dropped
-   here by Kevin's call 2026-08-28, which also makes rows 2 and 3 faithful. */
-.panel {
-  position: relative;
-  min-height: 420px;
-  border-radius: var(--radius-card);
-  background: var(--tint);
-  overflow: hidden;
-  transition: background .45s ease;
-}
 
-/* The screenshot is absolutely placed so it can bleed off the bottom of the
-   panel without stretching it. transform-origin keeps the top edge pinned, so
-   the hover scale grows the shot downward into the crop instead of drifting. */
-.panel .device,
-.panel .shot {
-  position: absolute;
-  left: 50%;
-  top: 40px;
-  width: 50%;
-  height: auto;      /* REQUIRED — without it the width/height attributes win
-                        and the shot renders at its natural pixel height */
-  min-width: 180px;
-  transform: translateX(-50%);
-  transform-origin: top center;
-  transition: transform .5s cubic-bezier(.2, .7, .3, 1);
-}
-
-@media (hover: hover) {
-  .panel:hover { background: var(--tint-hover); }
-  .panel:hover .device,
-  .panel:hover .shot { transform: translateX(-50%) scale(1.05); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .panel, .panel .device, .panel .shot { transition: none; }
-  .panel:hover .device, .panel:hover .shot { transform: translateX(-50%); }
-}
-
-.p1 { --tint: var(--purple-20); --tint-hover: var(--purple-30); }
-.p2 { --tint: var(--aqua-05);   --tint-hover: var(--aqua-10);   }
-.p3 { --tint: var(--orange-05); --tint-hover: var(--orange-10); }
-
-@media (max-width: 900px) {
-  .row { grid-template-columns: 1fr; gap: 24px; }
-  .row.flip .copy, .row.flip .panel { order: 0; }
-  .panel { min-height: 400px; }
-  .panel .device, .panel .shot { top: 34px; width: 58%; }
-}
-
-/* --- footer --------------------------------------------------------------- */
-
-.sitefoot {
-  background: var(--foot-bg);
-  border-radius: var(--radius-card);
-  padding: 29px;
-  margin-top: 64px;
+/* Square media panel. Our screenshots are tall, so the panel holds them rather
+   than being them: purple-10 ground, screenshot centred and inset. */
+.mt-media {
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: var(--purple-10);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 29px;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.75rem;
+}
+.mt-media img {
+  max-height: 100%;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 860px) {
+  .media-text,
+  .media-text.media-left {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    padding-bottom: 0;
+  }
+  /* grid-row MUST be reset here. Both children are pinned to row 1 on desktop
+     so the flipped variant cannot fall into a second row; leaving that pin in
+     place at one column puts them in the SAME CELL, overlapping. The desktop
+     fix broke mobile because mobile was not re-checked after it. */
+  .media-text .mt-copy,
+  .media-text .mt-media,
+  .media-text.media-left .mt-copy,
+  .media-text.media-left .mt-media { grid-column: 1; grid-row: auto; }
+
+  .media-text .mt-copy  { order: 1; margin: 0; gap: 1rem; }
+  .media-text .mt-media { order: 2; }
+
+  .mt-media { max-width: 20rem; justify-self: start; padding: 1.25rem; }
+  .pill { padding: 13px 20px; }
+}
+
+/* PAGE RHYTHM, not part of the pattern. The library shows patterns on a bare
+   ground and carries no spacing of its own. The hairline rules that used to
+   separate every band were removed 2026-09-06: the purple fade at the top of
+   the page now does the separating, and rules on top of it read as clutter.
+
+   MARGIN, NOT PADDING, AND DELIBERATELY SO. There is no .faq rule on this
+   page, so the old .feature block's bottom padding was the only thing holding
+   the FAQ heading off the section above it. The obvious fix is padding-bottom
+   here, but the pattern's own breakpoint says
+
+       .media-text, .media-text.media-left { ... padding-bottom: 0 }
+
+   and in a selector list every selector keeps its own specificity, so
+   .media-text.media-left (0,2,0) outranks .wrap > .media-text (0,1,1). The
+   flipped section alone would keep losing its spacing on mobile. Margin is a
+   property the pattern never sets, so there is nothing to outrank. */
+.wrap > .media-text {
+  padding-top: clamp(3rem, 7vw, 5rem);
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+@media (max-width: 800px) {
+  .hero h1 { max-width: 14ch; }
+}
+
+/* ---- faq ---------------------------------------------------------------- */
+.faq summary::before,
+
+/* ---- closing ------------------------------------------------------------ */
+.close {
+  margin: clamp(2.5rem, 6vw, 4rem) 0 3rem;
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+  background: var(--surface);
+  border-radius: 34px;
   text-align: center;
 }
-.sitefoot > img { width: 60px; height: 60px; }
+.close h2 { margin-bottom: .75rem; }
+.close p { max-width: 40ch; margin: 0 auto 1.6rem; }
 
-.sitefoot .links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-.sitefoot a,
-.sitefoot .legal {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-decoration: none;
-}
-.sitefoot a:hover { color: var(--text-primary); }
-.sitefoot .legal { display: grid; gap: .4rem; }
 
-:focus-visible { outline: 2px solid var(--purple-50); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------------------------------------------------------------------------
+   peak-btn — the web PeakButton. IDENTICAL to the app by intent, so every
+   value below is the Swift enum's, not an approximation. Source of truth:
+   AthleteTracker/DesignSystem/Components/Buttons/PeakButton.swift
+   (Figma "Peak UI Components" node 6400:187).
+
+     size  height  lip  radius  border  padding-x  font
+     xs    24      2    10      2       8          Bold 12
+     sm    30      2    12      3       12         Bold 14
+     md    42      4    16      3       16         Bold 16   <- the base
+     lg    50      6    20      3       20         Bold 18
+
+     primary  fill purple-60  border+lip purple-80  label purple-05
+     outline  fill #ffffff    border+lip #e3e6e7    label #080909
+
+   THE CHUNKY CONTRACT: border and lip are ONE colour. Never two.
+   ONLY the app's themes. PeakButton ships primary, outline, apple and ghost;
+   do not add a web-only variant, or the two drift.
+   The lip is reserved via margin-bottom so a row aligns on the CAP, not the
+   lip, and the press is translateY(lip) with the shadow dropped, so the
+   footprint does not change while held.
+--------------------------------------------------------------------------- */
+.peak-btn {
+  --lip: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box;
+  height: 42px; padding: 0 16px;
+  border: 3px solid; border-radius: 16px;
+  font-family: var(--font); font-weight: 700; font-size: 1rem; line-height: 1;
+  text-decoration: none; white-space: nowrap;
+  margin-bottom: var(--lip);
+  /* Hug the label. Without this the button stretches to the cross-axis in any
+     flex or grid parent, which is what happened when it replaced the old pill
+     inside .mt-copy. The app models the same distinction explicitly:
+     ChunkyButtonStyle takes an isFullWidth flag, so hugging is the default and
+     stretching is opt-in. .full below is the web equivalent. */
+  align-self: start;
+  transition: transform .07s ease, box-shadow .07s ease;
+}
+.peak-btn.full { align-self: stretch; width: 100%; }
+.peak-btn.xs { --lip: 2px; height: 24px; padding: 0 8px;  border-width: 2px; border-radius: 10px; font-size: .75rem; }
+.peak-btn.sm { --lip: 2px; height: 30px; padding: 0 12px; border-radius: 12px; font-size: .875rem; }
+.peak-btn.md { --lip: 4px; height: 42px; padding: 0 16px; border-radius: 16px; font-size: 1rem; }
+.peak-btn.lg { --lip: 6px; height: 50px; padding: 0 20px; border-radius: 20px; font-size: 1.125rem; }
+.peak-btn:active { transform: translateY(var(--lip)); box-shadow: none !important; }
+.peak-btn.primary {
+  background: var(--purple-60); border-color: var(--purple-80); color: var(--purple-05);
+  box-shadow: 0 var(--lip) 0 0 var(--purple-80);
+}
+.peak-btn.outline {
+  background: #ffffff; border-color: #e3e6e7; color: #080909;
+  box-shadow: 0 var(--lip) 0 0 #e3e6e7;
+}
+.peak-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .peak-btn { transition: none; } }
+
 
 /* ---- shared site footer. Keep in step with /sections/. -------------------
-   .foot-inner is the footer's OWN container rather than the page's, because
-   this page uses .page and the others use .wrap. One class the footer always
-   owns is less fragile than matching whatever each page happens to call it. */
+   .foot-inner is the footer's own container, not the page's, so the footer does
+   not depend on whatever each page calls its wrapper. */
 .foot-inner { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
-@media (max-width: 720px) { .foot-inner { padding: 0 1.5rem; } }
 .site-footer {
   position: relative; overflow: hidden; margin-top: 5rem; padding: 4.5rem 0 0;
   background: linear-gradient(-20deg, var(--purple-10) 8%, rgba(242, 232, 255, 0) 58%);
@@ -416,100 +523,240 @@ img { display: block; max-width: 100%; }
 .foot-bar a:hover { color: var(--ink); }
 @media (max-width: 860px) { .foot-cols { grid-template-columns: repeat(2, minmax(0,1fr)); } .site-footer { padding-top: 3rem; } .foot-bar .inner { justify-content: flex-start; } }
 @media (max-width: 460px) { .foot-cols { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+
+/* ONE OPEN AT A TIME, with no JavaScript. Every <details> in the card shares
+   name="faq", which makes them an exclusive group: opening one closes its
+   siblings. Native since Chrome 120, Safari 17.2 and Firefox 130.
+
+   Browsers without it simply allow several open at once, which is the old
+   behaviour rather than a broken one, so there is nothing to polyfill.
+
+   Keep the name unique per group if a page ever carries two accordions, or the
+   two will close each other. */
+/* ---- faq accordion. Keep in step with /sections/. ------------------------
+   White card at radius 16, rows padded 28, no rules between them: the padding
+   separates them, which is what makes the card read as one object.
+   The chevron is a MASK, not an <img>, so it inherits currentColor and follows
+   the summary to brand purple on hover. An <img> cannot do that, which is why
+   the earlier PNG and even a hex-filled SVG would have been locked to one
+   colour. Asset: img/chevron-down.svg, the app's own ChevronDown. */
+.faq-card { background: #ffffff; border-radius: 16px; overflow: hidden; }
+.faq-card summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem;
+  padding: 28px;
+  color: var(--ink); font-weight: 700; font-size: 1.125rem; line-height: 1.5; letter-spacing: -.01em;
+}
+.faq-card summary::-webkit-details-marker { display: none; }
+.faq-card summary:hover { color: var(--brand); }
+.faq-card summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; border-radius: 12px; }
+.faq-card .chev {
+  flex: 0 0 auto; width: 24px; height: 24px; margin-top: .15rem;
+  background: currentColor;
+  -webkit-mask: url("/img/chevron-down.svg") center / contain no-repeat;
+          mask: url("/img/chevron-down.svg") center / contain no-repeat;
+  transition: transform .28s cubic-bezier(.4, 0, .2, 1);
+}
+.faq-card details[open] .chev { transform: rotate(180deg); }
+
+/* MOTION. The panel eases open and closed rather than snapping.
+
+   <details> has never been animatable in the obvious way, because its content
+   is shown and hidden discretely and `height: auto` was not an interpolable
+   value. Three modern features together make it work with no JavaScript and no
+   wrapper element:
+
+     interpolate-size: allow-keywords   makes `auto` an animatable height
+     ::details-content                  gives the content a box to transition
+     transition-behavior: allow-discrete carries content-visibility across
+
+   Everything degrades to an instant open where those are missing, which is the
+   behaviour we already had, so there is nothing to polyfill.
+
+   The chevron shares the curve and duration so the two read as one movement
+   rather than two things happening near each other. */
+.faq-card details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .28s cubic-bezier(.4, 0, .2, 1),
+              content-visibility .28s allow-discrete;
+}
+.faq-card details[open]::details-content { block-size: auto; }
+
+/* The content is revealed, not just uncovered. Without this the box grows but
+   the text is fully opaque from the first frame, which reads as a pop rather
+   than an opening: the only thing actually animating that the eye follows is
+   the chevron. The panel clips (overflow: hidden above) while the text fades
+   and lifts the last few pixels into place.
+
+   The fade is shorter than the box, so the text has finished arriving slightly
+   before the panel stops moving. Matching them makes the whole thing feel slow. */
+.faq-card .answer {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .18s ease-out, transform .28s cubic-bezier(.4, 0, .2, 1);
+}
+.faq-card details[open] .answer { opacity: 1; transform: none; }
+
+.faq-card .answer { padding: 0 28px 28px; max-width: 62ch; color: var(--body); }
+.faq-card .answer p { margin: 0 0 .9rem; }
+.faq-card .answer p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .faq-card .chev,
+  .faq-card .answer,
+  .faq-card details::details-content { transition: none; }
+  .faq-card .answer { opacity: 1; transform: none; }
+}
+@media (max-width: 560px) {
+  .faq-card summary { padding: 20px; font-size: 1.0625rem; gap: 1rem; }
+  .faq-card .answer { padding: 0 20px 20px; }
+}
 </style>
 </head>
 <body>
 
-<div class="page">
-
-  <header class="topbar">
-    <a class="brand" href="/">
-      <img src="img/pp-logo.svg" width="32" height="32" alt="" decoding="async">
-      <span>Pushing Peak</span>
-    </a>
-<!-- ⛔ PUBLISH GATE — LAUNCH-DAY FLIP, 47-LAUNCH-RUNBOOK.md §1 step 4.
-     These badges link to adam ID 6753684222. As of 2026-08-28 the app is
-     APPROVED but sitting at Pending Developer Release, so the product page does
-     NOT resolve yet — confirmed via the lookup API, which is the reliable probe
-     (apps.apple.com rate-limits to 429 and tells you nothing):
-         curl -sSL 'https://itunes.apple.com/lookup?id=6753684222&country=us'
-     resultCount:0 means not live. A non-zero result means it is.
-     Kevin ruled 2026-08-28 that the live link stays in regardless. The site is
-     held from publishing on the SCREENSHOT gate below, not on this one. -->
-    <nav>
-      <a href="/sources/">Sources</a>
-      <a href="/pricing/">Pricing</a>
-      <a href="/blog/">Blog</a>
-      <a href="/for-coaches/">For coaches</a>
-    </nav>
-
-    <a class="badge" href="https://apps.apple.com/app/id6753684222">
-      <img src="img/app-store-badge.svg" width="146" height="49" alt="Download on the App Store">
-    </a>
-  </header>
-
-  <div class="stack">
-
-    <section class="hero">
-      <h1>Fueling that<br>knows your day</h1>
-      <p class="sub">A nutrition app for competitive athletes. Every meal gets its own time window and targets, built around the training you actually do.</p>
-      <div class="device">
-        <img src="img/shot-day.png" width="645" height="1398" alt="The Pushing Peak day view: calories eaten, the day's training session, and each meal with its own time window and targets" decoding="async">
-        <span class="island" aria-hidden="true"></span>
-      </div>
-    </section>
-
-    <div class="features">
-
-<!-- ⛔ SCREENSHOT GATE. Each panel below holds a device-framed slot. They are
-     currently filled with the HERO screenshot as a STAND-IN so the layout and
-     the hover behaviour can be reviewed — this page does NOT publish until the
-     three real exports replace them.
-     To fill one: drop the export in /img and change that panel's <img src>.
-     Nothing else needs to change; the tint, the frame, the crop and the hover
-     are all CSS.
-     The Figma frame used another product's marketing images here (Cal AI's —
-     its mascot is visible in feature_2), which cannot ship: they are someone
-     else's assets and they show features Pushing Peak does not have. -->
-
-      <section class="row">
-        <div class="copy">
-          <h2>The plan is there before you are</h2>
-          <p>Breakfast, lunch, dinner, and the snacks between, each with its own time window and its own targets.</p>
-        </div>
-        <div class="panel p1">
-          <img class="shot" src="img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
-        </div>
-      </section>
-
-      <section class="row flip">
-        <div class="copy">
-          <h2>Training changes the plan</h2>
-          <p>Add a session and the day rebuilds around it. Rest tomorrow and tomorrow looks different, because it is.</p>
-        </div>
-        <div class="panel p2">
-          <!-- STAND-IN — replace src with the real export -->
-          <div class="device"><img src="img/shot-day.png" width="645" height="1398" alt="A training session added to the day, with the plan rebuilding around it" loading="lazy" decoding="async"></div>
-        </div>
-      </section>
-
-      <section class="row">
-        <div class="copy">
-          <h2>Food data you can check</h2>
-          <p>Describe a meal in your own words. Every number traces back to a source you can open and correct yourself.</p>
-        </div>
-        <div class="panel p3">
-          <img class="shot" src="img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can correct" loading="lazy" decoding="async">
-        </div>
-      </section>
-
-    </div>
-
-
+<div class="topbar-band">
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+        <span>Pushing Peak</span>
+      </a>
+      <nav>
+        <a href="/sources/">Sources</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/blog/">Blog</a>
+        <a href="/for-coaches/">For coaches</a>
+      </nav>
+    </header>
   </div>
 </div>
 
+<main>
 
+  <div class="hero-band">
+    <div class="wrap">
+      <section class="hero">
+        <h1>A fueling plan built around the training you actually do.</h1>
+        <p class="lede">Every meal gets its own time window and its own targets. Change the training and the day changes with it.</p>
+        <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+        <span class="cta-note">For competitive athletes, in any sport.</span>
+      </section>
+    </div>
+    <!-- The centre phone carries the differentiator, a day with a training
+         session in it. The flanking two are context and are decorative, so
+         they take an empty alt rather than repeating the same claim twice. -->
+    <div class="hero-fan">
+      <img class="ph-a" src="/img/shot-food.png" width="680" height="1247" alt="" decoding="async">
+      <img class="ph-b" src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing a training session and each meal with its own time window and targets" decoding="async">
+      <img class="ph-c" src="/img/shot-plan.png" width="680" height="1247" alt="" decoding="async">
+    </div>
+  </div>
+
+  <div class="top-fade">
+  <div class="wrap">
+
+    <section class="toolkit">
+      <div class="measure">
+        <h2>Everything a training day asks for</h2>
+        <p>One number for the whole day cannot tell you when to eat. This does.</p>
+      </div>
+      <div class="tiles">
+        <div class="tile">
+          <h3>Ready before you are</h3>
+          <p>Tomorrow is built tonight. The answer is on the screen when the alarm goes.</p>
+        </div>
+        <div class="tile">
+          <h3>Windows, not one number</h3>
+          <p>Breakfast, lunch, dinner and the snacks between, each with its own time and its own targets.</p>
+        </div>
+        <div class="tile">
+          <h3>It moves when you do</h3>
+          <p>Add a session, and everything either side of it moves to make room.</p>
+        </div>
+        <div class="tile">
+          <h3>Open any number</h3>
+          <p>Every value traces back to a source you can read and correct yourself.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="media-text">
+      <div class="mt-copy">
+        <h2>Your training drives the day</h2>
+        <p>A rest day and a two session day are not the same day, so they should not carry the same plan. Put the week in and the food follows it, without you doing the arithmetic.</p>
+        <a class="peak-btn outline" href="/blog/what-to-eat-before-morning-practice/">See it on a real morning</a>
+      </div>
+      <div class="mt-media">
+        <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" decoding="async">
+      </div>
+    </section>
+
+    <section class="media-text media-left">
+      <div class="mt-copy">
+        <h2>Every number opens</h2>
+        <p>Describe a meal the way you would say it out loud and it comes back as items you can check. Every value traces to a published source, and we list all of them rather than asking you to take our word for it.</p>
+        <a class="peak-btn outline" href="/sources/">Where the numbers come from</a>
+      </div>
+      <div class="mt-media">
+        <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="media-text align-center">
+      <div class="mt-copy">
+        <h2>The plan is there before you are</h2>
+        <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer is on the screen when the alarm goes.</p>
+        <a class="peak-btn outline" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      </div>
+      <div class="mt-media">
+        <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="measure">
+        <h2>Questions worth asking</h2>
+      </div>
+      <div class="faq-card">
+                <details name="faq">
+          <summary>How is this different from a calorie tracker?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>A tracker records what you already ate. This builds the day before you eat it, around the sessions you have. Both are useful. Only one of them helps at five in the morning. We wrote the long version in <a href="/blog/pushing-peak-vs-myfitnesspal/">an honest comparison</a>.</p></div>
+        </details>
+
+                <details name="faq">
+          <summary>Which sports is it for?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Any sport with a training schedule. Swimming, hockey, running, lifting, and the athletes doing two of those at once.</p></div>
+        </details>
+
+                <details name="faq">
+          <summary>Where do the numbers come from?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Public food databases, and the app shows you which one and lets you correct it. The recommendations have sources too, and <a href="/sources/">they are all listed</a>, with the actual values.</p></div>
+        </details>
+
+                <details name="faq">
+          <summary>What do you do with my data?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>We do not sell it and we do not share it with data brokers. There is no advertising and no tracking in the app, and it does not follow you across other apps or websites. The detail is in the <a href="/privacy">Privacy Policy</a>.</p></div>
+        </details>
+
+                <details name="faq">
+          <summary>My club or coach covers my membership. How do I join?<span class="chev" aria-hidden="true"></span></summary>
+          <div class="answer"><p>Ask them for your team's invite code, then open Settings and Join a Team. <a href="/for-coaches/">More for coaches and teams</a>.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <div class="close">
+      <h2>Start with tomorrow's session</h2>
+      <p>Put your week in and see what the day actually asks for.</p>
+      <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    </div>
+
+  </div>
+  </div>
+
+</main>
 
   <footer class="site-footer">
     <div class="foot-inner">
