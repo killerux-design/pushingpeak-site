@@ -195,23 +195,137 @@ strong { color: var(--ink); font-weight: 700; }
 }
 .tile p { font-size: .9688rem; margin: 0; color: var(--muted); }
 
-/* ---- alternating feature sections --------------------------------------- */
-.feature {
-  display: grid; grid-template-columns: 1fr 19rem;
-  gap: 0 4rem; align-items: center;
-  padding: clamp(3rem, 7vw, 5rem) 0;
-  border-top: 1px solid var(--rule);
+/* ---- media-text, carried verbatim from /sections/ ------------------------
+   This replaced the old .feature pair. Do not edit the rules below: edit the
+   pattern in /sections/ and carry it across, or the two drift the way the
+   buttons did. The only page-level addition is the rhythm rule after. */
+/* THE COLUMN WIDTHS SWAP WITH THE VARIANT, not just which child sits where.
+   See the note at the top of this file. The media always takes the 1fr column. */
+.media-text {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: end;
+  padding-bottom: 20px;
 }
-.feature.flip { grid-template-columns: 19rem 1fr; }
-.feature.flip .copy { order: 2; }
-.feature.flip .shot { order: 1; }
-.feature .copy p { max-width: 42ch; }
-.feature .cta { margin-top: 1.4rem; }
+/* BOTH CHILDREN MUST BE PINNED TO ROW 1. Copy is first in the DOM; in the
+   flipped variant it takes column 2, which moves grid's placement cursor past
+   column 1, and sparse auto-placement never backtracks, so the media dropped
+   into a second row. That is why the flipped section rendered with the text
+   top-right and the media far below it. Pinning the row fixes it and costs
+   nothing in the default variant. */
+.media-text .mt-copy,
+.media-text .mt-media { grid-row: 1; }
+
+.media-text .mt-copy  { grid-column: 1; }
+.media-text .mt-media { grid-column: 2; }
+
+.media-text.media-left {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+.media-text.media-left .mt-media { grid-column: 1; }
+.media-text.media-left .mt-copy  { grid-column: 2; }
+
+/* Copy is first in the DOM in both variants, so a screen reader and the mobile
+   stack both get the heading before the picture. */
+.media-text .mt-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 32px 0 20px;
+}
+
+/* Tiimo's other alignment, for breaking a run of bottom-aligned sections. */
+.media-text.align-center { align-items: center; }
+
+.media-text h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  line-height: 1.16;
+  letter-spacing: -.012em;
+  margin: 0;
+  text-wrap: balance;
+}
+.media-text .mt-copy > p {
+  margin: 0;
+  font-size: 1.0563rem;
+  line-height: 1.6;
+  color: var(--body);
+  max-width: 46ch;
+}
+
+
+
+/* Square media panel. Our screenshots are tall, so the panel holds them rather
+   than being them: purple-10 ground, screenshot centred and inset. */
+.mt-media {
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background: var(--purple-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.75rem;
+}
+.mt-media img {
+  max-height: 100%;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 860px) {
+  .media-text,
+  .media-text.media-left {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    padding-bottom: 0;
+  }
+  /* grid-row MUST be reset here. Both children are pinned to row 1 on desktop
+     so the flipped variant cannot fall into a second row; leaving that pin in
+     place at one column puts them in the SAME CELL, overlapping. The desktop
+     fix broke mobile because mobile was not re-checked after it. */
+  .media-text .mt-copy,
+  .media-text .mt-media,
+  .media-text.media-left .mt-copy,
+  .media-text.media-left .mt-media { grid-column: 1; grid-row: auto; }
+
+  .media-text .mt-copy  { order: 1; margin: 0; gap: 1rem; }
+  .media-text .mt-media { order: 2; }
+
+  .media-text h2 { font-size: clamp(1.75rem, 8vw, 2.2rem); }
+  .mt-media { max-width: 20rem; justify-self: start; padding: 1.25rem; }
+  .pill { padding: 13px 20px; }
+}
+
+/* PAGE RHYTHM, not part of the pattern. Every other band on this page is
+   separated by a hairline rule; the library shows patterns on a bare ground
+   and carries no border of its own.
+
+   MARGIN, NOT PADDING, AND DELIBERATELY SO. There is no .faq rule on this
+   page, so the old .feature block's bottom padding was the only thing holding
+   the FAQ heading off the section above it. The obvious fix is padding-bottom
+   here, but the pattern's own breakpoint says
+
+       .media-text, .media-text.media-left { ... padding-bottom: 0 }
+
+   and in a selector list every selector keeps its own specificity, so
+   .media-text.media-left (0,2,0) outranks main > .media-text (0,1,1). The
+   flipped section alone would keep losing its spacing on mobile. Margin is a
+   property the pattern never sets, so there is nothing to outrank. */
+main > .media-text {
+  padding-top: clamp(3rem, 7vw, 5rem);
+  border-top: 1px solid var(--rule);
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
 
 @media (max-width: 800px) {
-  .hero, .feature, .feature.flip { grid-template-columns: 1fr; gap: 2.25rem 0; }
-  .hero .shot, .feature .shot { max-width: 15rem; }
-  .feature.flip .copy, .feature.flip .shot { order: 0; }
+  .hero { grid-template-columns: 1fr; gap: 2.25rem 0; }
+  .hero .shot { max-width: 15rem; }
 }
 
 /* ---- faq ---------------------------------------------------------------- */
@@ -460,25 +574,36 @@ strong { color: var(--ink); font-weight: 700; }
       </div>
     </section>
 
-    <section class="feature">
-      <div class="copy">
+    <section class="media-text">
+      <div class="mt-copy">
         <h2>Your training drives the day</h2>
         <p>A rest day and a two session day are not the same day, so they should not carry the same plan. Put the week in and the food follows it, without you doing the arithmetic.</p>
-        <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+        <a class="peak-btn outline" href="/blog/what-to-eat-before-morning-practice/">See it on a real morning</a>
       </div>
-      <div class="shot">
-        <img src="/img/shot-day.png" width="645" height="1398" alt="A training session added to the day, with the plan rebuilding around it" loading="lazy" decoding="async">
+      <div class="mt-media">
+        <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" decoding="async">
       </div>
     </section>
 
-    <section class="feature flip">
-      <div class="copy">
-        <h2>Describe a meal, in your own words</h2>
-        <p>Type what you ate the way you would say it out loud. It comes back broken into items, each one something you can open, check and correct.</p>
-        <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+    <section class="media-text media-left">
+      <div class="mt-copy">
+        <h2>Every number opens</h2>
+        <p>Describe a meal the way you would say it out loud and it comes back as items you can check. Every value traces to a published source, and we list all of them rather than asking you to take our word for it.</p>
+        <a class="peak-btn outline" href="/sources/">Where the numbers come from</a>
       </div>
-      <div class="shot">
+      <div class="mt-media">
         <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <section class="media-text align-center">
+      <div class="mt-copy">
+        <h2>The plan is there before you are</h2>
+        <p>Breakfast, lunch, dinner and the snacks between, each with its own time window and its own targets. The answer is on the screen when the alarm goes.</p>
+        <a class="peak-btn outline" href="https://apps.apple.com/app/id6753684222">Get the app</a>
+      </div>
+      <div class="mt-media">
+        <img src="/img/shot-plan.png" width="680" height="1247" alt="A day of meals, each with its own time window and its own targets" loading="lazy" decoding="async">
       </div>
     </section>
 
