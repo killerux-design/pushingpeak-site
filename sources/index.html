@@ -77,6 +77,13 @@
 :root {
   color-scheme: light;
   --purple-05:  #f8f3ff;
+  /* Semantic text tokens, from the app's design-tokens.tokens.json.
+     text-primary -> gray-100 #080909 · text-secondary -> gray-60 #646b6c */
+  --gray-60:  #646b6c;
+  --gray-100: #080909;
+  --text-primary:   var(--gray-100);
+  --text-secondary: var(--gray-60);
+
   --purple-10:  #f2e8ff;
   --purple-60:  #8b26d5;
   --purple-100: #06030d;
@@ -132,7 +139,12 @@ a { color: var(--brand); }
 
 h1, h2, h3 { color: var(--ink); text-wrap: balance; }
 h1 { font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.05; letter-spacing: -.032em; margin: 1rem 0 1rem; }
-h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.15; letter-spacing: -.025em; margin: 3rem 0 .9rem; padding-top: 1.6rem; border-top: 1px solid var(--rule); }
+/* The rule above each section came out 2026-09-06 with the rest of the
+   site's hairlines. Size stays fluid and document-scaled rather than taking
+   heading-07: that token is 42px fixed, which is right for one media-text
+   headline and overwhelming on nine stacked section headings in a reference
+   document. Colour is the app token. */
+h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); line-height: 1.15; letter-spacing: -.025em; margin: 3rem 0 .9rem; color: var(--text-primary); }
 h3 { font-size: 1.0625rem; letter-spacing: -.012em; margin: 1.9rem 0 .5rem; }
 p { margin: 0 0 1.15rem; max-width: 66ch; }
 strong { color: var(--ink); font-weight: 700; }
@@ -397,14 +409,14 @@ female  = (10 x weight kg) + (6.25 x height cm) − (5 x age) − 161</div>
             <h3>Coaches</h3>
             <ul>
               <li><a href="/for-coaches/">For coaches and teams</a></li>
-              <li><a href="mailto:kevin@killerux.design?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></li>
+              <li><a href="mailto:support@pushingpeak.app?subject=Pushing%20Peak%20for%20our%20team">Email us about your team</a></li>
             </ul>
           </div>
           <div>
             <h3>Help</h3>
             <ul>
               <li><a href="/support">Support</a></li>
-              <li><a href="mailto:kevin@killerux.design">Contact</a></li>
+              <li><a href="mailto:support@pushingpeak.app">Contact</a></li>
             </ul>
           </div>
           <div class="foot-get">
