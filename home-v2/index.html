@@ -220,10 +220,29 @@ strong { color: var(--ink); font-weight: 700; }
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 85% at 50% 88%, #ffffff 0%, rgba(255, 255, 255, 0) 62%);
+  /* Centred and sized so the white is spent by ~86% of the band's height. The
+     band therefore settles back to flat purple-10 before its bottom edge,
+     which is what lets .top-fade start below it without a seam. */
+  background: radial-gradient(85% 55% at 50% 52%, #ffffff 0%, rgba(255, 255, 255, 0) 62%);
   pointer-events: none;
 }
 .hero-band > * { position: relative; }
+
+/* THE PURPLE FADE. Sitewide treatment: the ground is purple at the top of the
+   page and falls away into #fcfcfc over roughly one section. This page is the
+   exception the rule is written around, because the hero band above is solid
+   purple so it stands out, and the fade restarts underneath it.
+
+   It cannot live on .wrap, which caps at 1120px and would leave near-white
+   gutters either side of a purple strip. It needs a full-width element, hence
+   this wrapper. The grain rides underneath so the faded region keeps the same
+   texture as the rest of the page rather than going flat. */
+.top-fade {
+  background-image:
+    linear-gradient(to bottom, var(--purple-10) 0, rgba(242, 232, 255, 0) 520px),
+    var(--grain);
+  background-repeat: no-repeat, repeat;
+}
 
 /* The fan sits outside .wrap so it can run to the viewport edges, the way the
    outer phones are cut off on Tiimo's mobile. */
@@ -252,7 +271,7 @@ strong { color: var(--ink); font-weight: 700; }
 .hero-fan .ph-c { margin-left:  clamp(-40px, -2.6vw, -18px); }
 
 /* ---- the toolkit grid --------------------------------------------------- */
-.toolkit { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(--rule); }
+.toolkit { padding: clamp(2.5rem, 6vw, 4rem) 0; }
 .tiles {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 1.75rem 2.25rem; margin-top: 2.25rem;
@@ -366,9 +385,10 @@ strong { color: var(--ink); font-weight: 700; }
   .pill { padding: 13px 20px; }
 }
 
-/* PAGE RHYTHM, not part of the pattern. Every other band on this page is
-   separated by a hairline rule; the library shows patterns on a bare ground
-   and carries no border of its own.
+/* PAGE RHYTHM, not part of the pattern. The library shows patterns on a bare
+   ground and carries no spacing of its own. The hairline rules that used to
+   separate every band were removed 2026-09-06: the purple fade at the top of
+   the page now does the separating, and rules on top of it read as clutter.
 
    MARGIN, NOT PADDING, AND DELIBERATELY SO. There is no .faq rule on this
    page, so the old .feature block's bottom padding was the only thing holding
@@ -383,7 +403,6 @@ strong { color: var(--ink); font-weight: 700; }
    property the pattern never sets, so there is nothing to outrank. */
 .wrap > .media-text {
   padding-top: clamp(3rem, 7vw, 5rem);
-  border-top: 1px solid var(--rule);
   margin-bottom: clamp(3rem, 7vw, 5rem);
 }
 
@@ -622,6 +641,7 @@ strong { color: var(--ink); font-weight: 700; }
     </div>
   </div>
 
+  <div class="top-fade">
   <div class="wrap">
 
     <section class="toolkit">
@@ -720,6 +740,7 @@ strong { color: var(--ink); font-weight: 700; }
       <a class="peak-btn primary lg" href="https://apps.apple.com/app/id6753684222">Get the app</a>
     </div>
 
+  </div>
   </div>
 
 </main>
