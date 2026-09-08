@@ -219,6 +219,86 @@ def find_pages(paths):
     return sorted(set(named) | set(walked))
 
 
+# ---------------------------------------------------------------------------
+# CHROME CONSISTENCY
+#
+# The site has no build step and .nojekyll means nothing is processed, so the
+# topbar cannot be an include: it is copy-pasted onto every public page. It had
+# drifted five ways before this check existed. The icon was 34px on two pages
+# and 32px on eight, the brand 16px against 15px, the nav gap 1.4rem against
+# 1.25rem, the bar 1.25rem tall against 1.5rem, and the current-page link was
+# brand purple on three pages, muted on four, and unstyled on /sources/, which
+# carries aria-current in its markup and had no rule to render it. Going from
+# the homepage to /pricing/ moved four values at once, which is visible.
+#
+# /sections/ is the source of truth, the same rule the media-text pattern
+# follows. Every other page must match it byte for byte after whitespace is
+# collapsed. aria-current is stripped from the markup before comparing, because
+# which link carries it is legitimately per-page.
+# ---------------------------------------------------------------------------
+CHROME_SOURCE = os.path.join("sections", "index.html")
+CHROME_SELECTORS = (
+    ".topbar", ".brand", ".brand img", ".brand span",
+    ".topbar nav", ".topbar nav a", ".topbar nav a:hover",
+    '.topbar nav a[aria-current="page"]',
+)
+
+
+def _stylesheet(src):
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", src, re.S))
+    return re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+
+
+def chrome_signature(src):
+    """The topbar's rules and markup, normalised. None if the page has no topbar."""
+    # Search the BODY only. /sections/ documents the markup inside a CSS
+    # comment, and without this the check compares against that sketch.
+    body = re.sub(r"<style[^>]*>.*?</style>", " ", src, flags=re.S)
+    body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
+    header = re.search(r'<header class="topbar".*?</header>', body, re.S)
+    if not header:
+        return None
+    css = _stylesheet(src)
+    rules = []
+    for sel in CHROME_SELECTORS:
+        pat = re.escape(sel)
+        if sel in (".topbar", ".brand"):
+            pat += r"(?![\w-])"
+        m = re.search(pat + r"\s*\{([^{}]*)\}", css)
+        body = " ".join(m.group(1).split()) if m else "MISSING"
+        rules.append(f"{sel}{{{body}}}")
+    markup = " ".join(header.group(0).split())
+    markup = re.sub(r'\s*aria-current="page"', "", markup)
+    return rules, markup
+
+
+def chrome_findings(pages):
+    """[(page, why)] for every page whose topbar differs from /sections/."""
+    if not os.path.exists(CHROME_SOURCE):
+        return []
+    ref = chrome_signature(open(CHROME_SOURCE, encoding="utf-8").read())
+    if ref is None:
+        return [(CHROME_SOURCE, "the pattern library carries no topbar to compare against")]
+    ref_rules, ref_markup = ref
+    out = []
+    for page in pages:
+        if os.path.normpath(page).endswith(CHROME_SOURCE):
+            continue
+        sig = chrome_signature(open(page, encoding="utf-8").read())
+        if sig is None:
+            continue                      # 404.html has no topbar, by design
+        rules, markup = sig
+        for got, want in zip(rules, ref_rules):
+            if got != want:
+                out.append((page, f"topbar CSS differs from /sections/\n"
+                                  f"              here: {got}\n"
+                                  f"              want: {want}"))
+        if markup != ref_markup:
+            out.append((page, "topbar markup differs from /sections/ "
+                              "(aria-current excluded)"))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("paths", nargs="*", default=["."])
@@ -261,6 +341,13 @@ def main():
             print(f"        FAIL{where}  {frag}\n              {why}")
         for line, frag, why in page_reviews:
             print(f"        review:{line}  {frag}\n              {why}")
+
+    chrome = chrome_findings(pages)
+    if chrome:
+        print()
+        for page, why in chrome:
+            print(f"[FAIL] {page}\n        CHROME  {why}")
+        fails += len(chrome)
 
     print()
     if fails:

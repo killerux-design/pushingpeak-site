@@ -150,6 +150,44 @@ a { color: var(--brand); }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
 /* ===========================================================================
+   PATTERN: topbar. THE SOURCE OF TRUTH FOR THE SITE HEADER.
+
+   The site has no build step and .nojekyll means nothing is processed, so this
+   cannot be an include. It is duplicated verbatim on all ten public pages.
+   EDIT IT HERE, carry it across, then run scripts/check-design.py, which fails
+   if any copy diverges from this one.
+
+   It had already drifted five ways before the check existed: the icon was 34px
+   on two pages and 32px on eight, the brand 16px against 15px, the nav gap
+   1.4rem against 1.25rem, the bar 1.25rem tall against 1.5rem, and the current
+   page link was brand purple on three pages, muted on four, and unstyled on
+   /sources/, which carries aria-current in its markup and had no rule for it.
+
+   The icon takes display:block on purpose. As an inline image it sits on the
+   text baseline and picks up several pixels of phantom descender beneath it,
+   which is what made the bar look taller on some pages than others.
+
+   Markup, identical everywhere except which nav link carries aria-current:
+     <header class="topbar">
+       <a class="brand" href="/">
+         <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+         <span>Pushing Peak</span>
+       </a>
+       <nav> …four links… </nav>
+     </header>
+   The width and height attributes must match the CSS, or the browser reserves
+   the wrong box before the image loads and the bar shifts as it arrives.
+   =========================================================================== */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 10px; display: block; }
+.brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: 1rem; }
+.topbar nav { display: flex; align-items: center; gap: 1.4rem; }
+.topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
+
+/* ===========================================================================
    PATTERN: media-text
    Markup:
      <section class="media-text">            add .media-left to flip
@@ -648,6 +686,21 @@ a { color: var(--brand); }
   <header class="lib-head">
     <h1>Section library</h1>
     <p>Patterns that pages are built from, shown with real content. Change a pattern here first, then say which pages carry it.</p>
+  </header>
+
+  <p class="lib-label"><b>topbar</b> &nbsp; site chrome, on all ten public pages &nbsp; &nbsp; edit here first</p>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="/img/appicon.png" width="34" height="34" alt="" decoding="async">
+      <span>Pushing Peak</span>
+    </a>
+    <nav>
+      <a href="/sources/">Sources</a>
+      <a href="/pricing/" aria-current="page">Pricing</a>
+      <a href="/blog/">Blog</a>
+      <a href="/for-coaches/">For coaches</a>
+    </nav>
   </header>
 
   <p class="lib-label"><b>media-text</b> &nbsp; default, media right &nbsp; &nbsp; Figma 1541:12531</p>

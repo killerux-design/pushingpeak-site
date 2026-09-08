@@ -144,17 +144,22 @@ p { margin: 0 0 1.15rem; }
 p:last-child { margin-bottom: 0; }
 strong { color: var(--ink); font-weight: 700; }
 
-/* ---- nav ---------------------------------------------------------------- */
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap;
-}
+/* ---- topbar. CANONICAL, AND DUPLICATED ON EVERY PAGE ---------------------
+   The site has no build step and .nojekyll means nothing is processed, so this
+   cannot be an include. Edit it in /sections/ and carry it across, then run
+   scripts/check-design.py, which fails if the copies diverge.
+   They HAD diverged, five ways, which is why this note exists: the icon was
+   34px on two pages and 32px on eight, the brand 16px against 15px, the nav gap
+   1.4rem against 1.25rem, the bar 1.25rem tall against 1.5rem, and the current
+   page link was brand purple, muted, or unstyled depending where you stood. */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap; }
 .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
-.brand img { width: 34px; height: 34px; border-radius: 10px; }
+.brand img { width: 34px; height: 34px; border-radius: 10px; display: block; }
 .brand span { font-weight: 700; color: var(--ink); letter-spacing: -.015em; font-size: 1rem; }
 .topbar nav { display: flex; align-items: center; gap: 1.4rem; }
 .topbar nav a { font-size: .9375rem; color: var(--body); text-decoration: none; }
 .topbar nav a:hover { color: var(--ink); }
+.topbar nav a[aria-current="page"] { color: var(--brand); }
 
 /* ---- the one button, repeated ------------------------------------------ */
 .cta {
