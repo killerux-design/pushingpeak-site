@@ -189,8 +189,10 @@ a { color: var(--brand); }
 .media-text.media-left .mt-media { grid-column: 1; }
 .media-text.media-left .mt-copy  { grid-column: 2; }
 
-/* Copy is first in the DOM in both variants, so a screen reader and the mobile
-   stack both get the heading before the picture. */
+/* Copy is first in the DOM in both variants, so a screen reader and the tab
+   order get the heading before the picture. The mobile stack paints the image
+   first, with `order` in the breakpoint below; `order` is visual only and does
+   not change that reading order. */
 .media-text .mt-copy {
   display: flex;
   flex-direction: column;
@@ -271,10 +273,35 @@ a { color: var(--brand); }
   .media-text.media-left .mt-copy,
   .media-text.media-left .mt-media { grid-column: 1; grid-row: auto; }
 
-  .media-text .mt-copy  { order: 1; margin: 0; gap: 1rem; }
-  .media-text .mt-media { order: 2; }
+  /* IMAGE FIRST ON MOBILE, matching Tiimo's own stacked media block. Paint
+     order only: the copy is still first in the DOM, so the heading is still
+     what a screen reader and the tab order reach first. Grid honours `order`
+     in auto-placement, which is what puts the media in row 1 here. */
+  .media-text .mt-media { order: 1; }
+  .media-text .mt-copy  { order: 2; margin: 0; gap: 1rem; }
 
-  .mt-media { max-width: 20rem; justify-self: start; padding: 1.25rem; }
+  /* heading-07 is 42px FIXED, and that is the token's DESKTOP value. Held
+     literally at every width it makes this section headline the largest type
+     on a phone, above every h1 on the site (the homepage h1 bottoms out at
+     38.4px), so the page reads as a title followed by a bigger subtitle.
+     The ramp reaches exactly 42px AT this breakpoint, so nothing jumps when
+     the grid stacks, and bottoms out at 28px, which is the homepage h2's own
+     minimum. Do not replace it with a flat value: a step here is visible.
+     Recompute both ends if the breakpoint moves. */
+  .media-text h2 { font-size: clamp(1.75rem, 1.024rem + 2.979vw, 42px); }
+
+  /* FULL WIDTH, AND STILL 1:1. The square panel is the pattern, not a side
+     effect of the desktop grid: our screenshots are tall, so the panel holds
+     them rather than being them. What was wrong on a phone was the 20rem cap
+     plus justify-self:start, which pinned the panel to 320px against a 342px
+     column and left dead space beside it. Dropping both lets it stretch, and
+     keeping 1:1 holds the height sane at every width with no cap needed.
+     Note what this does and does not buy. Inside a square a tall screenshot
+     is constrained by HEIGHT, not width, so going full width takes
+     shot-day.png from 129x280 to 139x302, about 8 percent. The lever for a
+     bigger screenshot is this padding, not the panel width. */
+  .mt-media { padding: 1.25rem; }
+
   .pill { padding: 13px 20px; }
 }
 

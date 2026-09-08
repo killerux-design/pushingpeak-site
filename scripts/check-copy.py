@@ -60,8 +60,11 @@ CLAIM_SURFACE = [
     r"\bheats?\b", r"\btaper\b",
     # xp_enabled is false live; describing it is a Guideline 2.3 exposure
     r"\blevel up\b", r"\bbadges?\b", r"\bXP\b",
-    # none at launch
-    r"\bfree trial\b",
+    # `\bfree trial\b` used to sit here, commented "none at launch". A one week
+    # introductory offer DOES ship, /terms/ has documented it since the legal
+    # reconciliation, and Kevin confirmed it 2026-09-07. The entry was blocking
+    # copy that is true. Removed rather than left commented out: a claim surface
+    # that is wrong is worse than one rule short.
 ]
 
 
