@@ -119,7 +119,13 @@ h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); line-height: 1.15; letter-spacing: -
 p { margin: 0 0 1.15rem; max-width: 62ch; }
 strong { color: var(--ink); font-weight: 700; }
 
-.deck { font-size: 1.15rem; margin-bottom: 1.5rem; max-width: 50ch; }
+.deck { font-size: 1.15rem; margin-bottom: 1.5rem; max-width: 50ch;
+  /* No orphan on the last line. At 37 words this is too long for `balance`:
+     browsers cap balancing at a few lines, and evening them across a whole
+     paragraph reads oddly. `pretty` does the one thing wanted here, which is
+     refuse a single word on the last line, and leaves the rest alone. */
+  text-wrap: pretty;
+}
 
 .stance {
   background: var(--surface); border-radius: 22px;

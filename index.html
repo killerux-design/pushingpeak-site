@@ -182,6 +182,10 @@ strong { color: var(--ink); font-weight: 700; }
 .hero .lede {
   font-size: clamp(1.05rem, 2.1vw, 1.25rem);
   max-width: 48ch; margin: 0 0 1.75rem;
+  /* No orphan. Greedy wrapping drops "day." onto a line of its own at several
+     widths between the phone and the 48ch cap; balance evens the lines instead.
+     Same property the headings on this page already use. */
+  text-wrap: balance;
 }
 /* .peak-btn carries align-self: start so it hugs its text in a left-aligned
    column. Here the column is centred, so that has to be overridden or the

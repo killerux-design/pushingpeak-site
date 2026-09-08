@@ -131,7 +131,11 @@ h3 { font-size: 1.0625rem; margin: 0 0 .3rem; }
 p { margin: 0 0 1.15rem; max-width: 62ch; }
 strong { color: var(--ink); font-weight: 700; }
 
-.deck { font-size: 1.15rem; margin-bottom: 2rem; max-width: 48ch; }
+.deck { font-size: 1.15rem; margin-bottom: 2rem; max-width: 48ch;
+  /* No orphan on the last line. At 19 words this is two or three lines, short
+     enough that evening them reads better than only fixing the orphan. */
+  text-wrap: balance;
+}
 
 /* The two ways to pay, side by side. Deliberately not a tier table: there are
    no tiers, only a billing period. */
