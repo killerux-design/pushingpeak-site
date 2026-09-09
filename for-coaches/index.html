@@ -249,21 +249,26 @@ section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
 
 
 
-/* Square media panel. Our screenshots are tall, so the panel holds them rather
-   than being them: purple-10 ground, screenshot centred and inset. */
+/* Square media panel, from Figma 1541:12531. This used to be a purple-10 box
+   holding a tall screenshot inset by 1.75rem, which was correct while every
+   screenshot was tall. The shots are now exported 1:1 with their own ground,
+   so the panel IS the image: no tint, no inset, filled edge to edge.
+
+   mix-blend-multiply is the load-bearing part and is in the Figma too. The
+   screenshots ship on a cool #f1f2f3 ground; multiplied against the sand a
+   white pixel leaves the backdrop untouched, so that ground melts into the
+   page instead of sitting on it as a cooler rectangle. Remove the blend and
+   the grey box comes back. */
 .mt-media {
   aspect-ratio: 1 / 1;
   border-radius: 16px;
-  background: var(--purple-10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  padding: 1.75rem;
+  mix-blend-mode: multiply;
 }
 .mt-media img {
-  max-height: 100%;
-  width: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 }
@@ -303,16 +308,12 @@ section { padding: clamp(2.5rem, 6vw, 4rem) 0; }
   .media-text h2 { font-size: clamp(1.75rem, 1.024rem + 2.979vw, 42px); }
 
   /* FULL WIDTH, AND STILL 1:1. The square panel is the pattern, not a side
-     effect of the desktop grid: our screenshots are tall, so the panel holds
-     them rather than being them. What was wrong on a phone was the 20rem cap
+     effect of the desktop grid. What was wrong on a phone was the 20rem cap
      plus justify-self:start, which pinned the panel to 320px against a 342px
      column and left dead space beside it. Dropping both lets it stretch, and
      keeping 1:1 holds the height sane at every width with no cap needed.
-     Note what this does and does not buy. Inside a square a tall screenshot
-     is constrained by HEIGHT, not width, so going full width takes
-     shot-day.png from 129x280 to 139x302, about 8 percent. The lever for a
-     bigger screenshot is this padding, not the panel width. */
-  .mt-media { padding: 1.25rem; }
+     The mobile padding override that used to live here is gone with the inset:
+     the image now fills the panel at every width. */
 
   .pill { padding: 13px 20px; }
 }
@@ -645,7 +646,7 @@ main .media-text {
         <a class="peak-btn outline" href="https://apps.apple.com/app/id6753684222">Get the app</a>
       </div>
       <div class="mt-media">
-        <img src="/img/shot-day.png" width="645" height="1398" alt="The day view, showing the day's training session and each meal with its own time window and targets" loading="lazy" decoding="async">
+        <img src="/img/shot-week.webp" width="1000" height="1000" alt="An athlete's training week: each practice with its days and times, and a switch to turn it on" loading="lazy" decoding="async">
       </div>
     </section>
 
@@ -656,7 +657,7 @@ main .media-text {
         <a class="peak-btn outline" href="/sources/">Where the numbers come from</a>
       </div>
       <div class="mt-media">
-        <img src="/img/shot-food.png" width="680" height="1247" alt="A meal described in plain words, broken into items you can open and correct" loading="lazy" decoding="async">
+        <img src="/img/shot-matching.webp" width="1000" height="1000" alt="A matched food showing the source its numbers came from, with the other candidates you can switch to" loading="lazy" decoding="async">
       </div>
     </section>
 
