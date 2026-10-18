@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.pushingpeak",
+      "sha256_cert_fingerprints": [
+        "69:44:55:97:24:9A:76:74:DA:42:56:A7:4D:4E:F7:87:B0:25:E4:D8:13:A6:75:34:E8:02:D4:1B:B0:C9:FF:AE",
+        "09:34:61:15:78:B1:F7:3F:B7:D0:DC:05:0E:D6:C5:1C:C7:A7:98:F8:E4:43:43:52:F5:44:84:F5:F8:B1:CA:0E",
+        "55:F5:FD:70:3A:38:DE:A1:E1:E4:30:CE:83:D9:A5:9F:4A:6D:7C:EF:85:4D:C0:08:00:47:DC:E2:CB:B3:BD:5A"
+      ]
+    }
+  }
+]
