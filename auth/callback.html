@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Return to Pushing Peak</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+    }
+    main { max-width: 420px; }
+    h1 { font-size: 1.9rem; margin: 0 0 0.3em; }
+    p { opacity: 0.75; line-height: 1.5; margin: 0; }
+    .open-app {
+      display: inline-block; margin-top: 24px; padding: 14px 28px;
+      border-radius: 14px; background: #0a84ff; color: #fff;
+      text-decoration: none; font-weight: 600;
+    }
+    .small { margin-top: 20px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <!--
+    Sign-in fallback page (Android Phase 75, decision D-10). Supabase sends a finished Apple sign-in to
+    https://pushingpeak.app/auth/callback?code=... ; on an Android phone with Pushing Peak installed that link opens the
+    app (a verified App Link) and this page is never seen. It shows only when the link did not hand off to the app.
+
+    HARD RULES — do not "improve" this page:
+      * It never displays, links to, stores or sends the code in this page's address. No script at all, no analytics
+        or third-party tag, no external font, image or stylesheet, and no-referrer, so nothing can carry it away.
+      * The button opens the app WITHOUT the code: it asks Android for the callback path with no query string, which
+        the app treats as "just open". Nothing on this page is passed to the app.
+  -->
+  <main>
+    <h1>Return to Pushing Peak</h1>
+    <p>Sign-in didn't finish. Open Pushing Peak and try again.</p>
+    <a class="open-app" href="intent://pushingpeak.app/auth/callback#Intent;scheme=https;package=app.pushingpeak;end">Open Pushing Peak</a>
+    <p class="small">If nothing happens, open Pushing Peak from your home screen and sign in again.</p>
+  </main>
+</body>
+</html>
